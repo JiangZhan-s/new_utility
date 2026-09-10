@@ -9,7 +9,7 @@ import time
 import numpy as np
 import torch
 from torch import nn
-from .data import load_real,load_synthetic,split_train,audit
+from .data import load_real,load_synthetic,split_train,audit,additive_target_counts
 from .mechanism import instance,solve,public_discrete,random_feasible,objective
 
 
@@ -30,7 +30,6 @@ def model_for(kind,shape,classes):
 def preprocess(x,kind):
     x=x.float()/255
     if kind=='softmax':
-        # Unit-ball features: L <= .5 + mu, all parameters L2 regularized.
         x=x/torch.linalg.vector_norm(x.flatten(1),dim=1).clamp_min(1)[:,None,None,None]
     else: x=(x-.5)/.5
     return x
@@ -46,7 +45,47 @@ def evaluate(model,x,y,device,kind):
     return dict(acc=correct/len(y),ce=loss/len(y),n=len(y))
 
 
-def train(args,contract,parts,pstar,x,y,sx,sy,vx,vy,tx,ty,out):
+def build_augmented_indices(parts,counts,pstar,contract,sy,seed):
+    """Return per-client real ids plus synthetic ids; never remove real samples."""
+    classes=len(pstar)
+    pools=[torch.where(sy==c)[0].numpy() for c in range(classes)]
+    plans={}
+    for k in np.flatnonzero(contract['active']):
+        u=float(contract['u'][k])
+        target,final_counts,add_counts=additive_target_counts(counts[k],pstar,u)
+        rng=np.random.default_rng(np.random.SeedSequence([seed,700,k]))
+        synthetic=[]
+        for c,m in enumerate(add_counts):
+            if m<=0: continue
+            if len(pools[c])==0: raise ValueError(f'No synthetic samples for class {c}')
+            synthetic.append(rng.choice(pools[c],size=int(m),replace=(m>len(pools[c]))))
+        synthetic_ids=np.concatenate(synthetic).astype(np.int64) if synthetic else np.empty(0,dtype=np.int64)
+        plans[k]=dict(real_ids=np.asarray(parts[k],dtype=np.int64),synthetic_ids=synthetic_ids,
+                      target_distribution=target.tolist(),final_counts=final_counts.tolist(),
+                      added_counts=add_counts.tolist(),original_n=int(len(parts[k])),
+                      augmented_n=int(final_counts.sum()),synthetic_n=int(add_counts.sum()))
+    return plans
+
+
+def draw_additive_batch(plan,x,y,sx,sy,batch,rng):
+    """Sample uniformly from the augmented multiset D_real union D_syn."""
+    nr=plan['original_n']; ns=plan['synthetic_n']; total=nr+ns
+    choose=rng.integers(total,size=batch)
+    real_mask=choose<nr
+    bx=torch.empty((batch,*x.shape[1:]),dtype=x.dtype)
+    by=torch.empty(batch,dtype=y.dtype)
+    if real_mask.any():
+        rid=np.asarray(plan['real_ids'])[choose[real_mask]]
+        bx[torch.from_numpy(np.flatnonzero(real_mask))]=x[rid]
+        by[torch.from_numpy(np.flatnonzero(real_mask))]=y[rid]
+    if (~real_mask).any():
+        sid=np.asarray(plan['synthetic_ids'])[choose[~real_mask]-nr]
+        bx[torch.from_numpy(np.flatnonzero(~real_mask))]=sx[sid]
+        by[torch.from_numpy(np.flatnonzero(~real_mask))]=sy[sid]
+    return bx,by,int((~real_mask).sum())
+
+
+def train(args,contract,parts,counts,pstar,x,y,sx,sy,vx,vy,tx,ty,out):
     device=torch.device(args.device); active=np.flatnonzero(contract['active'])
     if not len(active): raise ValueError('No active clients')
     torch.manual_seed(args.seed)
@@ -54,10 +93,13 @@ def train(args,contract,parts,pstar,x,y,sx,sy,vx,vy,tx,ty,out):
     torch.use_deterministic_algorithms(True)
     model=model_for(args.model,x.shape[1:],len(pstar)).to(device)
     local=copy.deepcopy(model)
+    # Contract voting power remains tied to original client data quantity.
     weights=np.array([len(parts[k]) for k in active],dtype=float); weights/=weights.sum()
     rngs={k:np.random.default_rng(np.random.SeedSequence([args.seed,100,k])) for k in active}
-    pools=[torch.where(sy==c)[0].numpy() for c in range(len(pstar))]
-    history=[]; start=time.time(); initial=evaluate(model,vx,vy,device,args.model)
+    plans=build_augmented_indices(parts,counts,pstar,contract,sy,args.seed)
+    save(out/'augmentation_plan.json',{str(k):{kk:vv for kk,vv in v.items() if kk not in ('real_ids','synthetic_ids')}
+                                       for k,v in plans.items()})
+    history=[]; start=time.time(); initial=evaluate(model,vx,vy,device,args.model); synthetic_draws=0
     for t in range(args.rounds):
         state={k:v.detach().clone() for k,v in model.state_dict().items()}
         aggregate={k:torch.zeros_like(v) for k,v in state.items()}
@@ -66,15 +108,8 @@ def train(args,contract,parts,pstar,x,y,sx,sy,vx,vy,tx,ty,out):
             optimizer=torch.optim.SGD(local.parameters(),lr=args.lr,weight_decay=args.mu)
             rng=rngs[k]
             for _ in range(args.steps):
-                # Fixed draws per client/step improve pairing across mechanisms.
-                real_ids=rng.choice(parts[k],args.batch)
-                mask=rng.random(args.batch)<contract['u'][k]
-                labels=rng.choice(len(pstar),args.batch,p=pstar)
-                quantiles=rng.random(args.batch)
-                synthetic_ids=np.array([pools[c][min(int(v*len(pools[c])),len(pools[c])-1)] for c,v in zip(labels,quantiles)])
-                bx=x[real_ids].clone(); by=y[real_ids].clone()
-                if mask.any():
-                    bx[mask]=sx[synthetic_ids[mask]]; by[mask]=sy[synthetic_ids[mask]]
+                bx,by,drawn=draw_additive_batch(plans[k],x,y,sx,sy,args.batch,rng)
+                synthetic_draws+=drawn
                 optimizer.zero_grad(set_to_none=True)
                 loss=nn.functional.cross_entropy(local(preprocess(bx.to(device),args.model)),by.to(device))
                 loss.backward(); optimizer.step()
@@ -85,13 +120,14 @@ def train(args,contract,parts,pstar,x,y,sx,sy,vx,vy,tx,ty,out):
             history.append(dict(round=t+1,validation=val,seconds=time.time()-start))
             save(out/'history.json',history)
             print(json.dumps(dict(method=out.name,round=t+1,val_acc=val['acc'])),flush=True)
-    # Fixed final round is primary endpoint; test does not select contracts or checkpoints.
     test=evaluate(model,tx,ty,device,args.model)
     torch.save(model.state_dict(),out/'final_model.pt')
     return dict(test=test,validation=history[-1]['validation'],initial_validation=initial,
                 history=history,seconds=time.time()-start,
                 gradient_steps=int(args.rounds*args.steps*len(active)),
-                expected_synthetic_draws=float(args.rounds*args.steps*args.batch*np.sum(np.array(contract['u'])[active])))
+                actual_synthetic_draws=int(synthetic_draws),
+                augmentation={str(k):{kk:vv for kk,vv in v.items() if kk not in ('real_ids','synthetic_ids')}
+                              for k,v in plans.items()})
 
 
 def main():
@@ -123,6 +159,7 @@ def main():
     parts,valid,counts=split_train(y,classes,args.clients,args.alpha,args.split_seed)
     z=instance(counts,args.split_seed,args.budget_fraction,args.rounds,args.steps,args.batch,
                args.mu,.5+args.mu,args.lr,args.residual)
+    pstar=counts.sum(0)/counts.sum()
     out=Path(args.output)/args.dataset/args.model/f'alpha_{args.alpha}_budget_{args.budget_fraction}'/f'seed_{args.seed}'
     out.mkdir(parents=True,exist_ok=True)
     setting={k:v for k,v in vars(args).items() if k not in ('resume','prepare_only','methods','output')}
@@ -140,7 +177,8 @@ def main():
         cache=str(cache.resolve()),cache_bytes=cache.stat().st_size,cache_mtime_ns=cache.stat().st_mtime_ns,
         partition_sha256=hashlib.sha256((out/'partition.npz').read_bytes()).hexdigest(),
         instance={k:v.tolist() if isinstance(v,np.ndarray) else v for k,v in z.items()},audit=diagnostic,
-        interpretation='Empirical AIGC experiment; J is a proxy, generator mismatch is not certified; CNN is outside the convex theorem',
+        augmentation_semantics='addition_only: retain every original sample and add class-targeted AIGC samples',
+        interpretation='Empirical AIGC experiment; J is a proxy for CNN, generator mismatch is not certified; original samples are never replaced',
         accuracy_certificate=None))
     builders={'continuous':lambda:solve(z),'three_state':lambda:solve(z,discrete=True),
               'no_aigc_budget':lambda:solve(z,raw_only=True),'public_price':lambda:public_discrete(z),
@@ -157,11 +195,17 @@ def main():
                 contract=dict(status='ok',active=selected['active'],u=[0.]*args.clients,
                               total_payment=None,reference_only=True,
                               note='Same participants as continuous, no augmentation; learning ablation, not an implementable contract')
-        elif method in ('fedavg_all','synthetic_only'):
-            contract=dict(status='ok',active=[True]*args.clients,u=[float(method=='synthetic_only')]*args.clients,
-                          objective_normalized=objective(z,np.ones(args.clients,dtype=bool),np.full(args.clients,float(method=='synthetic_only'))),
+        elif method=='fedavg_all':
+            contract=dict(status='ok',active=[True]*args.clients,u=[0.]*args.clients,
+                          objective_normalized=objective(z,np.ones(args.clients,dtype=bool),np.zeros(args.clients)),
                           total_payment=None,reference_only=True,
-                          note='All-client learning reference; not a budget-feasible economic mechanism')
+                          note='All-client real-data reference; not a budget-feasible economic mechanism')
+        elif method=='synthetic_only':
+            # Retain the historical diagnostic as an intentionally separate reference.
+            contract=dict(status='ok',active=[True]*args.clients,u=[1.]*args.clients,
+                          objective_normalized=objective(z,np.ones(args.clients,dtype=bool),np.ones(args.clients)),
+                          total_payment=None,reference_only=True,
+                          note='Addition-only full balancing reference: all original samples retained and AIGC is added until p_star is reached')
         elif method in builders:
             if args.resume and (dest/'contract.json').exists(): contract=json.loads((dest/'contract.json').read_text())
             else: contract=builders[method]()
@@ -169,7 +213,7 @@ def main():
         save(dest/'contract.json',contract)
         print(json.dumps(dict(method=method,contract=contract)),flush=True)
         if args.prepare_only or contract['status']!='ok': continue
-        metrics=train(args,contract,parts,counts.sum(0)/counts.sum(),x,y,sx,sy,x[valid],y[valid],tx,ty,dest)
+        metrics=train(args,contract,parts,counts,pstar,x,y,sx,sy,x[valid],y[valid],tx,ty,dest)
         save(dest/'result.json',dict(dataset=args.dataset,model=args.model,seed=args.seed,method=method,
                                   alpha=args.alpha,budget_fraction=args.budget_fraction,contract=contract,**metrics))
 
