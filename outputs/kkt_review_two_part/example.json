@@ -1,0 +1,88 @@
+{
+  "lambda_value": [
+    0.08485281374238571,
+    0.08485281374238562
+  ],
+  "u": [
+    0.7310708435174718,
+    0.7310708435173865
+  ],
+  "q": [
+    0.06203341811747684,
+    0.06203341811746954
+  ],
+  "fixed_transfer": [
+    -0.03344645782413477,
+    -0.0334464578241223
+  ],
+  "marginal_price": [
+    2.3124061542520353,
+    2.3124061542518364
+  ],
+  "payment": [
+    0.055000000000004184,
+    0.05499999999999582
+  ],
+  "direct_cost_payment": [
+    0.055000000000004184,
+    0.054999999999995816
+  ],
+  "max_payment_cost_error": 6.938893903907228e-18,
+  "client_utility": [
+    1.3877787807814457e-17,
+    0.0
+  ],
+  "objective_normalized": 0.0007757978620365998,
+  "normalized_lower_bound": 0.0007757975437144302,
+  "normalized_absolute_gap": 3.183221696217292e-10,
+  "budget": 0.11,
+  "total_payment": 0.11000000000000001,
+  "interpretation": "Signed fixed transfer + marginal quality price; IR binds and total payment equals true client cost under complete information.",
+  "enumeration": {
+    "active": [
+      true,
+      true
+    ],
+    "u": [
+      0.7310708435174718,
+      0.7310708435173865
+    ],
+    "fixed_transfer": [
+      -0.03344645782413477,
+      -0.0334464578241223
+    ],
+    "marginal_price": [
+      2.3124061542520353,
+      2.3124061542518364
+    ],
+    "price": [
+      2.3124061542520353,
+      2.3124061542518364
+    ],
+    "payment": [
+      0.055000000000004184,
+      0.05499999999999582
+    ],
+    "minimum_cost_payment": [
+      0.055000000000004184,
+      0.054999999999995816
+    ],
+    "total_payment": 0.11000000000000001,
+    "client_utility": [
+      1.3877787807814457e-17,
+      0.0
+    ],
+    "objective_normalized": 0.0007757978620365998,
+    "budget": 0.11,
+    "tariff": "two_part_signed_fixed_transfer",
+    "status": "ok",
+    "normalized_lower_bound": 0.0007757975437144302,
+    "normalized_absolute_gap": 3.183221696217292e-10,
+    "enumerated_modes": 4,
+    "feasible_modes": 3,
+    "solver_failures": 0,
+    "converged_to_requested_gap": true,
+    "requested_normalized_gap": 1e-09,
+    "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+  }
+}

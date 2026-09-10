@@ -1,0 +1,79 @@
+{
+  "active": [
+    true,
+    false,
+    true,
+    false,
+    true,
+    false
+  ],
+  "u": [
+    1.0,
+    0.0,
+    1.0,
+    0.0,
+    1.0,
+    0.0
+  ],
+  "fixed_transfer": [
+    -0.07729096805806338,
+    0.0,
+    -0.06186692768291844,
+    0.0,
+    -0.05877209694581524,
+    0.0
+  ],
+  "marginal_price": [
+    0.22294674823380164,
+    0.0,
+    0.12380042821477981,
+    0.0,
+    0.12942394404221283,
+    0.0
+  ],
+  "price": [
+    0.22294674823380164,
+    0.0,
+    0.12380042821477981,
+    0.0,
+    0.12942394404221283,
+    0.0
+  ],
+  "payment": [
+    0.016425781266258134,
+    0.0,
+    0.022986166516402732,
+    0.0,
+    0.01869452644118862,
+    0.0
+  ],
+  "minimum_cost_payment": [
+    0.016425781266258134,
+    0.0,
+    0.022986166516402732,
+    0.0,
+    0.01869452644118862,
+    0.0
+  ],
+  "total_payment": 0.058106474223849486,
+  "client_utility": [
+    1.2752145018958396e-18,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "objective_normalized": 0.00015683618282779692,
+  "budget": 0.06573781392384197,
+  "tariff": "two_part_signed_fixed_transfer",
+  "status": "ok",
+  "normalized_lower_bound": 0.00015683618282779692,
+  "normalized_absolute_gap": 0.0,
+  "enumerated_modes": 64,
+  "feasible_modes": 63,
+  "solver_failures": 1,
+  "converged_to_requested_gap": true,
+  "requested_normalized_gap": 1e-07,
+  "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+}

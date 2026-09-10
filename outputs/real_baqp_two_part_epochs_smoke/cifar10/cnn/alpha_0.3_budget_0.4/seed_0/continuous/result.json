@@ -1,0 +1,337 @@
+{
+  "dataset": "cifar10",
+  "model": "cnn",
+  "seed": 0,
+  "method": "continuous",
+  "alpha": 0.3,
+  "budget_fraction": 0.4,
+  "contract": {
+    "active": [
+      true,
+      false,
+      true,
+      false,
+      true,
+      false
+    ],
+    "u": [
+      1.0,
+      0.0,
+      1.0,
+      0.0,
+      1.0,
+      0.0
+    ],
+    "fixed_transfer": [
+      -0.07729096805806338,
+      0.0,
+      -0.06186692768291844,
+      0.0,
+      -0.05877209694581524,
+      0.0
+    ],
+    "marginal_price": [
+      0.22294674823380164,
+      0.0,
+      0.12380042821477981,
+      0.0,
+      0.12942394404221283,
+      0.0
+    ],
+    "price": [
+      0.22294674823380164,
+      0.0,
+      0.12380042821477981,
+      0.0,
+      0.12942394404221283,
+      0.0
+    ],
+    "payment": [
+      0.016425781266258134,
+      0.0,
+      0.022986166516402732,
+      0.0,
+      0.01869452644118862,
+      0.0
+    ],
+    "minimum_cost_payment": [
+      0.016425781266258134,
+      0.0,
+      0.022986166516402732,
+      0.0,
+      0.01869452644118862,
+      0.0
+    ],
+    "total_payment": 0.058106474223849486,
+    "client_utility": [
+      1.2752145018958396e-18,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "objective_normalized": 0.00015683618282779692,
+    "budget": 0.06573781392384197,
+    "tariff": "two_part_signed_fixed_transfer",
+    "status": "ok",
+    "normalized_lower_bound": 0.00015683618282779692,
+    "normalized_absolute_gap": 0.0,
+    "enumerated_modes": 64,
+    "feasible_modes": 63,
+    "solver_failures": 1,
+    "converged_to_requested_gap": true,
+    "requested_normalized_gap": 1e-07,
+    "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+  },
+  "test": {
+    "acc": 0.7896,
+    "ce": 0.7292546417236329,
+    "n": 10000
+  },
+  "validation": {
+    "acc": 0.8074,
+    "ce": 0.6502139373779297,
+    "n": 5000
+  },
+  "initial_validation": {
+    "acc": 0.0836,
+    "ce": 2.305102294921875,
+    "n": 5000
+  },
+  "history": [
+    {
+      "round": 10,
+      "validation": {
+        "acc": 0.7658,
+        "ce": 0.6907089538574219,
+        "n": 5000
+      },
+      "seconds": 82.94258713722229,
+      "gradient_steps": 49740
+    },
+    {
+      "round": 20,
+      "validation": {
+        "acc": 0.8,
+        "ce": 0.5988429718017578,
+        "n": 5000
+      },
+      "seconds": 165.1567304134369,
+      "gradient_steps": 99480
+    },
+    {
+      "round": 30,
+      "validation": {
+        "acc": 0.8028,
+        "ce": 0.6044086395263671,
+        "n": 5000
+      },
+      "seconds": 247.42620468139648,
+      "gradient_steps": 149220
+    },
+    {
+      "round": 40,
+      "validation": {
+        "acc": 0.8074,
+        "ce": 0.6302054046630859,
+        "n": 5000
+      },
+      "seconds": 329.1423659324646,
+      "gradient_steps": 198960
+    },
+    {
+      "round": 50,
+      "validation": {
+        "acc": 0.8112,
+        "ce": 0.6078608459472656,
+        "n": 5000
+      },
+      "seconds": 411.7730405330658,
+      "gradient_steps": 248700
+    },
+    {
+      "round": 60,
+      "validation": {
+        "acc": 0.8032,
+        "ce": 0.638205876159668,
+        "n": 5000
+      },
+      "seconds": 494.52394556999207,
+      "gradient_steps": 298440
+    },
+    {
+      "round": 70,
+      "validation": {
+        "acc": 0.8106,
+        "ce": 0.6401535171508789,
+        "n": 5000
+      },
+      "seconds": 576.2402465343475,
+      "gradient_steps": 348180
+    },
+    {
+      "round": 80,
+      "validation": {
+        "acc": 0.798,
+        "ce": 0.6876492401123047,
+        "n": 5000
+      },
+      "seconds": 658.8817927837372,
+      "gradient_steps": 397920
+    },
+    {
+      "round": 90,
+      "validation": {
+        "acc": 0.8014,
+        "ce": 0.6649174453735351,
+        "n": 5000
+      },
+      "seconds": 741.4615972042084,
+      "gradient_steps": 447660
+    },
+    {
+      "round": 100,
+      "validation": {
+        "acc": 0.8074,
+        "ce": 0.6502139373779297,
+        "n": 5000
+      },
+      "seconds": 823.044305562973,
+      "gradient_steps": 497400
+    }
+  ],
+  "seconds": 823.0763671398163,
+  "training_mode": "local_epochs_over_augmented_dataset",
+  "local_epochs": 2,
+  "theory_local_steps": 5,
+  "gradient_steps": 497400,
+  "expected_gradient_steps": 497400,
+  "actual_real_draws": 3106200,
+  "actual_synthetic_draws": 12805800,
+  "augmentation": {
+    "0": {
+      "target_distribution": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "final_counts": [
+        2070,
+        2070,
+        2070,
+        2070,
+        2070,
+        2070,
+        2070,
+        2070,
+        2070,
+        2070
+      ],
+      "added_counts": [
+        2065,
+        0,
+        1751,
+        1720,
+        2067,
+        1783,
+        1658,
+        2070,
+        1817,
+        1634
+      ],
+      "original_n": 4135,
+      "augmented_n": 20700,
+      "synthetic_n": 16565
+    },
+    "2": {
+      "target_distribution": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "final_counts": [
+        3541,
+        3541,
+        3541,
+        3541,
+        3541,
+        3541,
+        3541,
+        3541,
+        3541,
+        3541
+      ],
+      "added_counts": [
+        3541,
+        3518,
+        3223,
+        1862,
+        3497,
+        3532,
+        3541,
+        2720,
+        3500,
+        0
+      ],
+      "original_n": 6476,
+      "augmented_n": 35410,
+      "synthetic_n": 28934
+    },
+    "4": {
+      "target_distribution": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "final_counts": [
+        2345,
+        2345,
+        2345,
+        2345,
+        2345,
+        2345,
+        2345,
+        2345,
+        2345,
+        2345
+      ],
+      "added_counts": [
+        2187,
+        2100,
+        0,
+        2337,
+        2344,
+        2345,
+        2186,
+        2337,
+        618,
+        2076
+      ],
+      "original_n": 4920,
+      "augmented_n": 23450,
+      "synthetic_n": 18530
+    }
+  }
+}
