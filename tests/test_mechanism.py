@@ -1,6 +1,7 @@
 import unittest
 import numpy as np
 from baqp.mechanism import instance,solve,response,coefficients,objective,prices
+from baqp.data import additive_target_counts
 
 class MechanismTests(unittest.TestCase):
     def interior(self):
@@ -8,6 +9,21 @@ class MechanismTests(unittest.TestCase):
         z['s'][:]=.02; z['alpha']=.05/z['lam']; z['beta']=.1/z['lam']**2
         z['budget']=.11
         return z
+
+    def test_additive_augmentation_retains_original(self):
+        original=np.array([900,100]); pstar=np.array([.5,.5])
+        expected={0.0:([900,100],[0,0]),.25:([900,225],[0,125]),
+                  .75:([900,600],[0,500]),1.0:([900,900],[0,800])}
+        for u,(final,added) in expected.items():
+            target,got_final,got_added=additive_target_counts(original,pstar,u)
+            np.testing.assert_array_equal(got_final,final)
+            np.testing.assert_array_equal(got_added,added)
+            self.assertTrue(np.all(got_final>=original))
+            np.testing.assert_allclose(target,(1-u)*np.array([.9,.1])+u*pstar)
+        target,final,added=additive_target_counts(original,pstar,.5)
+        np.testing.assert_array_equal(final,[900,386])
+        np.testing.assert_array_equal(added,[0,286])
+        self.assertLess(np.max(np.abs(final/final.sum()-target)),2e-4)
 
     def test_analytic_interior(self):
         z=self.interior(); s=solve(z,tol=1e-9)
@@ -17,7 +33,6 @@ class MechanismTests(unittest.TestCase):
 
     def test_independent_grid(self):
         z=self.interior(); s=solve(z)
-        # Independent price-space search tests implementation and lower bound.
         r=np.linspace(0,.35,301); best=np.inf
         for a in r:
             for b in r:
@@ -35,7 +50,6 @@ class MechanismTests(unittest.TestCase):
             q=qgrid*z['lam'][k]
             utility=r*(1-z['lam'][k]/z['bar']+q/z['bar'])-z['s'][k]-z['alpha'][k]*q-z['beta'][k]*q*q
             self.assertAlmostEqual(qgrid[utility.argmax()],sol['u'][k],places=3)
-        # Discrete clients have a different full-quality price threshold.
         cont=prices(z,np.ones(2,dtype=bool),np.ones(2))
         disc=prices(z,np.ones(2,dtype=bool),np.ones(2),True)
         self.assertTrue(np.all(cont>disc))
@@ -47,7 +61,6 @@ class MechanismTests(unittest.TestCase):
         z['budget']=0; self.assertEqual(solve(z)['status'],'infeasible')
 
     def test_discrete_tie_break(self):
-        # Values that exposed cancellation in the real CIFAR-100/FMNIST run.
         for seed in range(20):
             rng=np.random.default_rng(seed)
             z=instance(rng.integers(1,100,(6,10)),seed=seed,budget_fraction=2)
