@@ -1,0 +1,271 @@
+{
+  "dataset": "fmnist",
+  "model": "cnn",
+  "seed": 3,
+  "method": "no_aigc_budget",
+  "alpha": 0.3,
+  "budget_fraction": 0.4,
+  "contract": {
+    "active": [
+      true,
+      false,
+      false,
+      false,
+      true,
+      false
+    ],
+    "u": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "price": [
+      0.039523482773092734,
+      0.0,
+      0.0,
+      0.0,
+      0.04085883591038852,
+      0.0
+    ],
+    "payment": [
+      0.0034039779898979183,
+      0.0,
+      0.0,
+      0.0,
+      0.00108669492272249,
+      0.0
+    ],
+    "total_payment": 0.004490672912620408,
+    "client_utility": [
+      4.34869475820334e-19,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "objective_normalized": 1.1441301118946392,
+    "budget": 0.1332937566712755,
+    "status": "ok",
+    "normalized_lower_bound": 1.1441301118946392,
+    "normalized_absolute_gap": 0.0,
+    "enumerated_modes": 4,
+    "feasible_modes": 3,
+    "solver_failures": 0,
+    "converged_to_requested_gap": true,
+    "requested_normalized_gap": 1e-07,
+    "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+  },
+  "test": {
+    "acc": 0.7928,
+    "ce": 0.785638296508789,
+    "n": 10000
+  },
+  "validation": {
+    "acc": 0.796,
+    "ce": 0.782136633237203,
+    "n": 6000
+  },
+  "initial_validation": {
+    "acc": 0.1715,
+    "ce": 2.298907196044922,
+    "n": 6000
+  },
+  "history": [
+    {
+      "round": 10,
+      "validation": {
+        "acc": 0.7003333333333334,
+        "ce": 1.0713816213607787,
+        "n": 6000
+      },
+      "seconds": 41.95339393615723,
+      "gradient_steps": 10640
+    },
+    {
+      "round": 20,
+      "validation": {
+        "acc": 0.7463333333333333,
+        "ce": 0.8177440153757731,
+        "n": 6000
+      },
+      "seconds": 103.54058933258057,
+      "gradient_steps": 21280
+    },
+    {
+      "round": 30,
+      "validation": {
+        "acc": 0.7766666666666666,
+        "ce": 0.7290786774953206,
+        "n": 6000
+      },
+      "seconds": 132.3678240776062,
+      "gradient_steps": 31920
+    },
+    {
+      "round": 40,
+      "validation": {
+        "acc": 0.7938333333333333,
+        "ce": 0.65579487546285,
+        "n": 6000
+      },
+      "seconds": 156.71440434455872,
+      "gradient_steps": 42560
+    },
+    {
+      "round": 50,
+      "validation": {
+        "acc": 0.6153333333333333,
+        "ce": 2.234472406069438,
+        "n": 6000
+      },
+      "seconds": 183.35971546173096,
+      "gradient_steps": 53200
+    },
+    {
+      "round": 60,
+      "validation": {
+        "acc": 0.7781666666666667,
+        "ce": 0.8562174749374389,
+        "n": 6000
+      },
+      "seconds": 226.25810933113098,
+      "gradient_steps": 63840
+    },
+    {
+      "round": 70,
+      "validation": {
+        "acc": 0.8006666666666666,
+        "ce": 0.7559169438680013,
+        "n": 6000
+      },
+      "seconds": 280.1952965259552,
+      "gradient_steps": 74480
+    },
+    {
+      "round": 80,
+      "validation": {
+        "acc": 0.7743333333333333,
+        "ce": 0.9129634898503621,
+        "n": 6000
+      },
+      "seconds": 338.72122836112976,
+      "gradient_steps": 85120
+    },
+    {
+      "round": 90,
+      "validation": {
+        "acc": 0.8,
+        "ce": 0.7887396920522054,
+        "n": 6000
+      },
+      "seconds": 380.30414366722107,
+      "gradient_steps": 95760
+    },
+    {
+      "round": 100,
+      "validation": {
+        "acc": 0.796,
+        "ce": 0.782136633237203,
+        "n": 6000
+      },
+      "seconds": 405.9167137145996,
+      "gradient_steps": 106400
+    }
+  ],
+  "seconds": 405.9413630962372,
+  "training_mode": "local_epochs_over_augmented_dataset",
+  "local_epochs": 2,
+  "theory_local_steps": 5,
+  "gradient_steps": 106400,
+  "expected_gradient_steps": 106400,
+  "actual_real_draws": 3393800,
+  "actual_synthetic_draws": 0,
+  "augmentation": {
+    "0": {
+      "target_distribution": [
+        0.27554110955159933,
+        0.02836669867769816,
+        0.003767452168131787,
+        0.0001477432222796779,
+        0.21474477358351185,
+        0.1113245179877373,
+        0.1666543547314767,
+        0.04365812218364482,
+        0.0026593780010342027,
+        0.15313584989288617
+      ],
+      "final_counts": [
+        3730,
+        384,
+        51,
+        2,
+        2907,
+        1507,
+        2256,
+        591,
+        36,
+        2073
+      ],
+      "added_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "original_n": 13537,
+      "augmented_n": 13537,
+      "synthetic_n": 0
+    },
+    "4": {
+      "target_distribution": [
+        0.048659673659673656,
+        0.10693473193473194,
+        0.05710955710955711,
+        0.14918414918414918,
+        0.28059440559440557,
+        0.011363636363636364,
+        0.0,
+        0.2365967365967366,
+        0.09003496503496504,
+        0.019522144522144524
+      ],
+      "final_counts": [
+        167,
+        367,
+        196,
+        512,
+        963,
+        39,
+        0,
+        812,
+        309,
+        67
+      ],
+      "added_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "original_n": 3432,
+      "augmented_n": 3432,
+      "synthetic_n": 0
+    }
+  }
+}
