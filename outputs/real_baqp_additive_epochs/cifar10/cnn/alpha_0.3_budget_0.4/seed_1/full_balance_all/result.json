@@ -1,0 +1,404 @@
+{
+  "dataset": "cifar10",
+  "model": "cnn",
+  "seed": 1,
+  "method": "full_balance_all",
+  "alpha": 0.3,
+  "budget_fraction": 0.4,
+  "contract": {
+    "status": "ok",
+    "active": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "u": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "objective_normalized": 0.00015674230245020838,
+    "total_payment": null,
+    "reference_only": true,
+    "note": "All clients retain all original data and add AIGC samples until their label distribution reaches p_star"
+  },
+  "test": {
+    "acc": 0.8071,
+    "ce": 0.6036832962036133,
+    "n": 10000
+  },
+  "validation": {
+    "acc": 0.8242,
+    "ce": 0.5673859802246094,
+    "n": 5000
+  },
+  "initial_validation": {
+    "acc": 0.1002,
+    "ce": 2.305223742675781,
+    "n": 5000
+  },
+  "history": [
+    {
+      "round": 10,
+      "validation": {
+        "acc": 0.7618,
+        "ce": 0.6882460906982422,
+        "n": 5000
+      },
+      "seconds": 180.59104228019714,
+      "gradient_steps": 110500
+    },
+    {
+      "round": 20,
+      "validation": {
+        "acc": 0.791,
+        "ce": 0.6093824111938476,
+        "n": 5000
+      },
+      "seconds": 360.3083052635193,
+      "gradient_steps": 221000
+    },
+    {
+      "round": 30,
+      "validation": {
+        "acc": 0.8068,
+        "ce": 0.5813088760375976,
+        "n": 5000
+      },
+      "seconds": 538.8840441703796,
+      "gradient_steps": 331500
+    },
+    {
+      "round": 40,
+      "validation": {
+        "acc": 0.8192,
+        "ce": 0.5537740783691406,
+        "n": 5000
+      },
+      "seconds": 717.8931972980499,
+      "gradient_steps": 442000
+    },
+    {
+      "round": 50,
+      "validation": {
+        "acc": 0.824,
+        "ce": 0.5442203247070313,
+        "n": 5000
+      },
+      "seconds": 897.2325820922852,
+      "gradient_steps": 552500
+    },
+    {
+      "round": 60,
+      "validation": {
+        "acc": 0.7984,
+        "ce": 0.6428193237304688,
+        "n": 5000
+      },
+      "seconds": 1076.9716401100159,
+      "gradient_steps": 663000
+    },
+    {
+      "round": 70,
+      "validation": {
+        "acc": 0.8218,
+        "ce": 0.5466817092895507,
+        "n": 5000
+      },
+      "seconds": 1255.6690027713776,
+      "gradient_steps": 773500
+    },
+    {
+      "round": 80,
+      "validation": {
+        "acc": 0.828,
+        "ce": 0.5390075653076172,
+        "n": 5000
+      },
+      "seconds": 1434.2219183444977,
+      "gradient_steps": 884000
+    },
+    {
+      "round": 90,
+      "validation": {
+        "acc": 0.8268,
+        "ce": 0.5403194946289063,
+        "n": 5000
+      },
+      "seconds": 1612.1807661056519,
+      "gradient_steps": 994500
+    },
+    {
+      "round": 100,
+      "validation": {
+        "acc": 0.8242,
+        "ce": 0.5673859802246094,
+        "n": 5000
+      },
+      "seconds": 1791.0263314247131,
+      "gradient_steps": 1105000
+    }
+  ],
+  "seconds": 1791.056857585907,
+  "training_mode": "local_epochs_over_augmented_dataset",
+  "local_epochs": 2,
+  "theory_local_steps": 5,
+  "gradient_steps": 1105000,
+  "expected_gradient_steps": 1105000,
+  "actual_real_draws": 9000000,
+  "actual_synthetic_draws": 26340000,
+  "augmentation": {
+    "0": {
+      "target_distribution": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "final_counts": [
+        2070,
+        2070,
+        2070,
+        2070,
+        2070,
+        2070,
+        2070,
+        2070,
+        2070,
+        2070
+      ],
+      "added_counts": [
+        2065,
+        0,
+        1751,
+        1720,
+        2067,
+        1783,
+        1658,
+        2070,
+        1817,
+        1634
+      ],
+      "original_n": 4135,
+      "augmented_n": 20700,
+      "synthetic_n": 16565
+    },
+    "1": {
+      "target_distribution": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "final_counts": [
+        4241,
+        4241,
+        4241,
+        4241,
+        4241,
+        4241,
+        4241,
+        4241,
+        4241,
+        4241
+      ],
+      "added_counts": [
+        1706,
+        4109,
+        3548,
+        1931,
+        0,
+        3693,
+        4212,
+        4161,
+        4241,
+        4240
+      ],
+      "original_n": 10569,
+      "augmented_n": 42410,
+      "synthetic_n": 31841
+    },
+    "2": {
+      "target_distribution": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "final_counts": [
+        3541,
+        3541,
+        3541,
+        3541,
+        3541,
+        3541,
+        3541,
+        3541,
+        3541,
+        3541
+      ],
+      "added_counts": [
+        3541,
+        3518,
+        3223,
+        1862,
+        3497,
+        3532,
+        3541,
+        2720,
+        3500,
+        0
+      ],
+      "original_n": 6476,
+      "augmented_n": 35410,
+      "synthetic_n": 28934
+    },
+    "3": {
+      "target_distribution": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "final_counts": [
+        1591,
+        1591,
+        1591,
+        1591,
+        1591,
+        1591,
+        1591,
+        1591,
+        1591,
+        1591
+      ],
+      "added_counts": [
+        1591,
+        1369,
+        880,
+        1536,
+        1380,
+        1415,
+        1573,
+        1564,
+        0,
+        1553
+      ],
+      "original_n": 3049,
+      "augmented_n": 15910,
+      "synthetic_n": 12861
+    },
+    "4": {
+      "target_distribution": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "final_counts": [
+        2345,
+        2345,
+        2345,
+        2345,
+        2345,
+        2345,
+        2345,
+        2345,
+        2345,
+        2345
+      ],
+      "added_counts": [
+        2187,
+        2100,
+        0,
+        2337,
+        2344,
+        2345,
+        2186,
+        2337,
+        618,
+        2076
+      ],
+      "original_n": 4920,
+      "augmented_n": 23450,
+      "synthetic_n": 18530
+    },
+    "5": {
+      "target_distribution": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "final_counts": [
+        3882,
+        3882,
+        3882,
+        3882,
+        3882,
+        3882,
+        3882,
+        3882,
+        3882,
+        3882
+      ],
+      "added_counts": [
+        2080,
+        2074,
+        3768,
+        3784,
+        3882,
+        402,
+        0,
+        318,
+        2994,
+        3667
+      ],
+      "original_n": 15851,
+      "augmented_n": 38820,
+      "synthetic_n": 22969
+    }
+  }
+}
