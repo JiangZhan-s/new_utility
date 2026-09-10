@@ -1,0 +1,23 @@
+{
+  "status": "ok",
+  "active": [
+    false,
+    false,
+    false,
+    false,
+    false,
+    true
+  ],
+  "u": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "objective_normalized": 3.5233520744231654,
+  "total_payment": null,
+  "reference_only": true,
+  "note": "Same participants as continuous; fixed-compute learning ablation, not necessarily budget-feasible."
+}

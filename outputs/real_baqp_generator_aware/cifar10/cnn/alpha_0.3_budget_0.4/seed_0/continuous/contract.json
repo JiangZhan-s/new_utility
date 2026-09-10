@@ -1,0 +1,86 @@
+{
+  "active": [
+    false,
+    false,
+    false,
+    false,
+    false,
+    true
+  ],
+  "u": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.9939462570832857
+  ],
+  "fixed_transfer": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.1529719672470583
+  ],
+  "marginal_price": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1.946522183043058
+  ],
+  "price": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1.946522183043058
+  ],
+  "payment": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.8577595005866915
+  ],
+  "minimum_cost_payment": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.8577595005866913
+  ],
+  "total_payment": 0.8577595005866915,
+  "client_utility": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1.173209677555557e-16
+  ],
+  "objective_normalized": 0.021485862940742523,
+  "objective_components": {
+    "label": 0.00012911734733401725,
+    "generator": 0.021199397773043173,
+    "noise": 0.00015734782036533183,
+    "total": 0.021485862940742523
+  },
+  "budget": 1.5706666666666667,
+  "tariff": "two_part_signed_fixed_transfer",
+  "learning_profile": "generator_aware_additive_mixture_bound",
+  "status": "ok",
+  "normalized_lower_bound": 0.021485862940742215,
+  "normalized_absolute_gap": 3.0878077872387166e-16,
+  "enumerated_modes": 64,
+  "feasible_modes": 63,
+  "solver_failures": 3,
+  "converged_to_requested_gap": true,
+  "requested_normalized_gap": 1e-07,
+  "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+}
