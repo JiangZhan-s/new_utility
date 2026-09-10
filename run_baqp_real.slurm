@@ -27,7 +27,7 @@ args=(--dataset "$dataset" --seed "$seed" --model "${MODEL:-cnn}"
       --rounds "${ROUNDS:-100}" --steps "${STEPS:-5}" --local-epochs "${LOCAL_EPOCHS:-2}"
       --batch "${BATCH_SIZE:-32}"
       --clients "${CLIENTS:-6}" --alpha "${ALPHA:-0.3}" --budget-fraction "${BUDGET_FRACTION:-0.4}"
-      --output "${OUTPUT_ROOT:-outputs/real_baqp_additive_epochs}" --device cuda --resume)
+      --output "${OUTPUT_ROOT:-outputs/real_baqp_two_part_epochs}" --device cuda --resume)
 if [[ -n "${METHODS:-}" ]]; then
     read -r -a methods <<< "$METHODS"
     args+=(--methods "${methods[@]}")
