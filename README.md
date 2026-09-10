@@ -16,9 +16,28 @@ p_k^{(u)}=(1-u_k)p_k+u_kp_\star.
 m_{ky}=n'_{ky}-n_{ky}\ge 0.
 \]
 
-训练时从 `D_real ∪ D_syn` 的增强数据集均匀抽样。**不会删除、降采样或用 AIGC 覆盖任何原始样本。** FedAvg 聚合权重仍按原始客户端数据量归一化，因此生成更多样本不会增加客户端的聚合 voting power。
+训练数据是 `D_real ∪ D_syn`，不会删除、降采样或用 AIGC 覆盖任何原始样本。FedAvg 聚合权重仍按原始客户端数据量归一化，因此生成更多样本不会增加客户端的聚合 voting power。
 
-此前 `outputs/real_baqp` 中的结果来自旧的 replacement-mixture 训练语义，不能作为当前 addition-only 实现的实验结果。新实验默认输出目录改为 `outputs/real_baqp_additive`，必须重新运行后再比较 ACC。
+## 重要更新：CNN 使用完整 local epochs
+
+CNN 主实验不再使用“每轮每客户端固定 5 个 mini-batch”的训练方式。每个参与客户端现在对自己的**完整增强数据集**执行固定数量的 local epochs；默认 `local_epochs=2`。每个 local epoch 都随机打乱 `D_real ∪ D_syn`，并且无放回遍历一遍全部样本。
+
+因此客户端 k 每轮的实际优化步数为
+
+\[
+h_k(q_k)=E\left\lceil\frac{n_k+m_k(q_k)}{b}\right\rceil,
+\]
+
+其中 `E=local_epochs`、`b=batch size`。AIGC 增加样本后，这些样本会真正增加本地训练计算量，而不是只扩大数据池却保持固定 5 步。
+
+为保留 Theorem 1 的固定本地步数接口，`softmax` 理论验证路径仍使用 `--steps h`，不切换到 local-epoch 语义。因此：
+
+- `cnn`：`--local-epochs` 控制实际本地训练；
+- `softmax`：`--steps` 控制理论中的固定本地步数 h。
+
+CNN 的实际 `gradient_steps` 会逐方法记录在 `history.json` 和 `result.json` 中，同时记录 `actual_real_draws` 与 `actual_synthetic_draws`。
+
+此前 `outputs/real_baqp` 中的结果来自旧 replacement-mixture 训练语义，`outputs/real_baqp_additive` 来自 addition-only 但 fixed-step 的中间版本。两者都不能作为当前 local-epoch 实现的最终实验结果。当前默认新目录为 `outputs/real_baqp_additive_epochs`。
 
 ## 环境和数据
 
@@ -37,9 +56,9 @@ m_{ky}=n'_{ky}-n_{ky}\ge 0.
 - 6 个客户端，Dirichlet α=0.3，训练集按类别划出10%验证数据，剩余90%全部且互斥地分配客户端。
 - split/economic seed=2026 固定；训练 seed=0,1,2,3,4。
 - 共同预算是全员连续合同完全增强支付的40%；所有经济基线使用同一绝对预算上限，但实际开支可以不同。
-- CNN：100轮，每轮每参与客户端5步，batch32，SGD，无动量，lr=0.05，L2=0.0005。
-- softmax 可选：单位球像素特征，无偏置，全参数 L2=0.05，lr=0.1/0.55；可使用 `--residual` 加入原始有限数据的保守残差，仍未认证生成器偏差及风险桥接。
-- 每个参与客户端先根据合同 `u_k` 构造 addition-only 类别补充计划，然后每个本地 SGD batch 从该客户端的“原始+新增 AIGC”数据集中均匀抽样。
+- CNN：100轮，每轮每参与客户端 **2 个完整 local epochs**，batch32，SGD，无动量，lr=0.05，L2=0.0005。
+- softmax 可选：单位球像素特征，无偏置，全参数 L2=0.05，lr=0.1/0.55，每轮固定 `h=5` 个随机梯度步；可使用 `--residual` 加入原始有限数据的保守残差，仍未认证生成器偏差及风险桥接。
+- 每个参与客户端先根据合同 `u_k` 构造 addition-only 类别补充计划；CNN 随后完整遍历增强数据集，softmax 理论路径按固定步数采样。
 - FedAvg 始终按参与客户端**原始数据量**归一化加权，不按增强后样本量重算权重。
 - 每个方法目录保存 `augmentation_plan.json`，记录原始样本量、每类新增 AIGC 数量、增强后类别计数和目标标签分布。
 - 最终固定轮 test accuracy 是主指标；每10轮只报告 validation accuracy。不通过测试集选择合同、权重或 checkpoint。
@@ -69,44 +88,44 @@ CNN 的 `.5+mu` 等常数只是沿用 softmax 的代理尺度，不能声称是 
 conda activate aigc39
 python -m unittest discover -s tests -v
 python -m baqp.check_kkt
-python -m baqp.experiment --dataset cifar10 --prepare-only --output outputs/prepare_additive_c10
+python -m baqp.experiment --dataset cifar10 --prepare-only --output outputs/prepare_additive_epochs_c10
 ```
 
 GPU 训练示例：
 
 ```bash
 mkdir -p logs
-sbatch --export=ALL,OUTPUT_ROOT=outputs/real_baqp_additive run_baqp_real.slurm
+sbatch --export=ALL,OUTPUT_ROOT=outputs/real_baqp_additive_epochs,LOCAL_EPOCHS=2 run_baqp_real.slurm
 ```
 
-改变模型、协议、代码或增强语义后使用新的输出目录。旧 `outputs/real_baqp` 不得与新的 addition-only 结果混合汇总。
+改变模型、协议、代码或增强语义后使用新的输出目录。旧 `outputs/real_baqp` 和 `outputs/real_baqp_additive` 不得与新的 local-epoch 结果混合汇总。
 
 预算/Non-IID 扫描示例：
 
 ```bash
-sbatch --export=ALL,ALPHA=0.1,BUDGET_FRACTION=0.2,OUTPUT_ROOT=outputs/scan_additive_a01_b02 run_baqp_real.slurm
+sbatch --export=ALL,ALPHA=0.1,BUDGET_FRACTION=0.2,LOCAL_EPOCHS=2,OUTPUT_ROOT=outputs/scan_additive_epochs_a01_b02 run_baqp_real.slurm
 ```
 
 ## 结果与判断
 
 ```bash
-python -m baqp.summarize outputs/real_baqp_additive
+python -m baqp.summarize outputs/real_baqp_additive_epochs
 ```
 
 每个数据集/模型/α/预算/seed 目录包含 metadata、partition，以及每种方法的 contract、augmentation_plan、history、result、final_model。合同保存价格、支付、净效用、增强量、预算；连续求解器保存全局数值下界和 gap。
 
-只有新的 addition-only 多种子结果支持正向差异时，才可以据此讨论实际 ACC。旧 replacement 结果只保留作开发历史，不应继续进入论文主表。
+只有新的 addition-only + local-epoch 多种子结果支持正向差异时，才可以据此讨论实际 ACC。旧 replacement 和 fixed-step additive 结果只保留作开发历史，不应继续进入论文主表。
 
 ## 理论与实际实现的边界
 
-服务器机制与风险证书仍使用 `FINAL_GUIDE.md` 的连续质量变量和 `J`。在纯 label-skew 且 AIGC 类别条件分布与目标分布一致的理想模型下，新增样本使客户端标签分布沿 `p_k -> p_star` 移动，对应梯度偏差缩减。真实生成池一般只近似这一条件，因此 CNN 主实验仍是经验扩展，而不是 Theorem 1 的严格数值证书。
+服务器机制与风险证书仍使用 `FINAL_GUIDE.md` 的连续质量变量和 `J`。在纯 label-skew 且 AIGC 类别条件分布与目标分布一致的理想模型下，新增样本使客户端标签分布沿 `p_k -> p_star` 移动，对应梯度偏差缩减。
 
-## 集群同步后的实施检查
+注意：CNN 改为 local-epoch 以后，实际本地步数 h_k 会随 `q_k` 和增强后数据量变化；因此 CNN 主实验更贴近实际数据增强训练，但它**不再对应 Theorem 1 中固定 h 的那组系数**。CNN 仍属于经验扩展。严格固定-h 的理论验证应使用 softmax 路径。
 
-追加数据集保留所有原始样本，但当前训练仍采用固定本地步数、有放回采样，并不保证每张原始图片在有限训练中都被访问。实际合成采样比例为 `synthetic_n / augmented_n`，不等于 `u`。例如(900,100)完全平衡后追加800张，合成比例是800/1800，原始比例是1000/1800。
+真实生成池一般只近似共享类别条件分布，因此 CNN 主实验也不是 Theorem 1 的严格数值证书。
 
-若某类所需追加量大于该类缓存大小，代码会有放回抽取缓存索引，增强集合含重复图片；这些是重复使用已有离线图片，并非新生成的独立样本。各类计数还存在整数取整误差，应对照 `augmentation_plan.json` 的目标和实际比例。
+## 实施检查
 
-经济参数仍按增强程度u设置，未按本次真实追加张数重新标定成本。服务器J和价格机制保留原模型；真实类别条件分布偏差和CNN理论适用范围仍需区分。
+若某类所需追加量大于该类缓存大小，代码会有放回抽取缓存索引，增强集合含重复图片；这些重复项随后在每个 local epoch 中各访问一次。各类计数存在整数取整误差，应对照 `augmentation_plan.json` 的目标和实际比例。
 
-自动汇总脚本 `summarize_baqp.slurm` 的默认目录已同步为 `outputs/real_baqp_additive`。
+经济参数仍按增强程度 u 设置，未按本次真实追加张数重新标定成本。服务器 J 和价格机制保留原模型；真实类别条件分布偏差和 CNN 理论适用范围仍需区分。
