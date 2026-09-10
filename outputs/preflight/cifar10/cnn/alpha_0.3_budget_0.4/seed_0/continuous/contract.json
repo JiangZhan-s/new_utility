@@ -1,0 +1,52 @@
+{
+  "active": [
+    true,
+    false,
+    true,
+    true,
+    true,
+    false
+  ],
+  "u": [
+    1.0,
+    0.0,
+    1.0,
+    1.0,
+    1.0,
+    0.0
+  ],
+  "price": [
+    0.4389601847075709,
+    0.0,
+    0.24375084752995263,
+    0.3136148814897021,
+    0.25482299621959065,
+    0.0
+  ],
+  "payment": [
+    0.04033556363924013,
+    0.0,
+    0.03507845530231051,
+    0.021249150525824483,
+    0.027860647586675245,
+    0.0
+  ],
+  "total_payment": 0.12452381705405038,
+  "client_utility": [
+    0.023909782372981993,
+    0.0,
+    0.012092288785907781,
+    0.010314772707467914,
+    0.009166121145486617,
+    0.0
+  ],
+  "objective_normalized": 0.00015677599426310292,
+  "budget": 0.1260578383929629,
+  "status": "ok",
+  "normalized_lower_bound": 0.00014974345145377105,
+  "normalized_absolute_gap": 7.032542809331876e-06,
+  "enumerated_modes": 1296,
+  "feasible_modes": 840,
+  "solver_failures": 0,
+  "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+}

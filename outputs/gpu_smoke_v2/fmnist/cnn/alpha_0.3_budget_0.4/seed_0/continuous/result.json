@@ -1,0 +1,91 @@
+{
+  "dataset": "fmnist",
+  "model": "cnn",
+  "seed": 0,
+  "method": "continuous",
+  "alpha": 0.3,
+  "budget_fraction": 0.4,
+  "contract": {
+    "active": [
+      false,
+      true,
+      true,
+      false,
+      true,
+      true
+    ],
+    "u": [
+      0.0,
+      1.0,
+      1.0,
+      0.0,
+      1.0,
+      1.0
+    ],
+    "price": [
+      0.0,
+      0.2541861597462404,
+      0.29192226446988195,
+      0.0,
+      0.3950958094896652,
+      0.23850736878939602
+    ],
+    "payment": [
+      0.0,
+      0.024180635233637723,
+      0.04992951916007092,
+      0.0,
+      0.02511053366978761,
+      0.022720035278752836
+    ],
+    "total_payment": 0.1219407233422491,
+    "client_utility": [
+      0.0,
+      0.009563204455028528,
+      0.022610670855369507,
+      0.0,
+      0.01424339025072268,
+      0.006706346918210454
+    ],
+    "objective_normalized": 3.936356435918855e-05,
+    "budget": 0.1332937566712755,
+    "status": "ok",
+    "normalized_lower_bound": 3.936277207614828e-05,
+    "normalized_absolute_gap": 7.92283040267224e-10,
+    "enumerated_modes": 1296,
+    "feasible_modes": 801,
+    "solver_failures": 23,
+    "converged_to_requested_gap": true,
+    "requested_normalized_gap": 1e-07,
+    "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+  },
+  "test": {
+    "acc": 0.1287,
+    "ce": 2.2962196533203123,
+    "n": 10000
+  },
+  "validation": {
+    "acc": 0.1275,
+    "ce": 2.2963660278320313,
+    "n": 6000
+  },
+  "initial_validation": {
+    "acc": 0.1745,
+    "ce": 2.303354024251302,
+    "n": 6000
+  },
+  "history": [
+    {
+      "round": 2,
+      "validation": {
+        "acc": 0.1275,
+        "ce": 2.2963660278320313,
+        "n": 6000
+      },
+      "seconds": 0.14528560638427734
+    }
+  ],
+  "seconds": 0.17935395240783691,
+  "gradient_steps": 16,
+  "expected_synthetic_draws": 512.0
+}

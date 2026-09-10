@@ -1,0 +1,54 @@
+{
+  "active": [
+    false,
+    false,
+    false,
+    true,
+    true,
+    true
+  ],
+  "u": [
+    0.0,
+    0.0,
+    0.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "price": [
+    0.0,
+    0.0,
+    0.0,
+    0.17882989770367735,
+    0.1746537627267591,
+    0.16810637081440294
+  ],
+  "payment": [
+    0.0,
+    0.0,
+    0.0,
+    0.03091372831637569,
+    0.029695020858276303,
+    0.030042476313098407
+  ],
+  "total_payment": 0.0906512254877504,
+  "client_utility": [
+    0.0,
+    0.0,
+    0.0,
+    0.003016540697813624,
+    0.0006235123620295257,
+    2.4801148788987523e-18
+  ],
+  "objective_normalized": 3.9401682696918214e-05,
+  "budget": 0.10751238294425938,
+  "status": "ok",
+  "normalized_lower_bound": 3.9401682696918214e-05,
+  "normalized_absolute_gap": 0.0,
+  "enumerated_modes": 324,
+  "feasible_modes": 271,
+  "solver_failures": 0,
+  "converged_to_requested_gap": true,
+  "requested_normalized_gap": 1e-07,
+  "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+}

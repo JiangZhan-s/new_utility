@@ -1,0 +1,59 @@
+{
+  "dataset": "cifar10",
+  "model": "cnn",
+  "seed": 0,
+  "method": "selected_no_aigc",
+  "alpha": 0.3,
+  "budget_fraction": 0.4,
+  "contract": {
+    "status": "ok",
+    "active": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "u": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "total_payment": null,
+    "reference_only": true,
+    "note": "Same participants as continuous, no augmentation; learning ablation, not an implementable contract"
+  },
+  "test": {
+    "acc": 0.0844,
+    "ce": 2.3047195190429686,
+    "n": 10000
+  },
+  "validation": {
+    "acc": 0.0824,
+    "ce": 2.3049095703125,
+    "n": 5000
+  },
+  "initial_validation": {
+    "acc": 0.0838,
+    "ce": 2.3051020263671873,
+    "n": 5000
+  },
+  "history": [
+    {
+      "round": 1,
+      "validation": {
+        "acc": 0.0824,
+        "ce": 2.3049095703125,
+        "n": 5000
+      },
+      "seconds": 3.275355100631714
+    }
+  ],
+  "seconds": 6.300561428070068,
+  "gradient_steps": 6,
+  "expected_synthetic_draws": 0.0
+}

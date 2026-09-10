@@ -1,0 +1,61 @@
+{
+  "lambda_value": [
+    0.08485281374238571,
+    0.08485281374238562
+  ],
+  "E0": 0.0013531250000000006,
+  "kappa_H": 0.010045662100456623,
+  "kappa_N": 4.734848484848486e-05,
+  "u": 0.5704025757937787,
+  "q": [
+    0.048400263522006555,
+    0.048400263522006506
+  ],
+  "price": 0.18048856667463137,
+  "payment_per_client": 0.055,
+  "utility_per_client": 0.014471980681546662,
+  "budget_multiplier": 3.9170333387118e-05,
+  "primal_objective": 2.6182890965941752e-05,
+  "dual_objective": 2.6182890965941773e-05,
+  "duality_gap": -2.0328790734103208e-20,
+  "stationarity_inf": 3.049318610115481e-20,
+  "budget_residual": 1.3877787807814457e-17,
+  "complementarity": 5.4359757510777375e-22,
+  "single_participant_u": 0.8764870422406545,
+  "single_participant_objective": 6.799101662355357e-05,
+  "enumeration": {
+    "active": [
+      true,
+      true
+    ],
+    "u": [
+      0.570402575793768,
+      0.5704025757937886
+    ],
+    "price": [
+      0.18048856667462898,
+      0.18048856667463373
+    ],
+    "payment": [
+      0.05499999999999842,
+      0.05500000000000159
+    ],
+    "total_payment": 0.11000000000000001,
+    "client_utility": [
+      0.014471980681545954,
+      0.014471980681547435
+    ],
+    "objective_normalized": 0.0007849512270741895,
+    "budget": 0.11,
+    "status": "ok",
+    "normalized_lower_bound": 0.0007849506674580588,
+    "normalized_absolute_gap": 5.596161306705913e-10,
+    "enumerated_modes": 9,
+    "feasible_modes": 3,
+    "solver_failures": 0,
+    "converged_to_requested_gap": true,
+    "requested_normalized_gap": 1e-09,
+    "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+  },
+  "normalization": "User J = (code objective_normalized - C_L*v/C_B)/G_cls^2"
+}

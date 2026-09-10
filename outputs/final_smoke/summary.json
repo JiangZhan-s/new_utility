@@ -1,0 +1,112 @@
+[
+  {
+    "dataset": "cifar100",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "method": "continuous",
+    "seeds": 1,
+    "mean_test_acc_pct": 1.01,
+    "std_test_acc_pp": null
+  },
+  {
+    "dataset": "cifar100",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "method": "public_price",
+    "seeds": 1,
+    "mean_test_acc_pct": 1.01,
+    "std_test_acc_pp": null
+  },
+  {
+    "dataset": "cifar100",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "method": "three_state",
+    "seeds": 1,
+    "mean_test_acc_pct": 0.9900000000000001,
+    "std_test_acc_pp": null
+  },
+  {
+    "dataset": "fmnist",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "method": "continuous",
+    "seeds": 1,
+    "mean_test_acc_pct": 8.48,
+    "std_test_acc_pp": null
+  },
+  {
+    "dataset": "fmnist",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "method": "fedavg_all",
+    "seeds": 1,
+    "mean_test_acc_pct": 16.869999999999997,
+    "std_test_acc_pp": null
+  },
+  {
+    "dataset": "fmnist",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "method": "no_aigc_budget",
+    "seeds": 1,
+    "mean_test_acc_pct": 7.01,
+    "std_test_acc_pp": null
+  },
+  {
+    "dataset": "fmnist",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "method": "public_price",
+    "seeds": 1,
+    "mean_test_acc_pct": 17.32,
+    "std_test_acc_pp": null
+  },
+  {
+    "dataset": "fmnist",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "method": "random_budget",
+    "seeds": 1,
+    "mean_test_acc_pct": 8.61,
+    "std_test_acc_pp": null
+  },
+  {
+    "dataset": "fmnist",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "method": "selected_no_aigc",
+    "seeds": 1,
+    "mean_test_acc_pct": 16.869999999999997,
+    "std_test_acc_pp": null
+  },
+  {
+    "dataset": "fmnist",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "method": "synthetic_only",
+    "seeds": 1,
+    "mean_test_acc_pct": 17.64,
+    "std_test_acc_pp": null
+  },
+  {
+    "dataset": "fmnist",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "method": "three_state",
+    "seeds": 1,
+    "mean_test_acc_pct": 10.440000000000001,
+    "std_test_acc_pp": null
+  }
+]

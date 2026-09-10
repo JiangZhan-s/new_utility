@@ -1,0 +1,141 @@
+{
+  "dataset": "fmnist",
+  "model": "cnn",
+  "seed": 0,
+  "method": "fedavg_all",
+  "alpha": 0.3,
+  "budget_fraction": 0.4,
+  "contract": {
+    "status": "ok",
+    "active": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "u": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "objective_normalized": 0.018839149064254587,
+    "total_payment": null,
+    "reference_only": true,
+    "note": "All-client learning reference; not a budget-feasible economic mechanism"
+  },
+  "test": {
+    "acc": 0.7312,
+    "ce": 0.7015895721435547,
+    "n": 10000
+  },
+  "validation": {
+    "acc": 0.7365,
+    "ce": 0.6840517381032308,
+    "n": 6000
+  },
+  "initial_validation": {
+    "acc": 0.1745,
+    "ce": 2.303354024251302,
+    "n": 6000
+  },
+  "history": [
+    {
+      "round": 10,
+      "validation": {
+        "acc": 0.4255,
+        "ce": 1.8716554209391276,
+        "n": 6000
+      },
+      "seconds": 1.548459529876709
+    },
+    {
+      "round": 20,
+      "validation": {
+        "acc": 0.5095,
+        "ce": 1.3588668009440104,
+        "n": 6000
+      },
+      "seconds": 2.0803260803222656
+    },
+    {
+      "round": 30,
+      "validation": {
+        "acc": 0.6331666666666667,
+        "ce": 1.0960523478190105,
+        "n": 6000
+      },
+      "seconds": 2.6062967777252197
+    },
+    {
+      "round": 40,
+      "validation": {
+        "acc": 0.668,
+        "ce": 0.9613815663655599,
+        "n": 6000
+      },
+      "seconds": 3.1297688484191895
+    },
+    {
+      "round": 50,
+      "validation": {
+        "acc": 0.6873333333333334,
+        "ce": 0.8381005744934082,
+        "n": 6000
+      },
+      "seconds": 3.6587331295013428
+    },
+    {
+      "round": 60,
+      "validation": {
+        "acc": 0.7098333333333333,
+        "ce": 0.7791643969217936,
+        "n": 6000
+      },
+      "seconds": 4.188798904418945
+    },
+    {
+      "round": 70,
+      "validation": {
+        "acc": 0.7011666666666667,
+        "ce": 0.7577754885355632,
+        "n": 6000
+      },
+      "seconds": 4.712522506713867
+    },
+    {
+      "round": 80,
+      "validation": {
+        "acc": 0.7038333333333333,
+        "ce": 0.7474637076059977,
+        "n": 6000
+      },
+      "seconds": 5.241913318634033
+    },
+    {
+      "round": 90,
+      "validation": {
+        "acc": 0.717,
+        "ce": 0.7228579673767089,
+        "n": 6000
+      },
+      "seconds": 5.773423433303833
+    },
+    {
+      "round": 100,
+      "validation": {
+        "acc": 0.7365,
+        "ce": 0.6840517381032308,
+        "n": 6000
+      },
+      "seconds": 6.312012434005737
+    }
+  ],
+  "seconds": 6.3368752002716064,
+  "gradient_steps": 3000,
+  "expected_synthetic_draws": 0.0
+}

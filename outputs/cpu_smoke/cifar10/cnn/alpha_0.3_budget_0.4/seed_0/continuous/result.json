@@ -1,0 +1,91 @@
+{
+  "dataset": "cifar10",
+  "model": "cnn",
+  "seed": 0,
+  "method": "continuous",
+  "alpha": 0.3,
+  "budget_fraction": 0.4,
+  "contract": {
+    "active": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "u": [
+      0.3191042160309393,
+      0.3191043110130445,
+      0.31910430042494886,
+      0.31910440119633793,
+      0.319104270395132,
+      0.3191043134039448
+    ],
+    "price": [
+      0.22681490338069116,
+      0.11766149128557778,
+      0.12209722115283783,
+      0.1324414730478393,
+      0.14023212146301653,
+      0.19699245407530416
+    ],
+    "payment": [
+      0.012564036325431344,
+      0.012506111392606723,
+      0.006694675609437683,
+      0.004102123090094399,
+      0.005919352187793474,
+      0.04108385778165426
+    ],
+    "total_payment": 0.08287015638701788,
+    "client_utility": [
+      0.008287166840162417,
+      0.0024582777139143673,
+      3.4580150121209233e-06,
+      0.0013712691192834046,
+      0.0004833165204729764,
+      0.021133691031028478
+    ],
+    "objective_normalized": 1.757320852355371e-07,
+    "budget": 0.1260578383929629,
+    "status": "ok",
+    "normalized_lower_bound": 1.6763258718341475e-07,
+    "normalized_absolute_gap": 8.099498052122336e-09,
+    "enumerated_modes": 1296,
+    "feasible_modes": 840,
+    "solver_failures": 23,
+    "converged_to_requested_gap": true,
+    "requested_normalized_gap": 1e-07,
+    "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+  },
+  "test": {
+    "acc": 0.0814,
+    "ce": 2.3046457641601563,
+    "n": 10000
+  },
+  "validation": {
+    "acc": 0.0756,
+    "ce": 2.304837158203125,
+    "n": 5000
+  },
+  "initial_validation": {
+    "acc": 0.0838,
+    "ce": 2.3051020263671873,
+    "n": 5000
+  },
+  "history": [
+    {
+      "round": 1,
+      "validation": {
+        "acc": 0.0756,
+        "ce": 2.304837158203125,
+        "n": 5000
+      },
+      "seconds": 16.456414222717285
+    }
+  ],
+  "seconds": 19.57760453224182,
+  "gradient_steps": 6,
+  "expected_synthetic_draws": 61.268025998859116
+}

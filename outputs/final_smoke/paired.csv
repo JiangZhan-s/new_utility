@@ -1,0 +1,10 @@
+dataset,model,alpha,budget_fraction,baseline,paired_seeds,mean_delta_pp,ci95_low_pp,ci95_high_pp
+cifar100,cnn,0.3,0.4,public_price,[0],0.0,,
+cifar100,cnn,0.3,0.4,three_state,[0],0.01999999999999988,,
+fmnist,cnn,0.3,0.4,fedavg_all,[0],-8.389999999999999,,
+fmnist,cnn,0.3,0.4,no_aigc_budget,[0],1.4700000000000004,,
+fmnist,cnn,0.3,0.4,public_price,[0],-8.84,,
+fmnist,cnn,0.3,0.4,random_budget,[0],-0.12999999999999956,,
+fmnist,cnn,0.3,0.4,selected_no_aigc,[0],-8.389999999999999,,
+fmnist,cnn,0.3,0.4,synthetic_only,[0],-9.16,,
+fmnist,cnn,0.3,0.4,three_state,[0],-1.9600000000000006,,

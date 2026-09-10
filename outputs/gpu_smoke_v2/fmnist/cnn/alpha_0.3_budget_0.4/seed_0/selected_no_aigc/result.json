@@ -1,0 +1,59 @@
+{
+  "dataset": "fmnist",
+  "model": "cnn",
+  "seed": 0,
+  "method": "selected_no_aigc",
+  "alpha": 0.3,
+  "budget_fraction": 0.4,
+  "contract": {
+    "status": "ok",
+    "active": [
+      false,
+      true,
+      true,
+      false,
+      true,
+      true
+    ],
+    "u": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "total_payment": null,
+    "reference_only": true,
+    "note": "Same participants as continuous, no augmentation; learning ablation, not an implementable contract"
+  },
+  "test": {
+    "acc": 0.1,
+    "ce": 2.3013894775390624,
+    "n": 10000
+  },
+  "validation": {
+    "acc": 0.1,
+    "ce": 2.301546895345052,
+    "n": 6000
+  },
+  "initial_validation": {
+    "acc": 0.1745,
+    "ce": 2.303354024251302,
+    "n": 6000
+  },
+  "history": [
+    {
+      "round": 2,
+      "validation": {
+        "acc": 0.1,
+        "ce": 2.301546895345052,
+        "n": 6000
+      },
+      "seconds": 0.1390676498413086
+    }
+  ],
+  "seconds": 0.17218685150146484,
+  "gradient_steps": 16,
+  "expected_synthetic_draws": 0.0
+}

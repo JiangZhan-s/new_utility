@@ -1,0 +1,60 @@
+{
+  "dataset": "fmnist",
+  "model": "cnn",
+  "seed": 0,
+  "method": "synthetic_only",
+  "alpha": 0.3,
+  "budget_fraction": 0.4,
+  "contract": {
+    "status": "ok",
+    "active": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "u": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "objective_normalized": 1.714469709147805e-07,
+    "total_payment": null,
+    "reference_only": true,
+    "note": "All-client learning reference; not a budget-feasible economic mechanism"
+  },
+  "test": {
+    "acc": 0.1764,
+    "ce": 2.3011805236816407,
+    "n": 10000
+  },
+  "validation": {
+    "acc": 0.173,
+    "ce": 2.3012277119954425,
+    "n": 6000
+  },
+  "initial_validation": {
+    "acc": 0.09883333333333333,
+    "ce": 2.302622487386068,
+    "n": 6000
+  },
+  "history": [
+    {
+      "round": 1,
+      "validation": {
+        "acc": 0.173,
+        "ce": 2.3012277119954425,
+        "n": 6000
+      },
+      "seconds": 2.702176809310913
+    }
+  ],
+  "seconds": 4.928976535797119,
+  "gradient_steps": 6,
+  "expected_synthetic_draws": 192.0
+}

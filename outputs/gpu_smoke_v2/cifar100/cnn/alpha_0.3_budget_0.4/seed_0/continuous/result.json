@@ -1,0 +1,91 @@
+{
+  "dataset": "cifar100",
+  "model": "cnn",
+  "seed": 0,
+  "method": "continuous",
+  "alpha": 0.3,
+  "budget_fraction": 0.4,
+  "contract": {
+    "active": [
+      false,
+      false,
+      false,
+      true,
+      true,
+      false
+    ],
+    "u": [
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      1.0,
+      0.0
+    ],
+    "price": [
+      0.0,
+      0.0,
+      0.0,
+      0.3105851604360919,
+      0.260762122935843,
+      0.0
+    ],
+    "payment": [
+      0.0,
+      0.0,
+      0.0,
+      0.05368982140071909,
+      0.04433535561293633,
+      0.0
+    ],
+    "total_payment": 0.09802517701365542,
+    "client_utility": [
+      0.0,
+      0.0,
+      0.0,
+      0.02579263378215702,
+      0.015263847116689547,
+      0.0
+    ],
+    "objective_normalized": 3.953180520808376e-05,
+    "budget": 0.10751238294425938,
+    "status": "ok",
+    "normalized_lower_bound": 3.953180520808376e-05,
+    "normalized_absolute_gap": 0.0,
+    "enumerated_modes": 729,
+    "feasible_modes": 427,
+    "solver_failures": 14,
+    "converged_to_requested_gap": true,
+    "requested_normalized_gap": 1e-07,
+    "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+  },
+  "test": {
+    "acc": 0.0096,
+    "ce": 4.6056023071289065,
+    "n": 10000
+  },
+  "validation": {
+    "acc": 0.0104,
+    "ce": 4.6055876953125,
+    "n": 5000
+  },
+  "initial_validation": {
+    "acc": 0.0106,
+    "ce": 4.60572578125,
+    "n": 5000
+  },
+  "history": [
+    {
+      "round": 2,
+      "validation": {
+        "acc": 0.0104,
+        "ce": 4.6055876953125,
+        "n": 5000
+      },
+      "seconds": 0.07969832420349121
+    }
+  ],
+  "seconds": 0.11916732788085938,
+  "gradient_steps": 8,
+  "expected_synthetic_draws": 256.0
+}

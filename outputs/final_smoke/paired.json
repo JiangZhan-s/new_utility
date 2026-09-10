@@ -1,0 +1,119 @@
+[
+  {
+    "dataset": "cifar100",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "public_price",
+    "paired_seeds": [
+      0
+    ],
+    "mean_delta_pp": 0.0,
+    "ci95_low_pp": null,
+    "ci95_high_pp": null
+  },
+  {
+    "dataset": "cifar100",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "three_state",
+    "paired_seeds": [
+      0
+    ],
+    "mean_delta_pp": 0.01999999999999988,
+    "ci95_low_pp": null,
+    "ci95_high_pp": null
+  },
+  {
+    "dataset": "fmnist",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "fedavg_all",
+    "paired_seeds": [
+      0
+    ],
+    "mean_delta_pp": -8.389999999999999,
+    "ci95_low_pp": null,
+    "ci95_high_pp": null
+  },
+  {
+    "dataset": "fmnist",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "no_aigc_budget",
+    "paired_seeds": [
+      0
+    ],
+    "mean_delta_pp": 1.4700000000000004,
+    "ci95_low_pp": null,
+    "ci95_high_pp": null
+  },
+  {
+    "dataset": "fmnist",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "public_price",
+    "paired_seeds": [
+      0
+    ],
+    "mean_delta_pp": -8.84,
+    "ci95_low_pp": null,
+    "ci95_high_pp": null
+  },
+  {
+    "dataset": "fmnist",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "random_budget",
+    "paired_seeds": [
+      0
+    ],
+    "mean_delta_pp": -0.12999999999999956,
+    "ci95_low_pp": null,
+    "ci95_high_pp": null
+  },
+  {
+    "dataset": "fmnist",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "selected_no_aigc",
+    "paired_seeds": [
+      0
+    ],
+    "mean_delta_pp": -8.389999999999999,
+    "ci95_low_pp": null,
+    "ci95_high_pp": null
+  },
+  {
+    "dataset": "fmnist",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "synthetic_only",
+    "paired_seeds": [
+      0
+    ],
+    "mean_delta_pp": -9.16,
+    "ci95_low_pp": null,
+    "ci95_high_pp": null
+  },
+  {
+    "dataset": "fmnist",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "three_state",
+    "paired_seeds": [
+      0
+    ],
+    "mean_delta_pp": -1.9600000000000006,
+    "ci95_low_pp": null,
+    "ci95_high_pp": null
+  }
+]

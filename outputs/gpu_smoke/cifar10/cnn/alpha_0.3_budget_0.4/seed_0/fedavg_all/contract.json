@@ -1,0 +1,23 @@
+{
+  "status": "ok",
+  "active": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "u": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "objective_normalized": 0.0022316812267918627,
+  "total_payment": null,
+  "reference_only": true,
+  "note": "All-client learning reference; not a budget-feasible economic mechanism"
+}

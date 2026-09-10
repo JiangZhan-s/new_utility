@@ -1,0 +1,60 @@
+{
+  "dataset": "cifar10",
+  "model": "cnn",
+  "seed": 0,
+  "method": "fedavg_all",
+  "alpha": 0.3,
+  "budget_fraction": 0.4,
+  "contract": {
+    "status": "ok",
+    "active": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "u": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "objective_normalized": 0.0022316812267918627,
+    "total_payment": null,
+    "reference_only": true,
+    "note": "All-client learning reference; not a budget-feasible economic mechanism"
+  },
+  "test": {
+    "acc": 0.0932,
+    "ce": 2.304093231201172,
+    "n": 10000
+  },
+  "validation": {
+    "acc": 0.0932,
+    "ce": 2.304272229003906,
+    "n": 5000
+  },
+  "initial_validation": {
+    "acc": 0.0836,
+    "ce": 2.305102294921875,
+    "n": 5000
+  },
+  "history": [
+    {
+      "round": 2,
+      "validation": {
+        "acc": 0.0932,
+        "ce": 2.304272229003906,
+        "n": 5000
+      },
+      "seconds": 1.6055035591125488
+    }
+  ],
+  "seconds": 1.651235580444336,
+  "gradient_steps": 24,
+  "expected_synthetic_draws": 0.0
+}
