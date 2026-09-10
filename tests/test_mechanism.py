@@ -2,6 +2,7 @@ import unittest
 import numpy as np
 from baqp.mechanism import instance,solve,response,coefficients,objective,prices
 from baqp.data import additive_target_counts
+from baqp.experiment import local_epoch_steps
 
 class MechanismTests(unittest.TestCase):
     def interior(self):
@@ -24,6 +25,12 @@ class MechanismTests(unittest.TestCase):
         np.testing.assert_array_equal(final,[900,386])
         np.testing.assert_array_equal(added,[0,286])
         self.assertLess(np.max(np.abs(final/final.sum()-target)),2e-4)
+
+    def test_local_epoch_step_accounting(self):
+        self.assertEqual(local_epoch_steps(1000,128,2),16)
+        self.assertEqual(local_epoch_steps(5000,128,2),80)
+        self.assertEqual(local_epoch_steps(41000,32,2),2564)
+        with self.assertRaises(ValueError): local_epoch_steps(0,32,2)
 
     def test_analytic_interior(self):
         z=self.interior(); s=solve(z,tol=1e-9)
