@@ -75,13 +75,13 @@ def draw_additive_batch(plan,x,y,sx,sy,batch,rng):
     bx=torch.empty((batch,*x.shape[1:]),dtype=x.dtype)
     by=torch.empty(batch,dtype=y.dtype)
     if real_mask.any():
-        rid=np.asarray(plan['real_ids'])[choose[real_mask]]
-        bx[torch.from_numpy(np.flatnonzero(real_mask))]=x[rid]
-        by[torch.from_numpy(np.flatnonzero(real_mask))]=y[rid]
+        pos=torch.from_numpy(np.flatnonzero(real_mask))
+        rid=torch.from_numpy(np.asarray(plan['real_ids'])[choose[real_mask]])
+        bx[pos]=x[rid]; by[pos]=y[rid]
     if (~real_mask).any():
-        sid=np.asarray(plan['synthetic_ids'])[choose[~real_mask]-nr]
-        bx[torch.from_numpy(np.flatnonzero(~real_mask))]=sx[sid]
-        by[torch.from_numpy(np.flatnonzero(~real_mask))]=sy[sid]
+        pos=torch.from_numpy(np.flatnonzero(~real_mask))
+        sid=torch.from_numpy(np.asarray(plan['synthetic_ids'])[choose[~real_mask]-nr])
+        bx[pos]=sx[sid]; by[pos]=sy[sid]
     return bx,by,int((~real_mask).sum())
 
 
@@ -93,7 +93,6 @@ def train(args,contract,parts,counts,pstar,x,y,sx,sy,vx,vy,tx,ty,out):
     torch.use_deterministic_algorithms(True)
     model=model_for(args.model,x.shape[1:],len(pstar)).to(device)
     local=copy.deepcopy(model)
-    # Contract voting power remains tied to original client data quantity.
     weights=np.array([len(parts[k]) for k in active],dtype=float); weights/=weights.sum()
     rngs={k:np.random.default_rng(np.random.SeedSequence([args.seed,100,k])) for k in active}
     plans=build_augmented_indices(parts,counts,pstar,contract,sy,args.seed)
@@ -134,7 +133,7 @@ def main():
     p=argparse.ArgumentParser()
     p.add_argument('--dataset',choices=['cifar10','cifar100','fmnist'],required=True)
     p.add_argument('--data-root',default='data'); p.add_argument('--aigc-root',default='aigc_imgs')
-    p.add_argument('--output',default='outputs/real_baqp')
+    p.add_argument('--output',default='outputs/real_baqp_additive')
     p.add_argument('--seed',type=int,default=0); p.add_argument('--split-seed',type=int,default=2026)
     p.add_argument('--clients',type=int,default=6); p.add_argument('--alpha',type=float,default=.3)
     p.add_argument('--budget-fraction',type=float,default=.4)
@@ -143,7 +142,7 @@ def main():
     p.add_argument('--lr',type=float,default=None); p.add_argument('--model',choices=['cnn','softmax'],default='cnn')
     p.add_argument('--residual',action='store_true',help='Conservative finite-real-data residual objective; excludes generator error')
     p.add_argument('--device',default='cuda'); p.add_argument('--eval-every',type=int,default=10)
-    p.add_argument('--methods',nargs='+',default=['fedavg_all','no_aigc_budget','random_budget','three_state','public_price','continuous','selected_no_aigc','synthetic_only'])
+    p.add_argument('--methods',nargs='+',default=['fedavg_all','no_aigc_budget','random_budget','three_state','public_price','continuous','selected_no_aigc','full_balance_all'])
     p.add_argument('--prepare-only',action='store_true'); p.add_argument('--resume',action='store_true')
     args=p.parse_args()
     args.mu=(.05 if args.model=='softmax' else .0005) if args.mu is None else args.mu
@@ -189,8 +188,7 @@ def main():
         if method=='selected_no_aigc':
             cp=out/'continuous'/'contract.json'
             selected=json.loads(cp.read_text()) if cp.exists() else solve(z)
-            if selected['status']!='ok':
-                contract=dict(status='infeasible')
+            if selected['status']!='ok': contract=dict(status='infeasible')
             else:
                 contract=dict(status='ok',active=selected['active'],u=[0.]*args.clients,
                               total_payment=None,reference_only=True,
@@ -200,12 +198,11 @@ def main():
                           objective_normalized=objective(z,np.ones(args.clients,dtype=bool),np.zeros(args.clients)),
                           total_payment=None,reference_only=True,
                           note='All-client real-data reference; not a budget-feasible economic mechanism')
-        elif method=='synthetic_only':
-            # Retain the historical diagnostic as an intentionally separate reference.
+        elif method=='full_balance_all':
             contract=dict(status='ok',active=[True]*args.clients,u=[1.]*args.clients,
                           objective_normalized=objective(z,np.ones(args.clients,dtype=bool),np.ones(args.clients)),
                           total_payment=None,reference_only=True,
-                          note='Addition-only full balancing reference: all original samples retained and AIGC is added until p_star is reached')
+                          note='All clients retain all original data and add AIGC samples until their label distribution reaches p_star')
         elif method in builders:
             if args.resume and (dest/'contract.json').exists(): contract=json.loads((dest/'contract.json').read_text())
             else: contract=builders[method]()
