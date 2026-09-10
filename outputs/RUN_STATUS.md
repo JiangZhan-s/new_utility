@@ -14,3 +14,5 @@
 - 自动汇总作业 `1588637`：正式作业结束后生成 `outputs/real_baqp/summary.*` 与 `paired.*`。
 
 - 已确认修复后GPU烟测1588633三个任务全部COMPLETED，ExitCode均0:0，各12秒。正式1588636已解除依赖、等待GPU调度。
+
+- 正式作业1588636全部15任务成功，汇总1588637成功；115个完整训练结果，CIFAR-100无增强合同不可实施而跳过5次。最终报告：`outputs/real_baqp/RESULTS_REPORT.md`。
