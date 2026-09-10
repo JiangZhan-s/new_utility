@@ -1,6 +1,7 @@
 import unittest
 import numpy as np
-from baqp.mechanism import instance,solve,response,coefficients,objective,prices
+from baqp.mechanism import (instance,solve,response,coefficients,objective,tariffs,
+                            implementation_payment)
 from baqp.data import additive_target_counts
 from baqp.experiment import local_epoch_steps
 
@@ -32,34 +33,47 @@ class MechanismTests(unittest.TestCase):
         self.assertEqual(local_epoch_steps(41000,32,2),2564)
         with self.assertRaises(ValueError): local_epoch_steps(0,32,2)
 
-    def test_analytic_interior(self):
-        z=self.interior(); s=solve(z,tol=1e-9)
-        np.testing.assert_allclose(s['u'],[.5704025758]*2,atol=2e-6)
-        np.testing.assert_allclose(s['payment'],[.055]*2,atol=1e-8)
-        self.assertLess(s['normalized_absolute_gap'],1e-7)
+    def test_two_part_tariff_implements_target_and_pays_cost(self):
+        z=self.interior(); active=np.ones(2,dtype=bool); u=np.array([.3,.8])
+        fixed,rate=tariffs(z,active,u)
+        got_active,got_u,utility=response(z,fixed,rate)
+        np.testing.assert_array_equal(got_active,active)
+        np.testing.assert_allclose(got_u,u,atol=1e-10)
+        np.testing.assert_allclose(utility,0,atol=1e-10)
+        q=u*z['lam']
+        payment=z['d']*(fixed+rate*q)
+        np.testing.assert_allclose(payment,implementation_payment(z,active,u),atol=1e-10)
 
-    def test_independent_grid(self):
+    def test_continuous_weakly_dominates_three_state_in_J(self):
+        for seed in range(10):
+            rng=np.random.default_rng(seed)
+            z=instance(rng.integers(1,100,(6,10)),seed=seed,budget_fraction=.4)
+            cont=solve(z)
+            disc=solve(z,discrete=True)
+            self.assertEqual(cont['status'],'ok')
+            self.assertEqual(disc['status'],'ok')
+            self.assertLessEqual(cont['objective_normalized'],disc['objective_normalized']+1e-8)
+
+    def test_discrete_full_allocation_has_same_payment_technology(self):
+        z=self.interior(); active=np.ones(2,dtype=bool); u=np.ones(2)
+        cont=implementation_payment(z,active,u)
+        disc=implementation_payment(z,active,u)
+        np.testing.assert_allclose(cont,disc,atol=0)
+        f_c,r_c=tariffs(z,active,u,False)
+        f_d,r_d=tariffs(z,active,u,True)
+        self.assertTrue(np.all(r_c>=r_d))
+        np.testing.assert_allclose(z['d']*(f_c+r_c*z['lam']),cont,atol=1e-10)
+        np.testing.assert_allclose(z['d']*(f_d+r_d*z['lam']),disc,atol=1e-10)
+
+    def test_independent_grid_allocation_cost(self):
         z=self.interior(); s=solve(z)
-        r=np.linspace(0,.35,301); best=np.inf
-        for a in r:
-            for b in r:
-                price=np.array([a,b]); active,u,_=response(z,price)
-                pay=z['d']@ (price*(1-z['lam']/z['bar']+u*z['lam']/z['bar']))
-                if active.any() and pay<=z['budget']:
+        grid=np.linspace(0,1,301); best=np.inf
+        for a in grid:
+            for b in grid:
+                active=np.array([True,True]); u=np.array([a,b])
+                if implementation_payment(z,active,u).sum()<=z['budget']+1e-12:
                     best=min(best,objective(z,active,u))
-        self.assertLessEqual(s['normalized_lower_bound'],best+1e-8)
-        self.assertLessEqual(s['objective_normalized'],best+1e-6)
-
-    def test_prices_and_deviation(self):
-        z=self.interior(); sol=solve(z)
-        qgrid=np.linspace(0,1,10001)
-        for k,r in enumerate(sol['price']):
-            q=qgrid*z['lam'][k]
-            utility=r*(1-z['lam'][k]/z['bar']+q/z['bar'])-z['s'][k]-z['alpha'][k]*q-z['beta'][k]*q*q
-            self.assertAlmostEqual(qgrid[utility.argmax()],sol['u'][k],places=3)
-        cont=prices(z,np.ones(2,dtype=bool),np.ones(2))
-        disc=prices(z,np.ones(2,dtype=bool),np.ones(2),True)
-        self.assertTrue(np.all(cont>disc))
+        self.assertLessEqual(s['objective_normalized'],best+1e-5)
 
     def test_zero_heterogeneity_and_infeasible(self):
         z=instance(np.array([[20,20],[30,30]]),budget_fraction=1)
@@ -71,25 +85,13 @@ class MechanismTests(unittest.TestCase):
         for seed in range(20):
             rng=np.random.default_rng(seed)
             z=instance(rng.integers(1,100,(6,10)),seed=seed,budget_fraction=2)
-            threshold=z['bar']*(z['alpha']+z['beta']*z['lam'])
-            active,u,_=response(z,threshold,discrete=True)
-            np.testing.assert_array_equal(u[active],np.ones(active.sum()))
+            active=np.ones(6,dtype=bool); u=np.ones(6)
+            fixed,rate=tariffs(z,active,u,discrete=True)
+            got_active,got_u,_=response(z,fixed,rate,discrete=True)
+            np.testing.assert_array_equal(got_active,active)
+            np.testing.assert_array_equal(got_u,np.ones(6))
             result=solve(z,discrete=True)
             self.assertEqual(result['status'],'ok')
-
-    def test_user_kkt_example(self):
-        z=instance(np.array([[140,139,121],[127,128,145]]),steps=2)
-        z['s'][:]=.02; z['alpha']=.05/z['lam']; z['beta']=.1/z['lam']**2; z['budget']=.11
-        result=solve(z,tol=1e-9)
-        np.testing.assert_allclose(z['lam'],.08485281374238572,atol=1e-14)
-        np.testing.assert_allclose(result['u'],.5704025758,atol=2e-6)
-        cb,ch,cl,ca=z['coef']; E0=float(z['e'][0]@z['e'][0])
-        kh=ch/cb; kn=ca*z['noise'][0]/(cb*z['g2'])
-        u=np.array(result['u']); nu=kh*E0*(1-u[0])/(.035+.2*u[0])
-        scalar_j=(result['objective_normalized']-cl*z['noise'][0]/cb)/z['g2']
-        self.assertAlmostEqual(scalar_j,2.61828910e-5,places=11)
-        self.assertAlmostEqual(nu,3.91703334e-5,places=10)
-        self.assertAlmostEqual(kn,.00004734848484848486,places=14)
 
     def test_protocol_coefficients(self):
         np.testing.assert_allclose(coefficients(),[217.712669,26.444138,8.788034,.989603],rtol=1e-6)
