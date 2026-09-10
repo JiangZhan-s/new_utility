@@ -1,0 +1,176 @@
+import argparse
+import copy
+import hashlib
+import json
+import os
+import platform
+from pathlib import Path
+import time
+import numpy as np
+import torch
+from torch import nn
+from .data import load_real,load_synthetic,split_train,audit
+from .mechanism import instance,solve,public_discrete,random_feasible,objective
+
+
+def save(path,obj):
+    path=Path(path); path.parent.mkdir(parents=True,exist_ok=True)
+    tmp=path.with_suffix(path.suffix+'.tmp')
+    tmp.write_text(json.dumps(obj,indent=2,ensure_ascii=False,allow_nan=False)); tmp.replace(path)
+
+
+def model_for(kind,shape,classes):
+    if kind=='softmax': return nn.Sequential(nn.Flatten(),nn.Linear(int(np.prod(shape)),classes,bias=False))
+    return nn.Sequential(nn.Conv2d(shape[0],32,3,padding=1),nn.ReLU(),nn.MaxPool2d(2),
+                         nn.Conv2d(32,64,3,padding=1),nn.ReLU(),nn.MaxPool2d(2),
+                         nn.Conv2d(64,128,3,padding=1),nn.ReLU(),nn.AvgPool2d(shape[-1]//8),
+                         nn.Flatten(),nn.Linear(512,classes))
+
+
+def preprocess(x,kind):
+    x=x.float()/255
+    if kind=='softmax':
+        # Unit-ball features: L <= .5 + mu, all parameters L2 regularized.
+        x=x/torch.linalg.vector_norm(x.flatten(1),dim=1).clamp_min(1)[:,None,None,None]
+    else: x=(x-.5)/.5
+    return x
+
+
+@torch.no_grad()
+def evaluate(model,x,y,device,kind):
+    model.eval(); correct=0; loss=0
+    for i in range(0,len(y),512):
+        target=y[i:i+512].to(device); logits=model(preprocess(x[i:i+512].to(device),kind))
+        correct+=(logits.argmax(1)==target).sum().item()
+        loss+=nn.functional.cross_entropy(logits,target,reduction='sum').item()
+    return dict(acc=correct/len(y),ce=loss/len(y),n=len(y))
+
+
+def train(args,contract,parts,pstar,x,y,sx,sy,vx,vy,tx,ty,out):
+    device=torch.device(args.device); active=np.flatnonzero(contract['active'])
+    if not len(active): raise ValueError('No active clients')
+    torch.manual_seed(args.seed)
+    if device.type=='cuda': torch.cuda.manual_seed_all(args.seed)
+    torch.use_deterministic_algorithms(True)
+    model=model_for(args.model,x.shape[1:],len(pstar)).to(device)
+    local=copy.deepcopy(model)
+    weights=np.array([len(parts[k]) for k in active],dtype=float); weights/=weights.sum()
+    rngs={k:np.random.default_rng(np.random.SeedSequence([args.seed,100,k])) for k in active}
+    pools=[torch.where(sy==c)[0].numpy() for c in range(len(pstar))]
+    history=[]; start=time.time(); initial=evaluate(model,vx,vy,device,args.model)
+    for t in range(args.rounds):
+        state={k:v.detach().clone() for k,v in model.state_dict().items()}
+        aggregate={k:torch.zeros_like(v) for k,v in state.items()}
+        for k,weight in zip(active,weights):
+            local.load_state_dict(state); local.train()
+            optimizer=torch.optim.SGD(local.parameters(),lr=args.lr,weight_decay=args.mu)
+            rng=rngs[k]
+            for _ in range(args.steps):
+                # Fixed draws per client/step improve pairing across mechanisms.
+                real_ids=rng.choice(parts[k],args.batch)
+                mask=rng.random(args.batch)<contract['u'][k]
+                labels=rng.choice(len(pstar),args.batch,p=pstar)
+                quantiles=rng.random(args.batch)
+                synthetic_ids=np.array([pools[c][min(int(v*len(pools[c])),len(pools[c])-1)] for c,v in zip(labels,quantiles)])
+                bx=x[real_ids].clone(); by=y[real_ids].clone()
+                if mask.any():
+                    bx[mask]=sx[synthetic_ids[mask]]; by[mask]=sy[synthetic_ids[mask]]
+                optimizer.zero_grad(set_to_none=True)
+                loss=nn.functional.cross_entropy(local(preprocess(bx.to(device),args.model)),by.to(device))
+                loss.backward(); optimizer.step()
+            for name,value in local.state_dict().items(): aggregate[name].add_(value,alpha=float(weight))
+        model.load_state_dict(aggregate)
+        if (t+1)%args.eval_every==0 or t+1==args.rounds:
+            val=evaluate(model,vx,vy,device,args.model)
+            history.append(dict(round=t+1,validation=val,seconds=time.time()-start))
+            save(out/'history.json',history)
+            print(json.dumps(dict(method=out.name,round=t+1,val_acc=val['acc'])),flush=True)
+    # Fixed final round is primary endpoint; test does not select contracts or checkpoints.
+    test=evaluate(model,tx,ty,device,args.model)
+    torch.save(model.state_dict(),out/'final_model.pt')
+    return dict(test=test,validation=history[-1]['validation'],initial_validation=initial,
+                history=history,seconds=time.time()-start,
+                gradient_steps=int(args.rounds*args.steps*len(active)),
+                expected_synthetic_draws=float(args.rounds*args.steps*args.batch*np.sum(np.array(contract['u'])[active])))
+
+
+def main():
+    p=argparse.ArgumentParser()
+    p.add_argument('--dataset',choices=['cifar10','cifar100','fmnist'],required=True)
+    p.add_argument('--data-root',default='data'); p.add_argument('--aigc-root',default='aigc_imgs')
+    p.add_argument('--output',default='outputs/real_baqp')
+    p.add_argument('--seed',type=int,default=0); p.add_argument('--split-seed',type=int,default=2026)
+    p.add_argument('--clients',type=int,default=6); p.add_argument('--alpha',type=float,default=.3)
+    p.add_argument('--budget-fraction',type=float,default=.4)
+    p.add_argument('--rounds',type=int,default=100); p.add_argument('--steps',type=int,default=5)
+    p.add_argument('--batch',type=int,default=32); p.add_argument('--mu',type=float,default=None)
+    p.add_argument('--lr',type=float,default=None); p.add_argument('--model',choices=['cnn','softmax'],default='cnn')
+    p.add_argument('--residual',action='store_true',help='Conservative finite-real-data residual objective; excludes generator error')
+    p.add_argument('--device',default='cuda'); p.add_argument('--eval-every',type=int,default=10)
+    p.add_argument('--methods',nargs='+',default=['fedavg_all','no_aigc_budget','random_budget','three_state','public_price','continuous','selected_no_aigc','synthetic_only'])
+    p.add_argument('--prepare-only',action='store_true'); p.add_argument('--resume',action='store_true')
+    args=p.parse_args()
+    args.mu=(.05 if args.model=='softmax' else .0005) if args.mu is None else args.mu
+    args.lr=(.1/(.5+args.mu) if args.model=='softmax' else .05) if args.lr is None else args.lr
+    if min(args.rounds,args.steps,args.batch,args.eval_every,args.clients)<1 or args.alpha<=0: p.error('Positive counts/alpha required')
+    if args.model=='cnn' and args.residual: p.error('The analytic residual bound is only implemented for unit-ball softmax')
+    if args.device.startswith('cuda') and not args.prepare_only and 'SLURM_JOB_ID' not in os.environ:
+        p.error('GPU training must run inside a Slurm allocation')
+    torch.set_num_threads(2)
+    x,y,tx,ty=load_real(args.data_root,args.dataset); classes=int(y.max())+1
+    sx,sy,cache=load_synthetic(args.aigc_root,args.dataset,classes)
+    if sx.shape[1:]!=x.shape[1:]: raise ValueError('Real/synthetic shape mismatch')
+    parts,valid,counts=split_train(y,classes,args.clients,args.alpha,args.split_seed)
+    z=instance(counts,args.split_seed,args.budget_fraction,args.rounds,args.steps,args.batch,
+               args.mu,.5+args.mu,args.lr,args.residual)
+    out=Path(args.output)/args.dataset/args.model/f'alpha_{args.alpha}_budget_{args.budget_fraction}'/f'seed_{args.seed}'
+    out.mkdir(parents=True,exist_ok=True)
+    setting={k:v for k,v in vars(args).items() if k not in ('resume','prepare_only','methods','output')}
+    hashes={str(f):hashlib.sha256(f.read_bytes()).hexdigest() for f in Path(__file__).parent.glob('*.py')}
+    setting['source_sha256']=hashes
+    fingerprint=hashlib.sha256(json.dumps(setting,sort_keys=True).encode()).hexdigest()
+    if (out/'metadata.json').exists():
+        old=json.loads((out/'metadata.json').read_text())
+        if old['fingerprint']!=fingerprint: raise ValueError('Output configuration/code changed; choose a new --output')
+        if not args.resume: raise ValueError('Output exists; use --resume or a new --output')
+    diagnostic=audit(x,y,sx,sy,parts,classes)
+    np.savez_compressed(out/'partition.npz',validation=valid,counts=counts,**{f'client_{k}':v for k,v in enumerate(parts)})
+    save(out/'metadata.json',dict(config=vars(args),fingerprint=fingerprint,source_sha256=hashes,
+        torch=torch.__version__,numpy=np.__version__,python=platform.python_version(),slurm_job=os.getenv('SLURM_JOB_ID'),
+        cache=str(cache.resolve()),cache_bytes=cache.stat().st_size,cache_mtime_ns=cache.stat().st_mtime_ns,
+        partition_sha256=hashlib.sha256((out/'partition.npz').read_bytes()).hexdigest(),
+        instance={k:v.tolist() if isinstance(v,np.ndarray) else v for k,v in z.items()},audit=diagnostic,
+        interpretation='Empirical AIGC experiment; J is a proxy, generator mismatch is not certified; CNN is outside the convex theorem',
+        accuracy_certificate=None))
+    builders={'continuous':lambda:solve(z),'three_state':lambda:solve(z,discrete=True),
+              'no_aigc_budget':lambda:solve(z,raw_only=True),'public_price':lambda:public_discrete(z),
+              'random_budget':lambda:random_feasible(z,args.split_seed)}
+    for method in args.methods:
+        dest=out/method; dest.mkdir(exist_ok=True)
+        if args.resume and (dest/'result.json').exists(): continue
+        if method=='selected_no_aigc':
+            cp=out/'continuous'/'contract.json'
+            selected=json.loads(cp.read_text()) if cp.exists() else solve(z)
+            if selected['status']!='ok':
+                contract=dict(status='infeasible')
+            else:
+                contract=dict(status='ok',active=selected['active'],u=[0.]*args.clients,
+                              total_payment=None,reference_only=True,
+                              note='Same participants as continuous, no augmentation; learning ablation, not an implementable contract')
+        elif method in ('fedavg_all','synthetic_only'):
+            contract=dict(status='ok',active=[True]*args.clients,u=[float(method=='synthetic_only')]*args.clients,
+                          objective_normalized=objective(z,np.ones(args.clients,dtype=bool),np.full(args.clients,float(method=='synthetic_only'))),
+                          total_payment=None,reference_only=True,
+                          note='All-client learning reference; not a budget-feasible economic mechanism')
+        elif method in builders:
+            if args.resume and (dest/'contract.json').exists(): contract=json.loads((dest/'contract.json').read_text())
+            else: contract=builders[method]()
+        else: raise ValueError('Unknown method '+method)
+        save(dest/'contract.json',contract)
+        print(json.dumps(dict(method=method,contract=contract)),flush=True)
+        if args.prepare_only or contract['status']!='ok': continue
+        metrics=train(args,contract,parts,counts.sum(0)/counts.sum(),x,y,sx,sy,x[valid],y[valid],tx,ty,dest)
+        save(dest/'result.json',dict(dataset=args.dataset,model=args.model,seed=args.seed,method=method,
+                                  alpha=args.alpha,budget_fraction=args.budget_fraction,contract=contract,**metrics))
+
+if __name__=='__main__': main()
