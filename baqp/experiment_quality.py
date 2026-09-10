@@ -1,18 +1,14 @@
 """Generator-aware BAQP experiment with fixed original-data compute.
 
-This experiment is designed to answer the two questions that the ideal-AIGC
-protocol could not answer fairly:
-  1. does the mechanism choose genuine interior enhancement levels?
-  2. can an interior real/synthetic mixture outperform full enhancement in
-     test accuracy when both receive the same local optimization budget?
+The experiment separates two questions:
+  1. does the learning-aware Stackelberg mechanism choose genuine interior u?
+  2. under equal local optimization compute, can that real/synthetic mixture
+     outperform full enhancement on held-out accuracy?
 
-For CNN runs, client k always performs
-
-    local_epochs * ceil(original_n_k / batch)
-
-updates per round, independent of u.  Batches are sampled from the addition-only
-real+synthetic multiset.  Thus full enhancement no longer receives extra SGD
-steps merely because it contains more generated samples.
+Generator quality is measured by default on a short **real-data-only FedAvg
+trajectory**, with matched-label real/synthetic gradient probes.  This avoids
+using the unrealistically optimistic initial-model-only discrepancy as the
+production calibration.
 """
 import argparse
 import copy
@@ -30,8 +26,8 @@ from .data import load_real,load_synthetic,split_train,audit
 from .experiment import (save,model_for,preprocess,evaluate,build_augmented_indices,
                          draw_additive_batch,local_epoch_steps)
 from .mechanism_quality import instance,solve,objective,public_discrete,random_feasible
-from .quality import (estimate_gradient_gap,IMFL_CIFAR10_GAP_RATIO,
-                      IMFL_CIFAR10_G_DATA,IMFL_CIFAR10_G_DIFF)
+from .quality import (estimate_gradient_gap,estimate_gradient_gap_trajectory,
+                      IMFL_CIFAR10_GAP_RATIO,IMFL_CIFAR10_G_DATA,IMFL_CIFAR10_G_DIFF)
 
 
 def train_fixed_original_compute(args,contract,parts,counts,pstar,x,y,sx,sy,vx,vy,tx,ty,out):
@@ -81,8 +77,7 @@ def train_fixed_original_compute(args,contract,parts,counts,pstar,x,y,sx,sy,vx,v
     return dict(test=test,validation=history[-1]['validation'],initial_validation=initial,
                 history=history,seconds=time.time()-start,
                 training_mode='fixed_original_data_compute_sampling_from_augmented_mixture',
-                local_epochs_reference=int(args.local_epochs),
-                fixed_steps_per_client_per_round=steps_per_client,
+                local_epochs_reference=int(args.local_epochs),fixed_steps_per_client_per_round=steps_per_client,
                 gradient_steps=int(gradient_steps),expected_gradient_steps=expected,
                 actual_real_draws=int(real_draws),actual_synthetic_draws=int(synthetic_draws),
                 augmentation={str(k):{kk:vv for kk,vv in v.items() if kk not in ('real_ids','synthetic_ids')}
@@ -100,14 +95,22 @@ def resolve_gap(args,x,y,sx,sy,parts,classes):
             raise ValueError('--generator-gap-ratio >=0 is required with --generator-gap-source value')
         return float(args.generator_gap_ratio),dict(method='user_supplied_sensitivity',
                                                      generator_gap_ratio=float(args.generator_gap_ratio))
-    # Cache-specific pointwise calibration at the common initial model.
     torch.manual_seed(args.quality_seed)
     ref=model_for(args.model,x.shape[1:],classes)
-    train_ids=np.concatenate(parts)
-    estimate=estimate_gradient_gap(ref,x[train_ids],y[train_ids],sx,sy,args.model,
-                                   device=args.quality_device,classes=classes,
-                                   max_samples_per_class=args.quality_samples_per_class,
-                                   seed=args.quality_seed,batch=args.quality_batch)
+    if args.generator_gap_source=='initial':
+        train_ids=np.concatenate(parts)
+        estimate=estimate_gradient_gap(ref,x[train_ids],y[train_ids],sx,sy,args.model,
+                                       device=args.quality_device,classes=classes,
+                                       max_samples_per_class=args.quality_samples_per_class,
+                                       seed=args.quality_seed,batch=args.quality_batch)
+    else:
+        estimate=estimate_gradient_gap_trajectory(
+            ref,x,y,sx,sy,parts,args.model,device=args.quality_device,classes=classes,
+            rounds=args.quality_rounds,local_steps=args.quality_local_steps,
+            train_batch=args.batch,probe_batch=args.quality_batch,
+            max_probe_samples_per_client=args.quality_samples_per_client,
+            lr=args.lr,weight_decay=args.mu,seed=args.quality_seed,
+            probe_every=args.quality_probe_every)
     return float(estimate['generator_gap_ratio']),estimate
 
 
@@ -125,20 +128,26 @@ def main():
     p.add_argument('--lr',type=float,default=None); p.add_argument('--model',choices=['cnn','softmax'],default='cnn')
     p.add_argument('--device',default='cuda'); p.add_argument('--eval-every',type=int,default=10)
     p.add_argument('--base-cost-total',type=float,default=1.0); p.add_argument('--aigc-unit-cost',type=float,default=1.0)
-    p.add_argument('--generator-gap-source',choices=['measured','imfl','value'],default='measured')
+    p.add_argument('--generator-gap-source',choices=['trajectory','initial','imfl','value'],default='trajectory')
     p.add_argument('--generator-gap-ratio',type=float,default=None)
-    p.add_argument('--quality-device',default='cpu')
-    p.add_argument('--quality-seed',type=int,default=2026)
-    p.add_argument('--quality-samples-per-class',type=int,default=512)
+    p.add_argument('--quality-device',default='cpu'); p.add_argument('--quality-seed',type=int,default=2026)
+    p.add_argument('--quality-samples-per-class',type=int,default=512,
+                   help='Only for the legacy initial-model diagnostic')
+    p.add_argument('--quality-samples-per-client',type=int,default=512,
+                   help='Real samples per client in each trajectory quality probe')
     p.add_argument('--quality-batch',type=int,default=256)
+    p.add_argument('--quality-rounds',type=int,default=20)
+    p.add_argument('--quality-local-steps',type=int,default=5)
+    p.add_argument('--quality-probe-every',type=int,default=1)
     p.add_argument('--methods',nargs='+',default=['fedavg_all','no_aigc_budget','three_state','continuous',
                                                   'selected_no_aigc','selected_full'])
     p.add_argument('--prepare-only',action='store_true'); p.add_argument('--resume',action='store_true')
     args=p.parse_args()
     args.mu=(.05 if args.model=='softmax' else .0005) if args.mu is None else args.mu
     args.lr=(.1/(.5+args.mu) if args.model=='softmax' else .05) if args.lr is None else args.lr
-    if min(args.rounds,args.steps,args.local_epochs,args.batch,args.eval_every,args.clients)<1 or args.alpha<=0:
-        p.error('positive counts/alpha required')
+    if min(args.rounds,args.steps,args.local_epochs,args.batch,args.eval_every,args.clients,
+           args.quality_rounds,args.quality_local_steps,args.quality_batch,args.quality_probe_every)<1 or args.alpha<=0:
+        p.error('positive counts/alpha/quality controls required')
     if args.device.startswith('cuda') and not args.prepare_only and 'SLURM_JOB_ID' not in os.environ:
         p.error('GPU training must run inside a Slurm allocation')
     torch.set_num_threads(2)
@@ -173,9 +182,8 @@ def main():
         augmentation_semantics='addition_only: retain every original sample and add class-targeted AIGC samples',
         training_semantics='fixed original-data local compute; sample from the real+synthetic mixture with replacement',
         aggregation_semantics='FedAvg weights use original client sample counts',
-        interpretation=('Generator-aware empirical experiment. The measured gradient gap is a pointwise proxy, not a '
-                        'uniform trajectory certificate; actual CNN accuracy remains an empirical outcome.'),
-        accuracy_certificate=None))
+        interpretation=('Generator-aware empirical experiment. Trajectory quality is a train-only empirical envelope; '
+                        'actual CNN accuracy remains an empirical outcome.'),accuracy_certificate=None))
     builders={'continuous':lambda:solve(z),'three_state':lambda:solve(z,discrete=True),
               'no_aigc_budget':lambda:solve(z,raw_only=True),'public_price':lambda:public_discrete(z),
               'random_budget':lambda:random_feasible(z,args.split_seed)}
@@ -190,11 +198,11 @@ def main():
             if continuous_cache['status']!='ok': contract=dict(status='infeasible')
             else:
                 level=0.0 if method=='selected_no_aigc' else 1.0
-                contract=dict(status='ok',active=continuous_cache['active'],u=[level if a else 0.0 for a in continuous_cache['active']],
-                              objective_normalized=objective(z,np.asarray(continuous_cache['active'],bool),
-                                                             np.array([level if a else 0.0 for a in continuous_cache['active']])),
-                              total_payment=None,reference_only=True,
-                              note=('Same participants as continuous; fixed-compute learning ablation, not necessarily budget-feasible.'))
+                uu=np.array([level if a else 0.0 for a in continuous_cache['active']])
+                aa=np.asarray(continuous_cache['active'],bool)
+                contract=dict(status='ok',active=continuous_cache['active'],u=uu.tolist(),
+                              objective_normalized=objective(z,aa,uu),total_payment=None,reference_only=True,
+                              note='Same participants as continuous; fixed-compute learning ablation, not necessarily budget-feasible.')
         elif method=='fedavg_all':
             active=np.ones(args.clients,dtype=bool); u=np.zeros(args.clients)
             contract=dict(status='ok',active=active.tolist(),u=u.tolist(),objective_normalized=objective(z,active,u),
@@ -206,8 +214,7 @@ def main():
         elif method in builders:
             contract=builders[method]()
             if method=='continuous': continuous_cache=contract
-        else:
-            raise ValueError('Unknown method '+method)
+        else: raise ValueError('Unknown method '+method)
         save(dest/'contract.json',contract)
         print(json.dumps(dict(method=method,contract=contract)),flush=True)
         if args.prepare_only or contract['status']!='ok': continue
@@ -217,5 +224,4 @@ def main():
                                   generator_gap_ratio=gap,contract=contract,**metrics))
 
 
-if __name__=='__main__':
-    main()
+if __name__=='__main__': main()
