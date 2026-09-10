@@ -1,18 +1,37 @@
-"""BAQP Stackelberg mechanism with two-part tariffs.
+"""BAQP Stackelberg mechanism with data-calibrated client types.
+
+The game and server objective are unchanged.  The important change in this
+revision is type construction: s_k, alpha_k and beta_k are no longer drawn at
+random.  They are deterministically calibrated from each client's original
+sample mass and the amount of addition-only AIGC data required to repair its
+label skew.
 
 The server offers each client a fixed transfer b_k and a marginal enhancement
-price r_k.  Conditional on participation, client k solves
+price r_k. Conditional on participation, client k solves
 
     max_{0<=q<=lambda} b + r q - s - alpha q - beta q^2.
 
-The fixed transfer is allowed to be signed (standard two-part tariff).  With
-complete information and verifiable quality, the minimum implementing tariff
-makes IR bind, so total payment equals the client's true cost
+With u=q/lambda, the enhancement-cost bracket is A_k u+B_k u^2, where
+A_k=alpha_k lambda_k and B_k=beta_k lambda_k^2.  Let
 
-    pi_k(q) = d_k (s_k + alpha_k q + beta_k q^2).
+    R_k=max_y p_k(y)/p_*(y),  gamma_k=1-1/R_k.
 
-This makes the three-state allocation q in {0,lambda} a genuine restriction of
-the continuous allocation q in [0,lambda] under the same budget technology.
+Addition-only label repair requires, in the continuous-count relaxation,
+
+    m_k(u)/n_k = gamma_k u/(1-gamma_k u).
+
+We calibrate
+
+    A_k = kappa_A gamma_k,
+    B_k = kappa_A gamma_k^2/(1-gamma_k).
+
+This matches the true initial marginal synthetic workload and the exact full
+workload m_k(1)=n_k(R_k-1).  The resulting quadratic is also a conservative
+upper bound on the exact normalized workload for every u in [0,1].
+
+The effective fixed participation payment d_k s_k is deterministic and equal
+across clients by default.  Thus no client is accidentally cheap merely because
+of a random draw.  Global cost scales remain explicit scenario parameters.
 """
 import itertools
 import numpy as np
@@ -31,8 +50,61 @@ def coefficients(rounds=100, steps=5, mu=.05, smooth=.55, lr=None):
                      2*smooth**3*lr**2*a/mu**2*(w*e).sum(), smooth*lr*a/(2*mu)])
 
 
+def calibrated_types(counts, lam, base_cost_total=1.0, aigc_unit_cost=1.0):
+    """Deterministically calibrate (s, alpha, beta) from client data.
+
+    `base_cost_total` is the total fixed participation cost if all K clients
+    participate, so every client's *effective* fixed cost d_k*s_k equals
+    base_cost_total/K.  `aigc_unit_cost` is the normalized cost of adding one
+    dataset-equivalent mass of synthetic samples.
+
+    The original quadratic Stackelberg cost is retained; only its coefficients
+    are calibrated from the addition-only workload.
+    """
+    counts=np.asarray(counts,dtype=float)
+    if counts.ndim!=2 or np.any(counts<0):
+        raise ValueError('counts must be a nonnegative client-by-class matrix')
+    n=counts.sum(1)
+    if np.any(n<=0): raise ValueError('every client must have at least one sample')
+    if base_cost_total<=0 or aigc_unit_cost<=0:
+        raise ValueError('cost scales must be positive')
+    total=float(n.sum()); d=n/total; p=counts/n[:,None]; pstar=d@p
+    ratios=np.divide(p,pstar[None,:],out=np.zeros_like(p),where=pstar[None,:]>0)
+    R=np.maximum(1.0,ratios.max(1))
+    gamma=1.0-1.0/R
+    missing_ratio=R-1.0
+    full_synthetic_n=n*missing_ratio
+
+    # Preserve the model's meaning of s as a fixed participation cost.  Since
+    # the model multiplies the bracket by d_k, choose s_k so d_k*s_k is the
+    # same deterministic fixed amount for every client.
+    effective_fixed=np.full(len(n),float(base_cost_total)/len(n))
+    s=effective_fixed/d
+
+    # In u=q/lambda coordinates, d_k(A u+B u^2) is the enhancement payment.
+    # A matches the exact workload derivative at zero; A+B matches the exact
+    # full missing-data workload.  B = gamma^2/(1-gamma) >= 0.
+    A=float(aigc_unit_cost)*gamma
+    B=float(aigc_unit_cost)*np.divide(gamma*gamma,1.0-gamma,
+                                      out=np.zeros_like(gamma),where=(1.0-gamma)>0)
+    lam=np.asarray(lam,dtype=float)
+    safe=np.where(lam>0,lam,1.0)
+    alpha=A/safe
+    beta=B/(safe*safe)
+    # q is fixed at zero when lambda=0, but response() still evaluates the
+    # closed form before clipping.  A harmless positive beta avoids 0/0 there.
+    alpha=np.where(lam>0,alpha,0.0)
+    beta=np.where(lam>0,np.maximum(beta,np.finfo(float).eps),1.0)
+    return dict(s=s,alpha=alpha,beta=beta,R=R,gamma=gamma,
+                missing_ratio=missing_ratio,full_synthetic_n=full_synthetic_n,
+                effective_fixed_cost=effective_fixed,
+                base_cost_total=float(base_cost_total),
+                aigc_unit_cost=float(aigc_unit_cost))
+
+
 def instance(counts, seed=2026, budget_fraction=.4, rounds=100, steps=5,
-             batch=32, mu=.05, smooth=.55, lr=None, residual=False):
+             batch=32, mu=.05, smooth=.55, lr=None, residual=False,
+             base_cost_total=1.0, aigc_unit_cost=1.0):
     n = counts.sum(1); d = n/n.sum(); p = counts/n[:, None]
     e = p - d @ p
     eps = np.sqrt(2)*(2+np.abs(e).sum(1)) if residual else np.zeros(len(n))
@@ -40,25 +112,23 @@ def instance(counts, seed=2026, budget_fraction=.4, rounds=100, steps=5,
     # bar is retained only for backwards-compatible metadata; the two-part
     # tariff no longer uses the old quality-offset payment factor.
     bar = max(1.1*lam.max(), 1e-12)
-    rng = np.random.default_rng(seed)
-    s = rng.uniform(.01,.03,len(n)); ac = rng.uniform(.02,.08,len(n)); bc = rng.uniform(.04,.12,len(n))
-    alpha = ac/np.where(lam>0,lam,1); beta = bc/np.where(lam>0,lam**2,1)
+    types=calibrated_types(counts,lam,base_cost_total,aigc_unit_cost)
+    s,alpha,beta=types['s'],types['alpha'],types['beta']
     z = dict(d=d,e=e,lam=lam,bar=bar,s=s,alpha=alpha,beta=beta,eps=eps,
              coef=coefficients(rounds,steps,mu,smooth,lr),g2=2*counts.shape[1],noise=np.full(len(n),2/batch),
-             tariff='two_part_signed_fixed_transfer')
+             tariff='two_part_signed_fixed_transfer',
+             type_calibration='deterministic_additive_missing_workload_quadratic_upper_bound',
+             R=types['R'],gamma=types['gamma'],missing_ratio=types['missing_ratio'],
+             full_synthetic_n=types['full_synthetic_n'],
+             effective_fixed_cost=types['effective_fixed_cost'],
+             base_cost_total=types['base_cost_total'],aigc_unit_cost=types['aigc_unit_cost'])
     full_cost = s + alpha*lam + beta*lam**2
-    z['full_budget'] = float(d@full_cost)
-    z['budget'] = budget_fraction*z['full_budget']
+    z['full_budget'] = float(d@full_cost); z['budget'] = budget_fraction*z['full_budget']
     return z
 
 
 def response(z, fixed_transfer, marginal_price, discrete=False):
-    """Follower response to a two-part tariff (b_k,r_k).
-
-    fixed_transfer may be negative.  It shifts participation utility but does
-    not alter the conditional quality choice.  Zero-utility clients participate
-    by convention; discrete quality ties are broken toward full enhancement.
-    """
+    """Follower response to a two-part tariff (b_k,r_k)."""
     l,s,al,be = [z[k] for k in ('lam','s','alpha','beta')]
     b=np.asarray(fixed_transfer,dtype=float); r=np.asarray(marginal_price,dtype=float)
     if discrete:
@@ -73,13 +143,7 @@ def response(z, fixed_transfer, marginal_price, discrete=False):
 
 
 def tariffs(z, active, u, discrete=False):
-    """Minimum personalized two-part tariffs implementing an allocation.
-
-    For continuous interior/full choices r is marginal cost alpha+2 beta q and
-    the fixed transfer b makes IR bind.  For the discrete full endpoint the
-    switching price is alpha+beta lambda and b=s.  In both cases total payment
-    is exactly d*(s+alpha*q+beta*q^2).
-    """
+    """Minimum personalized two-part tariffs implementing an allocation."""
     l,s,al,be=[z[k] for k in ('lam','s','alpha','beta')]
     q=np.asarray(u,dtype=float)*l
     fixed=np.zeros(len(l)); price=np.zeros(len(l))
@@ -91,8 +155,6 @@ def tariffs(z, active, u, discrete=False):
             fixed[k]=s[k]
         else:
             price[k]=al[k]+2*be[k]*q[k]
-            # Signed fixed transfer.  Negative values are an entry fee/offset,
-            # not a negative total payment.
             fixed[k]=s[k]-be[k]*q[k]**2
     return fixed,price
 
@@ -118,7 +180,7 @@ def quadratic(z, active):
     if np.any(z['eps']):
         ep=z['eps']; Q=2*Q+2*cb*np.outer(a*ep,a*ep)+2*ch*np.diag(a*ep**2)
     constant=cl*(a@z['noise'])+ca*(a*a@z['noise'])
-    return Q,float(constant)
+    return Q, float(constant)
 
 
 def objective(z, active, u):
@@ -151,13 +213,7 @@ def package(z, active, u, discrete=False, fixed_transfer=None, price=None):
 
 
 def modes(z, discrete=False, raw_only=False):
-    """Allocation modes with one common implementation-cost technology.
-
-    Continuous: inactive or q/lambda in [0,1].
-    Three-state: inactive, q=0, or q=lambda.
-    Thus every discrete feasible allocation is feasible in the continuous
-    problem with exactly the same total payment.
-    """
+    """Allocation modes with one common implementation-cost technology."""
     out=[]
     for k,l in enumerate(z['lam']):
         d,s,al,be=[z[x][k] for x in ('d','s','alpha','beta')]
@@ -169,7 +225,6 @@ def modes(z, discrete=False, raw_only=False):
             full=(True,1.,1.,0.,0.,d*(s+al*l+be*l*l))
             out.append([inactive,raw,full])
         else:
-            # Cost in u=q/lambda: d*s+d*alpha*lambda*u+d*beta*lambda^2*u^2.
             continuous=(True,0.,1.,d*be*l*l,d*al*l,d*s)
             out.append([inactive,continuous])
     return out
@@ -229,12 +284,7 @@ def solve(z, discrete=False, raw_only=False, tol=1e-7, maxiter=800):
 
 
 def public_discrete(z):
-    """Common marginal-price two-part-tariff baseline.
-
-    The marginal enhancement price is common.  Fixed transfers are personalized
-    only to make participating clients' IR bind; this isolates the loss from a
-    common quality price while preserving the same cost technology.
-    """
+    """Common marginal-price two-part-tariff baseline."""
     l,s,al,be=[z[k] for k in ('lam','s','alpha','beta')]
     switches=al+be*l
     candidates=[0.]
