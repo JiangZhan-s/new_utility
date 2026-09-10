@@ -29,9 +29,10 @@ This matches the true initial marginal synthetic workload and the exact full
 workload m_k(1)=n_k(R_k-1).  The resulting quadratic is also a conservative
 upper bound on the exact normalized workload for every u in [0,1].
 
-The effective fixed participation payment d_k s_k is deterministic and equal
-across clients by default.  Thus no client is accidentally cheap merely because
-of a random draw.  Global cost scales remain explicit scenario parameters.
+The base coefficient s_k is a common per-unit-original-data cost.  Since the
+model multiplies the bracket by d_k=n_k/N, the effective base payment d_k s_k
+is proportional to original data mass.  Thus both base and enhancement costs
+are tied to observable workload rather than accidental random draws.
 """
 import itertools
 import numpy as np
@@ -53,13 +54,15 @@ def coefficients(rounds=100, steps=5, mu=.05, smooth=.55, lr=None):
 def calibrated_types(counts, lam, base_cost_total=1.0, aigc_unit_cost=1.0):
     """Deterministically calibrate (s, alpha, beta) from client data.
 
-    `base_cost_total` is the total fixed participation cost if all K clients
-    participate, so every client's *effective* fixed cost d_k*s_k equals
-    base_cost_total/K.  `aigc_unit_cost` is the normalized cost of adding one
-    dataset-equivalent mass of synthetic samples.
+    `base_cost_total` is the total base-data cost if all original data are
+    purchased.  Because sum_k d_k=1, setting every bracket coefficient
+    s_k=base_cost_total makes the effective payment d_k*s_k proportional to
+    client k's original sample mass.
 
-    The original quadratic Stackelberg cost is retained; only its coefficients
-    are calibrated from the addition-only workload.
+    `aigc_unit_cost` is the normalized cost of adding one original-dataset
+    equivalent mass of synthetic samples.  The original quadratic Stackelberg
+    cost is retained; only its coefficients are calibrated from the
+    addition-only workload.
     """
     counts=np.asarray(counts,dtype=float)
     if counts.ndim!=2 or np.any(counts<0):
@@ -75,11 +78,10 @@ def calibrated_types(counts, lam, base_cost_total=1.0, aigc_unit_cost=1.0):
     missing_ratio=R-1.0
     full_synthetic_n=n*missing_ratio
 
-    # Preserve the model's meaning of s as a fixed participation cost.  Since
-    # the model multiplies the bracket by d_k, choose s_k so d_k*s_k is the
-    # same deterministic fixed amount for every client.
-    effective_fixed=np.full(len(n),float(base_cost_total)/len(n))
-    s=effective_fixed/d
+    # The outer d_k already equals n_k/N.  A common s therefore makes the
+    # effective base payment d_k*s proportional to the amount of real data.
+    s=np.full(len(n),float(base_cost_total))
+    effective_fixed=d*s
 
     # In u=q/lambda coordinates, d_k(A u+B u^2) is the enhancement payment.
     # A matches the exact workload derivative at zero; A+B matches the exact
@@ -92,7 +94,7 @@ def calibrated_types(counts, lam, base_cost_total=1.0, aigc_unit_cost=1.0):
     alpha=A/safe
     beta=B/(safe*safe)
     # q is fixed at zero when lambda=0, but response() still evaluates the
-    # closed form before clipping.  A harmless positive beta avoids 0/0 there.
+    # closed form before clipping. A harmless positive beta avoids 0/0 there.
     alpha=np.where(lam>0,alpha,0.0)
     beta=np.where(lam>0,np.maximum(beta,np.finfo(float).eps),1.0)
     return dict(s=s,alpha=alpha,beta=beta,R=R,gamma=gamma,
@@ -109,8 +111,8 @@ def instance(counts, seed=2026, budget_fraction=.4, rounds=100, steps=5,
     e = p - d @ p
     eps = np.sqrt(2)*(2+np.abs(e).sum(1)) if residual else np.zeros(len(n))
     lam = np.sqrt(2)*np.abs(e).sum(1)+eps
-    # bar is retained only for backwards-compatible metadata; the two-part
-    # tariff no longer uses the old quality-offset payment factor.
+    # `seed` is retained for API compatibility; client cost types are now
+    # deterministic functions of the data rather than random draws.
     bar = max(1.1*lam.max(), 1e-12)
     types=calibrated_types(counts,lam,base_cost_total,aigc_unit_cost)
     s,alpha,beta=types['s'],types['alpha'],types['beta']
