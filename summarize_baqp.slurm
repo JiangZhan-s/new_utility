@@ -12,4 +12,4 @@
 #SBATCH --error=logs/summary_%j.err
 set -euo pipefail
 cd "${SLURM_SUBMIT_DIR:?}"
-/share/home/202521044325/miniconda3/envs/aigc39/bin/python -m baqp.summarize "${OUTPUT_ROOT:-outputs/real_baqp}"
+/share/home/202521044325/miniconda3/envs/aigc39/bin/python -m baqp.summarize "${OUTPUT_ROOT:-outputs/real_baqp_additive}"

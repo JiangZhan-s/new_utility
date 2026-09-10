@@ -1,0 +1,35 @@
+{
+  "validated_results": 115,
+  "validated_client_plans": 505,
+  "complete_by_dataset_method": {
+    "cifar10": {
+      "fedavg_all": 5,
+      "no_aigc_budget": 5,
+      "random_budget": 5,
+      "three_state": 5,
+      "public_price": 5,
+      "continuous": 5,
+      "selected_no_aigc": 5,
+      "full_balance_all": 5
+    },
+    "cifar100": {
+      "fedavg_all": 5,
+      "random_budget": 5,
+      "three_state": 5,
+      "public_price": 5,
+      "continuous": 5,
+      "selected_no_aigc": 5,
+      "full_balance_all": 5
+    },
+    "fmnist": {
+      "fedavg_all": 5,
+      "no_aigc_budget": 5,
+      "random_budget": 5,
+      "three_state": 5,
+      "public_price": 5,
+      "continuous": 5,
+      "selected_no_aigc": 5,
+      "full_balance_all": 5
+    }
+  }
+}

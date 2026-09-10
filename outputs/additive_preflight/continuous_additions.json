@@ -1,0 +1,88 @@
+{
+  "cifar10": [
+    {
+      "client": 1,
+      "original_n": 4135,
+      "synthetic_n": 16565,
+      "augmented_n": 20700,
+      "synthetic_fraction": 0.8002415458937198,
+      "label_error_max": 0.0
+    },
+    {
+      "client": 3,
+      "original_n": 6476,
+      "synthetic_n": 28934,
+      "augmented_n": 35410,
+      "synthetic_fraction": 0.8171138096582886,
+      "label_error_max": 0.0
+    },
+    {
+      "client": 4,
+      "original_n": 3049,
+      "synthetic_n": 12861,
+      "augmented_n": 15910,
+      "synthetic_fraction": 0.8083595223130107,
+      "label_error_max": 0.0
+    },
+    {
+      "client": 5,
+      "original_n": 4920,
+      "synthetic_n": 18530,
+      "augmented_n": 23450,
+      "synthetic_fraction": 0.7901918976545842,
+      "label_error_max": 0.0
+    }
+  ],
+  "cifar100": [
+    {
+      "client": 4,
+      "original_n": 7779,
+      "synthetic_n": 33221,
+      "augmented_n": 41000,
+      "synthetic_fraction": 0.8102682926829269,
+      "label_error_max": 0.0
+    },
+    {
+      "client": 5,
+      "original_n": 7651,
+      "synthetic_n": 33149,
+      "augmented_n": 40800,
+      "synthetic_fraction": 0.8124754901960785,
+      "label_error_max": 0.0
+    }
+  ],
+  "fmnist": [
+    {
+      "client": 2,
+      "original_n": 5137,
+      "synthetic_n": 14463,
+      "augmented_n": 19600,
+      "synthetic_fraction": 0.7379081632653062,
+      "label_error_max": 0.0
+    },
+    {
+      "client": 3,
+      "original_n": 9236,
+      "synthetic_n": 28024,
+      "augmented_n": 37260,
+      "synthetic_fraction": 0.7521202361782072,
+      "label_error_max": 0.0
+    },
+    {
+      "client": 5,
+      "original_n": 3432,
+      "synthetic_n": 6198,
+      "augmented_n": 9630,
+      "synthetic_fraction": 0.643613707165109,
+      "label_error_max": 0.0
+    },
+    {
+      "client": 6,
+      "original_n": 5144,
+      "synthetic_n": 18746,
+      "augmented_n": 23890,
+      "synthetic_fraction": 0.7846797823357053,
+      "label_error_max": 0.0
+    }
+  ]
+}

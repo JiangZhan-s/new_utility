@@ -1,0 +1,342 @@
+[
+  {
+    "dataset": "cifar10",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "fedavg_all",
+    "paired_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "mean_delta_pp": 1.118000000000001,
+    "ci95_low_pp": -0.5311102324160879,
+    "ci95_high_pp": 2.7671102324160897
+  },
+  {
+    "dataset": "cifar10",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "full_balance_all",
+    "paired_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "mean_delta_pp": -0.12399999999999967,
+    "ci95_low_pp": -0.8684601500851629,
+    "ci95_high_pp": 0.6204601500851635
+  },
+  {
+    "dataset": "cifar10",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "no_aigc_budget",
+    "paired_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "mean_delta_pp": 4.992000000000002,
+    "ci95_low_pp": 2.5836935268613996,
+    "ci95_high_pp": 7.400306473138604
+  },
+  {
+    "dataset": "cifar10",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "public_price",
+    "paired_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "mean_delta_pp": 3.118000000000002,
+    "ci95_low_pp": 2.011058112480745,
+    "ci95_high_pp": 4.224941887519259
+  },
+  {
+    "dataset": "cifar10",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "random_budget",
+    "paired_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "mean_delta_pp": 2.834,
+    "ci95_low_pp": 0.9382429568698465,
+    "ci95_high_pp": 4.729757043130154
+  },
+  {
+    "dataset": "cifar10",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "selected_no_aigc",
+    "paired_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "mean_delta_pp": 11.308000000000002,
+    "ci95_low_pp": 10.322053107654279,
+    "ci95_high_pp": 12.293946892345724
+  },
+  {
+    "dataset": "cifar10",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "three_state",
+    "paired_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "mean_delta_pp": -0.045999999999999375,
+    "ci95_low_pp": -0.5495709141719056,
+    "ci95_high_pp": 0.4575709141719069
+  },
+  {
+    "dataset": "cifar100",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "fedavg_all",
+    "paired_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "mean_delta_pp": -3.156,
+    "ci95_low_pp": -3.8085295771161327,
+    "ci95_high_pp": -2.5034704228838676
+  },
+  {
+    "dataset": "cifar100",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "full_balance_all",
+    "paired_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "mean_delta_pp": -0.5479999999999999,
+    "ci95_low_pp": -1.0977361308291638,
+    "ci95_high_pp": 0.0017361308291640176
+  },
+  {
+    "dataset": "cifar100",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "public_price",
+    "paired_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "mean_delta_pp": -2.06,
+    "ci95_low_pp": -2.5675657561825354,
+    "ci95_high_pp": -1.5524342438174645
+  },
+  {
+    "dataset": "cifar100",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "random_budget",
+    "paired_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "mean_delta_pp": -0.36599999999999994,
+    "ci95_low_pp": -0.8714807884138354,
+    "ci95_high_pp": 0.13948078841383543
+  },
+  {
+    "dataset": "cifar100",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "selected_no_aigc",
+    "paired_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "mean_delta_pp": -1.534,
+    "ci95_low_pp": -2.167224292262978,
+    "ci95_high_pp": -0.9007757077370222
+  },
+  {
+    "dataset": "cifar100",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "three_state",
+    "paired_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "mean_delta_pp": -0.05399999999999996,
+    "ci95_low_pp": -0.4325140961557155,
+    "ci95_high_pp": 0.32451409615571564
+  },
+  {
+    "dataset": "fmnist",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "fedavg_all",
+    "paired_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "mean_delta_pp": 2.3320000000000007,
+    "ci95_low_pp": 2.2344681030689646,
+    "ci95_high_pp": 2.429531896931037
+  },
+  {
+    "dataset": "fmnist",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "full_balance_all",
+    "paired_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "mean_delta_pp": -0.4499999999999993,
+    "ci95_low_pp": -0.818755393895735,
+    "ci95_high_pp": -0.0812446061042636
+  },
+  {
+    "dataset": "fmnist",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "no_aigc_budget",
+    "paired_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "mean_delta_pp": 14.134000000000004,
+    "ci95_low_pp": 13.06990771769839,
+    "ci95_high_pp": 15.198092282301618
+  },
+  {
+    "dataset": "fmnist",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "public_price",
+    "paired_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "mean_delta_pp": 1.816000000000002,
+    "ci95_low_pp": 1.3872571791513835,
+    "ci95_high_pp": 2.2447428208486206
+  },
+  {
+    "dataset": "fmnist",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "random_budget",
+    "paired_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "mean_delta_pp": 1.9000000000000017,
+    "ci95_low_pp": 1.3589848961257611,
+    "ci95_high_pp": 2.4410151038742423
+  },
+  {
+    "dataset": "fmnist",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "selected_no_aigc",
+    "paired_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "mean_delta_pp": 5.668000000000002,
+    "ci95_low_pp": 4.9713169470340635,
+    "ci95_high_pp": 6.36468305296594
+  },
+  {
+    "dataset": "fmnist",
+    "model": "cnn",
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "baseline": "three_state",
+    "paired_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "mean_delta_pp": 0.0,
+    "ci95_low_pp": 0.0,
+    "ci95_high_pp": 0.0
+  }
+]
