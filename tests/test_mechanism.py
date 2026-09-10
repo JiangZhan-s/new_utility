@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 from baqp.mechanism import (instance,solve,response,coefficients,objective,tariffs,
-                            implementation_payment)
+                            implementation_payment,calibrated_types)
 from baqp.data import additive_target_counts
 from baqp.experiment import local_epoch_steps
 
@@ -11,6 +11,41 @@ class MechanismTests(unittest.TestCase):
         z['s'][:]=.02; z['alpha']=.05/z['lam']; z['beta']=.1/z['lam']**2
         z['budget']=.11
         return z
+
+    def test_data_driven_type_calibration(self):
+        counts=np.array([[90,10],[50,50],[180,20]])
+        z1=instance(counts,seed=1)
+        z2=instance(counts,seed=999)
+        # The economic type is now data-driven rather than seed-driven.
+        np.testing.assert_allclose(z1['s'],z2['s'])
+        np.testing.assert_allclose(z1['alpha'],z2['alpha'])
+        np.testing.assert_allclose(z1['beta'],z2['beta'])
+        self.assertEqual(z1['type_calibration'],
+                         'deterministic_additive_missing_workload_quadratic_upper_bound')
+        # Effective base cost is proportional to original client data mass.
+        np.testing.assert_allclose(z1['effective_fixed_cost'],z1['d']*z1['base_cost_total'])
+        # Full enhancement cost above base is exactly proportional to the
+        # amount of synthetic data required by addition-only balancing.
+        enh=z1['d']*(z1['alpha']*z1['lam']+z1['beta']*z1['lam']**2)
+        expected=z1['aigc_unit_cost']*z1['full_synthetic_n']/counts.sum()
+        np.testing.assert_allclose(enh,expected,rtol=1e-12,atol=1e-12)
+
+    def test_quadratic_calibration_upper_bounds_exact_additive_workload(self):
+        counts=np.array([[900,100],[500,500]])
+        p=counts/counts.sum(1)[:,None]
+        d=counts.sum(1)/counts.sum()
+        e=p-d@p
+        lam=np.sqrt(2)*np.abs(e).sum(1)
+        t=calibrated_types(counts,lam)
+        for k in range(len(counts)):
+            g=t['gamma'][k]
+            A=t['alpha'][k]*lam[k]
+            B=t['beta'][k]*lam[k]**2
+            for u in np.linspace(0,1,51):
+                exact=0. if g==0 else g*u/(1-g*u)
+                quad=A*u+B*u*u
+                self.assertGreaterEqual(quad+1e-12,exact)
+            self.assertAlmostEqual(A+B,t['missing_ratio'][k],places=12)
 
     def test_additive_augmentation_retains_original(self):
         original=np.array([900,100]); pstar=np.array([.5,.5])
