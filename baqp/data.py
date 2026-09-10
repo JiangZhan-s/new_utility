@@ -1,4 +1,5 @@
 """Local files only. No download; test data never used in allocation."""
+import math
 import pickle
 from pathlib import Path
 import numpy as np
@@ -55,6 +56,60 @@ def split_train(labels,classes,clients=6,alpha=.3,seed=2026,val_fraction=.1):
     parts=[np.array(p,dtype=np.int64) for p in parts]
     counts=np.array([np.bincount(labels[p],minlength=classes) for p in parts])
     return parts,np.array(valid,dtype=np.int64),counts
+
+
+def additive_target_counts(original_counts,pstar,u,atol=1e-12):
+    """Plan AIGC additions without deleting any real sample.
+
+    The requested continuous quality level u in [0,1] defines the target
+    label distribution
+
+        p_target = (1-u) p_local + u p_star.
+
+    We then find the smallest integer augmented data size for which an
+    integer class-count vector can approximate p_target while dominating the
+    original class counts componentwise.  The returned synthetic counts are
+    therefore always non-negative and every original sample is retained.
+    """
+    original=np.asarray(original_counts,dtype=np.int64)
+    pstar=np.asarray(pstar,dtype=float)
+    if original.ndim!=1 or pstar.ndim!=1 or len(original)!=len(pstar):
+        raise ValueError('original_counts and pstar must be same-length vectors')
+    if np.any(original<0) or original.sum()<=0:
+        raise ValueError('original_counts must be non-negative with positive total')
+    if np.any(pstar<0) or not np.isclose(pstar.sum(),1.,atol=1e-10):
+        raise ValueError('pstar must be a probability vector')
+    if not (-atol<=u<=1+atol):
+        raise ValueError('u must lie in [0,1]')
+    u=float(np.clip(u,0.,1.))
+    plocal=original/original.sum()
+    target=(1-u)*plocal+u*pstar
+    if u<=atol:
+        return target,original.copy(),np.zeros_like(original)
+    if np.any((target<=atol)&(original>0)):
+        raise ValueError('addition-only augmentation cannot remove mass from a zero-target class')
+
+    positive=target>atol
+    # Continuous lower bound N >= max_y n_y / p_target(y).  Increase N only
+    # when floating-point/integer apportionment makes the componentwise lower
+    # bounds infeasible.
+    total=max(int(original.sum()),
+              int(math.ceil(float(np.max(original[positive]/target[positive]))-1e-12)))
+    while True:
+        raw=total*target
+        final=np.floor(raw+1e-12).astype(np.int64)
+        if np.all(final>=original) and final.sum()<=total:
+            break
+        total+=1
+
+    remaining=total-int(final.sum())
+    if remaining:
+        frac=raw-final
+        order=np.argsort(-frac,kind='stable')
+        final[order[:remaining]]+=1
+    if final.sum()!=total or np.any(final<original):
+        raise AssertionError('invalid additive augmentation plan')
+    return target,final,final-original
 
 
 def audit(x,y,sx,sy,parts,classes):
