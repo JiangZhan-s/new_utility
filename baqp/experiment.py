@@ -2,6 +2,7 @@ import argparse
 import copy
 import hashlib
 import json
+import math
 import os
 import platform
 from pathlib import Path
@@ -68,7 +69,7 @@ def build_augmented_indices(parts,counts,pstar,contract,sy,seed):
 
 
 def draw_additive_batch(plan,x,y,sx,sy,batch,rng):
-    """Sample uniformly from the augmented multiset D_real union D_syn."""
+    """Fixed-step sampler for the theorem-oriented softmax path."""
     nr=plan['original_n']; ns=plan['synthetic_n']; total=nr+ns
     choose=rng.integers(total,size=batch)
     real_mask=choose<nr
@@ -85,6 +86,42 @@ def draw_additive_batch(plan,x,y,sx,sy,batch,rng):
     return bx,by,int((~real_mask).sum())
 
 
+def local_epoch_steps(augmented_n,batch,local_epochs):
+    """Number of optimizer updates for complete local-epoch training."""
+    if min(int(augmented_n),int(batch),int(local_epochs))<1:
+        raise ValueError('augmented_n, batch and local_epochs must be positive')
+    return int(local_epochs)*int(math.ceil(int(augmented_n)/int(batch)))
+
+
+def iter_additive_epoch_batches(plan,x,y,sx,sy,batch,rng):
+    """Yield one shuffled pass over D_real union D_syn without sample replacement.
+
+    A synthetic cache entry may itself appear multiple times in synthetic_ids when
+    the required class addition exceeds the offline cache size. Those repeated
+    entries are part of the augmented multiset and are therefore visited once per
+    epoch, exactly like duplicated training examples in an ordinary dataset.
+    """
+    nr=int(plan['original_n']); ns=int(plan['synthetic_n']); total=nr+ns
+    order=rng.permutation(total)
+    real_ids=np.asarray(plan['real_ids'],dtype=np.int64)
+    synthetic_ids=np.asarray(plan['synthetic_ids'],dtype=np.int64)
+    for start in range(0,total,batch):
+        choose=order[start:start+batch]
+        real_mask=choose<nr
+        size=len(choose)
+        bx=torch.empty((size,*x.shape[1:]),dtype=x.dtype)
+        by=torch.empty(size,dtype=y.dtype)
+        if real_mask.any():
+            pos=torch.from_numpy(np.flatnonzero(real_mask))
+            rid=torch.from_numpy(real_ids[choose[real_mask]])
+            bx[pos]=x[rid]; by[pos]=y[rid]
+        if (~real_mask).any():
+            pos=torch.from_numpy(np.flatnonzero(~real_mask))
+            sid=torch.from_numpy(synthetic_ids[choose[~real_mask]-nr])
+            bx[pos]=sx[sid]; by[pos]=sy[sid]
+        yield bx,by,int((~real_mask).sum())
+
+
 def train(args,contract,parts,counts,pstar,x,y,sx,sy,vx,vy,tx,ty,out):
     device=torch.device(args.device); active=np.flatnonzero(contract['active'])
     if not len(active): raise ValueError('No active clients')
@@ -93,12 +130,16 @@ def train(args,contract,parts,counts,pstar,x,y,sx,sy,vx,vy,tx,ty,out):
     torch.use_deterministic_algorithms(True)
     model=model_for(args.model,x.shape[1:],len(pstar)).to(device)
     local=copy.deepcopy(model)
+    # Keep the paper's fixed original-data FedAvg weights. AIGC changes local
+    # training data and computation, but not a client's voting power.
     weights=np.array([len(parts[k]) for k in active],dtype=float); weights/=weights.sum()
     rngs={k:np.random.default_rng(np.random.SeedSequence([args.seed,100,k])) for k in active}
     plans=build_augmented_indices(parts,counts,pstar,contract,sy,args.seed)
     save(out/'augmentation_plan.json',{str(k):{kk:vv for kk,vv in v.items() if kk not in ('real_ids','synthetic_ids')}
                                        for k,v in plans.items()})
-    history=[]; start=time.time(); initial=evaluate(model,vx,vy,device,args.model); synthetic_draws=0
+    history=[]; start=time.time(); initial=evaluate(model,vx,vy,device,args.model)
+    synthetic_draws=0; real_draws=0; gradient_steps=0
+    epoch_training=(args.model=='cnn')
     for t in range(args.rounds):
         state={k:v.detach().clone() for k,v in model.state_dict().items()}
         aggregate={k:torch.zeros_like(v) for k,v in state.items()}
@@ -106,25 +147,49 @@ def train(args,contract,parts,counts,pstar,x,y,sx,sy,vx,vy,tx,ty,out):
             local.load_state_dict(state); local.train()
             optimizer=torch.optim.SGD(local.parameters(),lr=args.lr,weight_decay=args.mu)
             rng=rngs[k]
-            for _ in range(args.steps):
-                bx,by,drawn=draw_additive_batch(plans[k],x,y,sx,sy,args.batch,rng)
-                synthetic_draws+=drawn
-                optimizer.zero_grad(set_to_none=True)
-                loss=nn.functional.cross_entropy(local(preprocess(bx.to(device),args.model)),by.to(device))
-                loss.backward(); optimizer.step()
+            if epoch_training:
+                # Practical CNN path: every augmented sample is used once in each
+                # local epoch. More AIGC data therefore produces proportionally
+                # more local optimizer updates, matching standard data augmentation.
+                for _ in range(args.local_epochs):
+                    for bx,by,drawn in iter_additive_epoch_batches(plans[k],x,y,sx,sy,args.batch,rng):
+                        synthetic_draws+=drawn; real_draws+=len(by)-drawn; gradient_steps+=1
+                        optimizer.zero_grad(set_to_none=True)
+                        loss=nn.functional.cross_entropy(local(preprocess(bx.to(device),args.model)),by.to(device))
+                        loss.backward(); optimizer.step()
+            else:
+                # The strongly-convex softmax certificate assumes a fixed number h
+                # of local stochastic-gradient steps, so preserve that path.
+                for _ in range(args.steps):
+                    bx,by,drawn=draw_additive_batch(plans[k],x,y,sx,sy,args.batch,rng)
+                    synthetic_draws+=drawn; real_draws+=len(by)-drawn; gradient_steps+=1
+                    optimizer.zero_grad(set_to_none=True)
+                    loss=nn.functional.cross_entropy(local(preprocess(bx.to(device),args.model)),by.to(device))
+                    loss.backward(); optimizer.step()
             for name,value in local.state_dict().items(): aggregate[name].add_(value,alpha=float(weight))
         model.load_state_dict(aggregate)
         if (t+1)%args.eval_every==0 or t+1==args.rounds:
             val=evaluate(model,vx,vy,device,args.model)
-            history.append(dict(round=t+1,validation=val,seconds=time.time()-start))
+            history.append(dict(round=t+1,validation=val,seconds=time.time()-start,
+                                gradient_steps=int(gradient_steps)))
             save(out/'history.json',history)
-            print(json.dumps(dict(method=out.name,round=t+1,val_acc=val['acc'])),flush=True)
+            print(json.dumps(dict(method=out.name,round=t+1,val_acc=val['acc'],
+                                  gradient_steps=gradient_steps)),flush=True)
     test=evaluate(model,tx,ty,device,args.model)
     torch.save(model.state_dict(),out/'final_model.pt')
+    expected_steps=None
+    if epoch_training:
+        expected_steps=int(args.rounds*sum(local_epoch_steps(plans[k]['augmented_n'],args.batch,args.local_epochs)
+                                           for k in active))
+        if expected_steps!=gradient_steps:
+            raise AssertionError(f'epoch step count mismatch: expected {expected_steps}, got {gradient_steps}')
     return dict(test=test,validation=history[-1]['validation'],initial_validation=initial,
                 history=history,seconds=time.time()-start,
-                gradient_steps=int(args.rounds*args.steps*len(active)),
-                actual_synthetic_draws=int(synthetic_draws),
+                training_mode=('local_epochs_over_augmented_dataset' if epoch_training else 'fixed_local_steps'),
+                local_epochs=(int(args.local_epochs) if epoch_training else None),
+                theory_local_steps=int(args.steps),gradient_steps=int(gradient_steps),
+                expected_gradient_steps=expected_steps,
+                actual_real_draws=int(real_draws),actual_synthetic_draws=int(synthetic_draws),
                 augmentation={str(k):{kk:vv for kk,vv in v.items() if kk not in ('real_ids','synthetic_ids')}
                               for k,v in plans.items()})
 
@@ -133,11 +198,15 @@ def main():
     p=argparse.ArgumentParser()
     p.add_argument('--dataset',choices=['cifar10','cifar100','fmnist'],required=True)
     p.add_argument('--data-root',default='data'); p.add_argument('--aigc-root',default='aigc_imgs')
-    p.add_argument('--output',default='outputs/real_baqp_additive')
+    p.add_argument('--output',default='outputs/real_baqp_additive_epochs')
     p.add_argument('--seed',type=int,default=0); p.add_argument('--split-seed',type=int,default=2026)
     p.add_argument('--clients',type=int,default=6); p.add_argument('--alpha',type=float,default=.3)
     p.add_argument('--budget-fraction',type=float,default=.4)
-    p.add_argument('--rounds',type=int,default=100); p.add_argument('--steps',type=int,default=5)
+    p.add_argument('--rounds',type=int,default=100)
+    p.add_argument('--steps',type=int,default=5,
+                   help='Fixed local-step count h for the certificate/softmax path; CNN training uses --local-epochs')
+    p.add_argument('--local-epochs',type=int,default=2,
+                   help='CNN local epochs over the full augmented dataset per communication round')
     p.add_argument('--batch',type=int,default=32); p.add_argument('--mu',type=float,default=None)
     p.add_argument('--lr',type=float,default=None); p.add_argument('--model',choices=['cnn','softmax'],default='cnn')
     p.add_argument('--residual',action='store_true',help='Conservative finite-real-data residual objective; excludes generator error')
@@ -147,7 +216,8 @@ def main():
     args=p.parse_args()
     args.mu=(.05 if args.model=='softmax' else .0005) if args.mu is None else args.mu
     args.lr=(.1/(.5+args.mu) if args.model=='softmax' else .05) if args.lr is None else args.lr
-    if min(args.rounds,args.steps,args.batch,args.eval_every,args.clients)<1 or args.alpha<=0: p.error('Positive counts/alpha required')
+    if min(args.rounds,args.steps,args.local_epochs,args.batch,args.eval_every,args.clients)<1 or args.alpha<=0:
+        p.error('Positive counts/alpha required')
     if args.model=='cnn' and args.residual: p.error('The analytic residual bound is only implemented for unit-ball softmax')
     if args.device.startswith('cuda') and not args.prepare_only and 'SLURM_JOB_ID' not in os.environ:
         p.error('GPU training must run inside a Slurm allocation')
@@ -177,6 +247,8 @@ def main():
         partition_sha256=hashlib.sha256((out/'partition.npz').read_bytes()).hexdigest(),
         instance={k:v.tolist() if isinstance(v,np.ndarray) else v for k,v in z.items()},audit=diagnostic,
         augmentation_semantics='addition_only: retain every original sample and add class-targeted AIGC samples',
+        training_semantics=('CNN: complete local epochs over each augmented client multiset; softmax: fixed h local steps'),
+        aggregation_semantics='FedAvg weights use original client sample counts, not augmented counts',
         interpretation='Empirical AIGC experiment; J is a proxy for CNN, generator mismatch is not certified; original samples are never replaced',
         accuracy_certificate=None))
     builders={'continuous':lambda:solve(z),'three_state':lambda:solve(z,discrete=True),
