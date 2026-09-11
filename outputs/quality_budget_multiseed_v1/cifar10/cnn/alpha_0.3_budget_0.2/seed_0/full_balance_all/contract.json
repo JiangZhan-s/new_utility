@@ -1,0 +1,23 @@
+{
+  "status": "ok",
+  "active": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "u": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "objective_normalized": 0.07930581479009745,
+  "total_payment": null,
+  "reference_only": true,
+  "note": "All-client full AIGC reference"
+}

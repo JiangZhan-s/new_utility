@@ -1,0 +1,292 @@
+{
+  "config": {
+    "dataset": "cifar10",
+    "data_root": "data",
+    "aigc_root": "aigc_imgs",
+    "output": "outputs/quality_budget_multiseed_v1",
+    "seed": 2,
+    "split_seed": 2026,
+    "clients": 6,
+    "alpha": 0.3,
+    "budget_fraction": 0.4,
+    "rounds": 100,
+    "local_epochs": 2,
+    "steps": 5,
+    "batch": 32,
+    "mu": 0.0005,
+    "lr": 0.05,
+    "model": "cnn",
+    "device": "cuda",
+    "eval_every": 10,
+    "base_cost_total": 1.0,
+    "aigc_unit_cost": 1.0,
+    "generator_gap_source": "value",
+    "generator_gap_ratio": 0.06180083094278078,
+    "quality_device": "cpu",
+    "quality_seed": 2026,
+    "quality_samples_per_class": 512,
+    "quality_samples_per_client": 512,
+    "quality_batch": 256,
+    "quality_rounds": 20,
+    "quality_local_steps": 5,
+    "quality_probe_every": 1,
+    "methods": [
+      "continuous",
+      "three_state",
+      "no_aigc_budget",
+      "full_balance_all"
+    ],
+    "prepare_only": false,
+    "resume": true
+  },
+  "fingerprint": "e343d68ad6c8b7bb816fa32229e861338bd479544504a76bcb5bc8128737dacc",
+  "source_sha256": {
+    "/share/home/202521044325/new_utility/baqp/sweep_quality.py": "e9ee24cbcf006b056644fd0da8946fa9dc172a6d7d091befdcad7955928d617c",
+    "/share/home/202521044325/new_utility/baqp/experiment_quality.py": "6a435c6339b7711307206ab88b16fda0247a3782f9dd27f9185c2d8d118454df",
+    "/share/home/202521044325/new_utility/baqp/data.py": "93addf113684c71880a77afea6e4daae87c39b8fdb26b62c7a028842925f8d96",
+    "/share/home/202521044325/new_utility/baqp/quality.py": "c7bbecb85ef76954604b142d8fb29bd5178b5c65ea49fa7fd7c98fc03fdd8b98",
+    "/share/home/202521044325/new_utility/baqp/__init__.py": "797da3a4cd07a5cd85a9b502338175afbeabf735acdc2a754cd3e3e967f0e9ff",
+    "/share/home/202521044325/new_utility/baqp/check_kkt.py": "57cf6342e1531de0f28398a010171e8a1289fd1b2aa11083118778bc5e09aaa6",
+    "/share/home/202521044325/new_utility/baqp/mechanism_quality.py": "b353994b1226b85d40d663760898617fa25468dc816b5ab11113107598324ad1",
+    "/share/home/202521044325/new_utility/baqp/summarize.py": "e7874947ddff534d4ed8a70aabcd0e14f97e9fb0cef373bbe464a0a0519ab03f",
+    "/share/home/202521044325/new_utility/baqp/heuristic_quality.py": "01465072303ea3c51b0c3c331c0d8c8a70fcca180860047fb712f423afa12aa3",
+    "/share/home/202521044325/new_utility/baqp/sweep_calibrated.py": "bb9ce7e1eea80e6b7c614a2b497f254fedb72918ee2a213231334cf136a00ef9",
+    "/share/home/202521044325/new_utility/baqp/mechanism.py": "2a5ee47a5ca6e010a7540922e2a5585669e895723a6afb3def33147bda5ac7d3",
+    "/share/home/202521044325/new_utility/baqp/summarize_quality_budget.py": "96a33e4d9bb1d6b686e8dc524ba32bd46544df337f0f3e5c99602f20b19062cc",
+    "/share/home/202521044325/new_utility/baqp/experiment.py": "2ba13bf64bbdbdb16c18e15a27a72565c187361d02b7673c2a46e4058ec9bc9f"
+  },
+  "torch": "2.5.1+cu121",
+  "numpy": "2.0.2",
+  "python": "3.9.25",
+  "slurm_job": "1591387",
+  "cache": "/share/home/202521044325/new_utility/aigc_imgs/cifar10_edm/tensor_cache.pt",
+  "cache_bytes": 184802294,
+  "cache_mtime_ns": 1781183187000000000,
+  "partition_sha256": "2001057534450c4bb8a1d19dd95e32f272ffb3301f1c1aeacd2a2c8a2779b92e",
+  "instance": {
+    "d": [
+      0.0918888888888889,
+      0.23486666666666667,
+      0.1439111111111111,
+      0.06775555555555555,
+      0.10933333333333334,
+      0.35224444444444447
+    ],
+    "e": [
+      [
+        -0.09879081015719468,
+        0.40060459492140266,
+        -0.02285368802902056,
+        -0.015356711003627566,
+        -0.09927448609431683,
+        -0.030592503022974615,
+        -0.00036275695284160303,
+        -0.1,
+        -0.03881499395405079,
+        0.005441354292623948
+      ],
+      [
+        0.13985239852398523,
+        -0.0875106443372126,
+        -0.03443088277036617,
+        0.11856372409877945,
+        0.30126785883243445,
+        -0.04815025073327657,
+        -0.09725612640741793,
+        -0.09243069353770461,
+        -0.1,
+        -0.0999053836692213
+      ],
+      [
+        -0.1,
+        -0.09644842495367512,
+        -0.050895614576899326,
+        0.1592649783817171,
+        -0.09320568252007413,
+        -0.09861025324274245,
+        -0.1,
+        0.026775787523162453,
+        -0.09366893143915998,
+        0.4467881408276714
+      ],
+      [
+        -0.1,
+        -0.027189242374549033,
+        0.13319121023286323,
+        -0.08196129878648736,
+        -0.030796982617251584,
+        -0.0422761561167596,
+        -0.09409642505739588,
+        -0.09114463758609381,
+        0.42181042964906534,
+        -0.08753689734339126
+      ],
+      [
+        -0.06788617886178863,
+        -0.05020325203252033,
+        0.37662601626016257,
+        -0.09837398373983738,
+        -0.0997967479674797,
+        -0.1,
+        -0.0676829268292683,
+        -0.0983739837398374,
+        0.2510162601626016,
+        -0.045325203252032514
+      ],
+      [
+        0.01368367926313796,
+        0.014062204277332652,
+        -0.09280802473030093,
+        -0.09381742476815343,
+        -0.10000000000000002,
+        0.11954450823291907,
+        0.14490568418396316,
+        0.1248438584316447,
+        -0.043978297899186176,
+        -0.08643618699135701
+      ]
+    ],
+    "lam": [
+      1.1484713766502668,
+      1.5830253544338293,
+      1.7899104451258243,
+      1.569781692520664,
+      1.7752404392715928,
+      1.1795670625282122
+    ],
+    "bar": 1.968901489638407,
+    "s": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "alpha": [
+      0.6967884112425815,
+      0.4742753525315943,
+      0.45651100136512607,
+      0.5149502801341721,
+      0.4451182387321075,
+      0.5016073824215478
+    ],
+    "beta": [
+      2.430505843740892,
+      0.9026003250926706,
+      1.1395190308136636,
+      1.3837044981873636,
+      0.944340300670483,
+      0.6162071089517454
+    ],
+    "eps": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "coef": [
+      24869.552343106887,
+      186.90110231429884,
+      62.29984827010156,
+      0.3108694042888361
+    ],
+    "g2": 20,
+    "noise": [
+      0.0625,
+      0.0625,
+      0.0625,
+      0.0625,
+      0.0625,
+      0.0625
+    ],
+    "tariff": "two_part_signed_fixed_transfer",
+    "learning_profile": "generator_aware_additive_mixture_bound",
+    "generator_gap_ratio": 0.06180083094278078,
+    "generator_gap_source": "value",
+    "type_calibration": "deterministic_additive_missing_workload_quadratic_upper_bound",
+    "R": [
+      5.006045949214026,
+      4.012678588324344,
+      5.467881408276714,
+      5.218104296490653,
+      4.766260162601625,
+      2.4490568418396315
+    ],
+    "gamma": [
+      0.8002415458937198,
+      0.7507899080405565,
+      0.8171138096582886,
+      0.8083595223130107,
+      0.7901918976545842,
+      0.5916795466254507
+    ],
+    "missing_ratio": [
+      4.006045949214026,
+      3.012678588324344,
+      4.467881408276714,
+      4.218104296490653,
+      3.7662601626016254,
+      1.4490568418396315
+    ],
+    "full_synthetic_n": [
+      16564.999999999996,
+      31840.999999999993,
+      28934.0,
+      12861.0,
+      18529.999999999996,
+      22969.0
+    ],
+    "effective_fixed_cost": [
+      0.0918888888888889,
+      0.23486666666666667,
+      0.1439111111111111,
+      0.06775555555555555,
+      0.10933333333333334,
+      0.35224444444444447
+    ],
+    "base_cost_total": 1.0,
+    "aigc_unit_cost": 1.0,
+    "full_budget": 3.9266666666666663,
+    "budget": 1.5706666666666667
+  },
+  "generator_quality": {
+    "method": "user_supplied_sensitivity",
+    "generator_gap_ratio": 0.06180083094278078
+  },
+  "audit": {
+    "synthetic_count": 60000,
+    "synthetic_class_counts": [
+      6000,
+      6000,
+      6000,
+      6000,
+      6000,
+      6000,
+      6000,
+      6000,
+      6000,
+      6000
+    ],
+    "class_mean_pixel_rmse": [
+      0.01784497879455065,
+      0.010799478797613903,
+      0.004394235801861229,
+      0.008444610486397731,
+      0.01173430063497469,
+      0.005625326178975382,
+      0.016736671104382393,
+      0.008274760148509428,
+      0.013274839723636649,
+      0.012409139138370799
+    ],
+    "meaning": "train-only diagnostic; not a uniform gradient residual certificate"
+  },
+  "augmentation_semantics": "addition_only: retain every original sample and add class-targeted AIGC samples",
+  "training_semantics": "fixed original-data local compute; sample from the real+synthetic mixture with replacement",
+  "aggregation_semantics": "FedAvg weights use original client sample counts",
+  "interpretation": "Generator-aware empirical experiment. Trajectory quality is a train-only empirical envelope; actual CNN accuracy remains an empirical outcome.",
+  "accuracy_certificate": null
+}

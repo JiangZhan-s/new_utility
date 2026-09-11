@@ -1,0 +1,4099 @@
+{
+  "snapshot": "2026-09-11T15:34:21.267583+08:00",
+  "summary": [
+    {
+      "budget": 0.1,
+      "method": "continuous",
+      "n": 5,
+      "mean": 70.176,
+      "std": 0.6624424503305921
+    },
+    {
+      "budget": 0.1,
+      "method": "three_state",
+      "n": 5,
+      "mean": 70.454,
+      "std": 0.4651666368087914
+    },
+    {
+      "budget": 0.1,
+      "method": "no_aigc_budget",
+      "n": 5,
+      "mean": 52.548,
+      "std": 0.5428812024743532
+    },
+    {
+      "budget": 0.1,
+      "method": "full_balance_all",
+      "n": 5,
+      "mean": 80.49600000000001,
+      "std": 0.16149303390549202
+    },
+    {
+      "budget": 0.2,
+      "method": "continuous",
+      "n": 5,
+      "mean": 73.668,
+      "std": 3.0662631980963395
+    },
+    {
+      "budget": 0.2,
+      "method": "three_state",
+      "n": 5,
+      "mean": 73.338,
+      "std": 0.8239356771010684
+    },
+    {
+      "budget": 0.2,
+      "method": "no_aigc_budget",
+      "n": 5,
+      "mean": 68.546,
+      "std": 0.4105240553244047
+    },
+    {
+      "budget": 0.2,
+      "method": "full_balance_all",
+      "n": 5,
+      "mean": 80.49600000000001,
+      "std": 0.16149303390549202
+    },
+    {
+      "budget": 0.3,
+      "method": "continuous",
+      "n": 3,
+      "mean": 75.98,
+      "std": 0.07810249675906557
+    },
+    {
+      "budget": 0.3,
+      "method": "three_state",
+      "n": 3,
+      "mean": 71.58,
+      "std": 0.4084115571332366
+    },
+    {
+      "budget": 0.3,
+      "method": "no_aigc_budget",
+      "n": 2,
+      "mean": 71.42,
+      "std": 0.42426406871192446
+    }
+  ],
+  "paired": [
+    {
+      "budget": 0.1,
+      "baseline": "three_state",
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "mean": -0.27799999999999725,
+      "wins": 2,
+      "ci": [
+        -0.9127320291844832,
+        0.35673202918448865
+      ]
+    },
+    {
+      "budget": 0.1,
+      "baseline": "no_aigc_budget",
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "mean": 17.628000000000004,
+      "wins": 5,
+      "ci": [
+        16.74780121533914,
+        18.508198784660866
+      ]
+    },
+    {
+      "budget": 0.1,
+      "baseline": "full_balance_all",
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "mean": -10.319999999999999,
+      "wins": 0,
+      "ci": [
+        -10.98652033047766,
+        -9.653479669522337
+      ]
+    },
+    {
+      "budget": 0.2,
+      "baseline": "three_state",
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "mean": 0.33000000000000396,
+      "wins": 4,
+      "ci": [
+        -2.7415565121048564,
+        3.4015565121048645
+      ]
+    },
+    {
+      "budget": 0.2,
+      "baseline": "no_aigc_budget",
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "mean": 5.122000000000009,
+      "wins": 5,
+      "ci": [
+        1.4216600401812833,
+        8.822339959818734
+      ]
+    },
+    {
+      "budget": 0.2,
+      "baseline": "full_balance_all",
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "mean": -6.827999999999991,
+      "wins": 0,
+      "ci": [
+        -10.60687744598857,
+        -3.049122554011414
+      ]
+    },
+    {
+      "budget": 0.3,
+      "baseline": "three_state",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "mean": 4.400000000000001,
+      "wins": 3,
+      "ci": [
+        3.5764793112680833,
+        5.223520688731919
+      ]
+    },
+    {
+      "budget": 0.3,
+      "baseline": "no_aigc_budget",
+      "seeds": [
+        0,
+        1
+      ],
+      "mean": 4.534999999999997,
+      "wins": 2,
+      "ci": [
+        1.5490418869384612,
+        7.520958113061532
+      ]
+    }
+  ],
+  "records": [
+    {
+      "budget": 0.1,
+      "seed": 0,
+      "method": "continuous",
+      "acc": 70.32000000000001,
+      "ce": 1.027516098022461,
+      "steps": 19200,
+      "contract": {
+        "active": [
+          false,
+          false,
+          false,
+          true,
+          false,
+          false
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.9896606249977872,
+          0.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          0.0,
+          0.0,
+          0.0,
+          -2.339600025252439,
+          0.0,
+          0.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          4.814261656198219,
+          0.0,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          4.814261656198219,
+          0.0,
+          0.0
+        ],
+        "payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.34823656278075543,
+          0.0,
+          0.0
+        ],
+        "minimum_cost_payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.34823656278075543,
+          0.0,
+          0.0
+        ],
+        "total_payment": 0.34823656278075543,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          -3.0089511129618687e-17,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 0.09969689502960734,
+        "objective_components": {
+          "label": 0.0010291767061468206,
+          "generator": 0.09851037050309519,
+          "noise": 0.00015734782036533183,
+          "total": 0.09969689502960734
+        },
+        "budget": 0.39266666666666666,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.09969689502960734,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 64,
+        "feasible_modes": 20,
+        "solver_failures": 2,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.1,
+      "seed": 0,
+      "method": "three_state",
+      "acc": 69.89999999999999,
+      "ce": 1.0042506164550782,
+      "steps": 19200,
+      "contract": {
+        "active": [
+          false,
+          false,
+          false,
+          true,
+          false,
+          false
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          2.687064269247188,
+          0.0,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          2.687064269247188,
+          0.0,
+          0.0
+        ],
+        "payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.3535555555555555,
+          0.0,
+          0.0
+        ],
+        "minimum_cost_payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.35355555555555557,
+          0.0,
+          0.0
+        ],
+        "total_payment": 0.3535555555555555,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          -3.0089511129618687e-17,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 0.1007368239508465,
+        "objective_components": {
+          "label": 0.0,
+          "generator": 0.10057947613048117,
+          "noise": 0.00015734782036533183,
+          "total": 0.1007368239508465
+        },
+        "budget": 0.39266666666666666,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.1007368239508465,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 729,
+        "feasible_modes": 21,
+        "solver_failures": 0,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.1,
+      "seed": 0,
+      "method": "no_aigc_budget",
+      "acc": 52.87,
+      "ce": 2.180277520751953,
+      "steps": 97400,
+      "contract": {
+        "active": [
+          true,
+          false,
+          true,
+          false,
+          true,
+          false
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "payment": [
+          0.0918888888888889,
+          0.0,
+          0.1439111111111111,
+          0.0,
+          0.10933333333333334,
+          0.0
+        ],
+        "minimum_cost_payment": [
+          0.0918888888888889,
+          0.0,
+          0.1439111111111111,
+          0.0,
+          0.10933333333333334,
+          0.0
+        ],
+        "total_payment": 0.34513333333333335,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 2.977399914841643,
+        "objective_components": {
+          "label": 2.977243078658815,
+          "generator": 0.0,
+          "noise": 0.00015683618282779692,
+          "total": 2.977399914841643
+        },
+        "budget": 0.39266666666666666,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 2.977399914841643,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 64,
+        "feasible_modes": 20,
+        "solver_failures": 0,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.1,
+      "seed": 0,
+      "method": "full_balance_all",
+      "acc": 80.58,
+      "ce": 0.5815195938110351,
+      "steps": 282000,
+      "contract": {
+        "status": "ok",
+        "active": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "u": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "objective_normalized": 0.07930581479009745,
+        "total_payment": null,
+        "reference_only": true,
+        "note": "All-client full AIGC reference"
+      }
+    },
+    {
+      "budget": 0.1,
+      "seed": 1,
+      "method": "continuous",
+      "acc": 70.33,
+      "ce": 1.0028059020996094,
+      "steps": 19200,
+      "contract": {
+        "active": [
+          false,
+          false,
+          false,
+          true,
+          false,
+          false
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.9896606249977872,
+          0.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          0.0,
+          0.0,
+          0.0,
+          -2.339600025252439,
+          0.0,
+          0.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          4.814261656198219,
+          0.0,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          4.814261656198219,
+          0.0,
+          0.0
+        ],
+        "payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.34823656278075543,
+          0.0,
+          0.0
+        ],
+        "minimum_cost_payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.34823656278075543,
+          0.0,
+          0.0
+        ],
+        "total_payment": 0.34823656278075543,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          -3.0089511129618687e-17,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 0.09969689502960734,
+        "objective_components": {
+          "label": 0.0010291767061468206,
+          "generator": 0.09851037050309519,
+          "noise": 0.00015734782036533183,
+          "total": 0.09969689502960734
+        },
+        "budget": 0.39266666666666666,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.09969689502960734,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 64,
+        "feasible_modes": 20,
+        "solver_failures": 2,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.1,
+      "seed": 1,
+      "method": "three_state",
+      "acc": 70.78999999999999,
+      "ce": 0.9833906768798828,
+      "steps": 19200,
+      "contract": {
+        "active": [
+          false,
+          false,
+          false,
+          true,
+          false,
+          false
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          2.687064269247188,
+          0.0,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          2.687064269247188,
+          0.0,
+          0.0
+        ],
+        "payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.3535555555555555,
+          0.0,
+          0.0
+        ],
+        "minimum_cost_payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.35355555555555557,
+          0.0,
+          0.0
+        ],
+        "total_payment": 0.3535555555555555,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          -3.0089511129618687e-17,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 0.1007368239508465,
+        "objective_components": {
+          "label": 0.0,
+          "generator": 0.10057947613048117,
+          "noise": 0.00015734782036533183,
+          "total": 0.1007368239508465
+        },
+        "budget": 0.39266666666666666,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.1007368239508465,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 729,
+        "feasible_modes": 21,
+        "solver_failures": 0,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.1,
+      "seed": 1,
+      "method": "no_aigc_budget",
+      "acc": 51.849999999999994,
+      "ce": 2.2298702026367185,
+      "steps": 97400,
+      "contract": {
+        "active": [
+          true,
+          false,
+          true,
+          false,
+          true,
+          false
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "payment": [
+          0.0918888888888889,
+          0.0,
+          0.1439111111111111,
+          0.0,
+          0.10933333333333334,
+          0.0
+        ],
+        "minimum_cost_payment": [
+          0.0918888888888889,
+          0.0,
+          0.1439111111111111,
+          0.0,
+          0.10933333333333334,
+          0.0
+        ],
+        "total_payment": 0.34513333333333335,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 2.977399914841643,
+        "objective_components": {
+          "label": 2.977243078658815,
+          "generator": 0.0,
+          "noise": 0.00015683618282779692,
+          "total": 2.977399914841643
+        },
+        "budget": 0.39266666666666666,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 2.977399914841643,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 64,
+        "feasible_modes": 20,
+        "solver_failures": 0,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.1,
+      "seed": 1,
+      "method": "full_balance_all",
+      "acc": 80.42,
+      "ce": 0.5841047378540039,
+      "steps": 282000,
+      "contract": {
+        "status": "ok",
+        "active": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "u": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "objective_normalized": 0.07930581479009745,
+        "total_payment": null,
+        "reference_only": true,
+        "note": "All-client full AIGC reference"
+      }
+    },
+    {
+      "budget": 0.1,
+      "seed": 2,
+      "method": "continuous",
+      "acc": 71.1,
+      "ce": 1.0160380615234375,
+      "steps": 19200,
+      "contract": {
+        "active": [
+          false,
+          false,
+          false,
+          true,
+          false,
+          false
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.9896606249977872,
+          0.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          0.0,
+          0.0,
+          0.0,
+          -2.339600025252439,
+          0.0,
+          0.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          4.814261656198219,
+          0.0,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          4.814261656198219,
+          0.0,
+          0.0
+        ],
+        "payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.34823656278075543,
+          0.0,
+          0.0
+        ],
+        "minimum_cost_payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.34823656278075543,
+          0.0,
+          0.0
+        ],
+        "total_payment": 0.34823656278075543,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          -3.0089511129618687e-17,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 0.09969689502960734,
+        "objective_components": {
+          "label": 0.0010291767061468206,
+          "generator": 0.09851037050309519,
+          "noise": 0.00015734782036533183,
+          "total": 0.09969689502960734
+        },
+        "budget": 0.39266666666666666,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.09969689502960734,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 64,
+        "feasible_modes": 20,
+        "solver_failures": 2,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.1,
+      "seed": 2,
+      "method": "three_state",
+      "acc": 71.06,
+      "ce": 0.9903369232177734,
+      "steps": 19200,
+      "contract": {
+        "active": [
+          false,
+          false,
+          false,
+          true,
+          false,
+          false
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          2.687064269247188,
+          0.0,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          2.687064269247188,
+          0.0,
+          0.0
+        ],
+        "payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.3535555555555555,
+          0.0,
+          0.0
+        ],
+        "minimum_cost_payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.35355555555555557,
+          0.0,
+          0.0
+        ],
+        "total_payment": 0.3535555555555555,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          -3.0089511129618687e-17,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 0.1007368239508465,
+        "objective_components": {
+          "label": 0.0,
+          "generator": 0.10057947613048117,
+          "noise": 0.00015734782036533183,
+          "total": 0.1007368239508465
+        },
+        "budget": 0.39266666666666666,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.1007368239508465,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 729,
+        "feasible_modes": 21,
+        "solver_failures": 0,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.1,
+      "seed": 2,
+      "method": "no_aigc_budget",
+      "acc": 52.89,
+      "ce": 2.1885105834960936,
+      "steps": 97400,
+      "contract": {
+        "active": [
+          true,
+          false,
+          true,
+          false,
+          true,
+          false
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "payment": [
+          0.0918888888888889,
+          0.0,
+          0.1439111111111111,
+          0.0,
+          0.10933333333333334,
+          0.0
+        ],
+        "minimum_cost_payment": [
+          0.0918888888888889,
+          0.0,
+          0.1439111111111111,
+          0.0,
+          0.10933333333333334,
+          0.0
+        ],
+        "total_payment": 0.34513333333333335,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 2.977399914841643,
+        "objective_components": {
+          "label": 2.977243078658815,
+          "generator": 0.0,
+          "noise": 0.00015683618282779692,
+          "total": 2.977399914841643
+        },
+        "budget": 0.39266666666666666,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 2.977399914841643,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 64,
+        "feasible_modes": 20,
+        "solver_failures": 0,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.1,
+      "seed": 2,
+      "method": "full_balance_all",
+      "acc": 80.67999999999999,
+      "ce": 0.5826241653442383,
+      "steps": 282000,
+      "contract": {
+        "status": "ok",
+        "active": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "u": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "objective_normalized": 0.07930581479009745,
+        "total_payment": null,
+        "reference_only": true,
+        "note": "All-client full AIGC reference"
+      }
+    },
+    {
+      "budget": 0.1,
+      "seed": 3,
+      "method": "continuous",
+      "acc": 69.8,
+      "ce": 1.019678939819336,
+      "steps": 19200,
+      "contract": {
+        "active": [
+          false,
+          false,
+          false,
+          true,
+          false,
+          false
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.9896606249977872,
+          0.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          0.0,
+          0.0,
+          0.0,
+          -2.339600025252439,
+          0.0,
+          0.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          4.814261656198219,
+          0.0,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          4.814261656198219,
+          0.0,
+          0.0
+        ],
+        "payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.34823656278075543,
+          0.0,
+          0.0
+        ],
+        "minimum_cost_payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.34823656278075543,
+          0.0,
+          0.0
+        ],
+        "total_payment": 0.34823656278075543,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          -3.0089511129618687e-17,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 0.09969689502960734,
+        "objective_components": {
+          "label": 0.0010291767061468206,
+          "generator": 0.09851037050309519,
+          "noise": 0.00015734782036533183,
+          "total": 0.09969689502960734
+        },
+        "budget": 0.39266666666666666,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.09969689502960734,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 64,
+        "feasible_modes": 20,
+        "solver_failures": 2,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.1,
+      "seed": 3,
+      "method": "three_state",
+      "acc": 70.3,
+      "ce": 0.9936705474853516,
+      "steps": 19200,
+      "contract": {
+        "active": [
+          false,
+          false,
+          false,
+          true,
+          false,
+          false
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          2.687064269247188,
+          0.0,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          2.687064269247188,
+          0.0,
+          0.0
+        ],
+        "payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.3535555555555555,
+          0.0,
+          0.0
+        ],
+        "minimum_cost_payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.35355555555555557,
+          0.0,
+          0.0
+        ],
+        "total_payment": 0.3535555555555555,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          -3.0089511129618687e-17,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 0.1007368239508465,
+        "objective_components": {
+          "label": 0.0,
+          "generator": 0.10057947613048117,
+          "noise": 0.00015734782036533183,
+          "total": 0.1007368239508465
+        },
+        "budget": 0.39266666666666666,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.1007368239508465,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 729,
+        "feasible_modes": 21,
+        "solver_failures": 0,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.1,
+      "seed": 3,
+      "method": "no_aigc_budget",
+      "acc": 53.05,
+      "ce": 2.14899521484375,
+      "steps": 97400,
+      "contract": {
+        "active": [
+          true,
+          false,
+          true,
+          false,
+          true,
+          false
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "payment": [
+          0.0918888888888889,
+          0.0,
+          0.1439111111111111,
+          0.0,
+          0.10933333333333334,
+          0.0
+        ],
+        "minimum_cost_payment": [
+          0.0918888888888889,
+          0.0,
+          0.1439111111111111,
+          0.0,
+          0.10933333333333334,
+          0.0
+        ],
+        "total_payment": 0.34513333333333335,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 2.977399914841643,
+        "objective_components": {
+          "label": 2.977243078658815,
+          "generator": 0.0,
+          "noise": 0.00015683618282779692,
+          "total": 2.977399914841643
+        },
+        "budget": 0.39266666666666666,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 2.977399914841643,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 64,
+        "feasible_modes": 20,
+        "solver_failures": 0,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.1,
+      "seed": 3,
+      "method": "full_balance_all",
+      "acc": 80.54,
+      "ce": 0.5885007858276368,
+      "steps": 282000,
+      "contract": {
+        "status": "ok",
+        "active": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "u": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "objective_normalized": 0.07930581479009745,
+        "total_payment": null,
+        "reference_only": true,
+        "note": "All-client full AIGC reference"
+      }
+    },
+    {
+      "budget": 0.1,
+      "seed": 4,
+      "method": "continuous",
+      "acc": 69.33,
+      "ce": 1.0789782196044921,
+      "steps": 19200,
+      "contract": {
+        "active": [
+          false,
+          false,
+          false,
+          true,
+          false,
+          false
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.9896606249977872,
+          0.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          0.0,
+          0.0,
+          0.0,
+          -2.339600025252439,
+          0.0,
+          0.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          4.814261656198219,
+          0.0,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          4.814261656198219,
+          0.0,
+          0.0
+        ],
+        "payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.34823656278075543,
+          0.0,
+          0.0
+        ],
+        "minimum_cost_payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.34823656278075543,
+          0.0,
+          0.0
+        ],
+        "total_payment": 0.34823656278075543,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          -3.0089511129618687e-17,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 0.09969689502960734,
+        "objective_components": {
+          "label": 0.0010291767061468206,
+          "generator": 0.09851037050309519,
+          "noise": 0.00015734782036533183,
+          "total": 0.09969689502960734
+        },
+        "budget": 0.39266666666666666,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.09969689502960734,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 64,
+        "feasible_modes": 20,
+        "solver_failures": 2,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.1,
+      "seed": 4,
+      "method": "three_state",
+      "acc": 70.22,
+      "ce": 1.0388973022460937,
+      "steps": 19200,
+      "contract": {
+        "active": [
+          false,
+          false,
+          false,
+          true,
+          false,
+          false
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          2.687064269247188,
+          0.0,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          2.687064269247188,
+          0.0,
+          0.0
+        ],
+        "payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.3535555555555555,
+          0.0,
+          0.0
+        ],
+        "minimum_cost_payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.35355555555555557,
+          0.0,
+          0.0
+        ],
+        "total_payment": 0.3535555555555555,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          -3.0089511129618687e-17,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 0.1007368239508465,
+        "objective_components": {
+          "label": 0.0,
+          "generator": 0.10057947613048117,
+          "noise": 0.00015734782036533183,
+          "total": 0.1007368239508465
+        },
+        "budget": 0.39266666666666666,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.1007368239508465,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 729,
+        "feasible_modes": 21,
+        "solver_failures": 0,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.1,
+      "seed": 4,
+      "method": "no_aigc_budget",
+      "acc": 52.080000000000005,
+      "ce": 2.2869905029296875,
+      "steps": 97400,
+      "contract": {
+        "active": [
+          true,
+          false,
+          true,
+          false,
+          true,
+          false
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "payment": [
+          0.0918888888888889,
+          0.0,
+          0.1439111111111111,
+          0.0,
+          0.10933333333333334,
+          0.0
+        ],
+        "minimum_cost_payment": [
+          0.0918888888888889,
+          0.0,
+          0.1439111111111111,
+          0.0,
+          0.10933333333333334,
+          0.0
+        ],
+        "total_payment": 0.34513333333333335,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 2.977399914841643,
+        "objective_components": {
+          "label": 2.977243078658815,
+          "generator": 0.0,
+          "noise": 0.00015683618282779692,
+          "total": 2.977399914841643
+        },
+        "budget": 0.39266666666666666,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 2.977399914841643,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 64,
+        "feasible_modes": 20,
+        "solver_failures": 0,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.1,
+      "seed": 4,
+      "method": "full_balance_all",
+      "acc": 80.25999999999999,
+      "ce": 0.5891173233032226,
+      "steps": 282000,
+      "contract": {
+        "status": "ok",
+        "active": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "u": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "objective_normalized": 0.07930581479009745,
+        "total_payment": null,
+        "reference_only": true,
+        "note": "All-client full AIGC reference"
+      }
+    },
+    {
+      "budget": 0.2,
+      "seed": 0,
+      "method": "continuous",
+      "acc": 74.96000000000001,
+      "ce": 0.9810316284179688,
+      "steps": 99200,
+      "contract": {
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          true
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.9011821934970919
+        ],
+        "fixed_transfer": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.30369873806857617
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.811669652047255
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.811669652047255
+        ],
+        "payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.7853333333333334
+        ],
+        "minimum_cost_payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.7853333333333334
+        ],
+        "total_payment": 0.7853333333333334,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          7.821397850370381e-17
+        ],
+        "objective_normalized": 0.07832334128519906,
+        "objective_components": {
+          "label": 0.03440385163871827,
+          "generator": 0.04376214182611546,
+          "noise": 0.00015734782036533183,
+          "total": 0.07832334128519906
+        },
+        "budget": 0.7853333333333333,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.07832334128472142,
+        "normalized_absolute_gap": 4.77645700769358e-13,
+        "enumerated_modes": 64,
+        "feasible_modes": 54,
+        "solver_failures": 5,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.2,
+      "seed": 0,
+      "method": "three_state",
+      "acc": 73.98,
+      "ce": 0.9039147766113281,
+      "steps": 30800,
+      "contract": {
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          true,
+          false
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          2.121549328916244,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          2.121549328916244,
+          0.0
+        ],
+        "payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.5211111111111111,
+          0.0
+        ],
+        "minimum_cost_payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.5211111111111111,
+          0.0
+        ],
+        "total_payment": 0.5211111111111111,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 0.09626664394699354,
+        "objective_components": {
+          "label": 0.0,
+          "generator": 0.0961092961266282,
+          "noise": 0.00015734782036533183,
+          "total": 0.09626664394699354
+        },
+        "budget": 0.7853333333333333,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.09626664394699354,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 729,
+        "feasible_modes": 85,
+        "solver_failures": 0,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.2,
+      "seed": 0,
+      "method": "no_aigc_budget",
+      "acc": 68.15,
+      "ce": 1.140174530029297,
+      "steps": 215400,
+      "contract": {
+        "active": [
+          false,
+          true,
+          false,
+          true,
+          true,
+          true
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "payment": [
+          0.0,
+          0.23486666666666667,
+          0.0,
+          0.06775555555555555,
+          0.10933333333333334,
+          0.35224444444444447
+        ],
+        "minimum_cost_payment": [
+          0.0,
+          0.23486666666666667,
+          0.0,
+          0.06775555555555555,
+          0.10933333333333334,
+          0.35224444444444447
+        ],
+        "total_payment": 0.7642,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 0.5320048301067382,
+        "objective_components": {
+          "label": 0.5318480016269349,
+          "generator": 0.0,
+          "noise": 0.00015682847980325886,
+          "total": 0.5320048301067382
+        },
+        "budget": 0.7853333333333333,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.5320048301067382,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 64,
+        "feasible_modes": 54,
+        "solver_failures": 0,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.2,
+      "seed": 0,
+      "method": "full_balance_all",
+      "acc": 80.58,
+      "ce": 0.5815195938110351,
+      "steps": 282000,
+      "contract": {
+        "status": "ok",
+        "active": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "u": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "objective_normalized": 0.07930581479009745,
+        "total_payment": null,
+        "reference_only": true,
+        "note": "All-client full AIGC reference"
+      }
+    },
+    {
+      "budget": 0.2,
+      "seed": 1,
+      "method": "continuous",
+      "acc": 68.30000000000001,
+      "ce": 1.511606185913086,
+      "steps": 99200,
+      "contract": {
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          true
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.9011821934970919
+        ],
+        "fixed_transfer": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.30369873806857617
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.811669652047255
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.811669652047255
+        ],
+        "payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.7853333333333334
+        ],
+        "minimum_cost_payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.7853333333333334
+        ],
+        "total_payment": 0.7853333333333334,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          7.821397850370381e-17
+        ],
+        "objective_normalized": 0.07832334128519906,
+        "objective_components": {
+          "label": 0.03440385163871827,
+          "generator": 0.04376214182611546,
+          "noise": 0.00015734782036533183,
+          "total": 0.07832334128519906
+        },
+        "budget": 0.7853333333333333,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.07832334128472142,
+        "normalized_absolute_gap": 4.77645700769358e-13,
+        "enumerated_modes": 64,
+        "feasible_modes": 54,
+        "solver_failures": 5,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.2,
+      "seed": 1,
+      "method": "three_state",
+      "acc": 72.15,
+      "ce": 0.9809654174804687,
+      "steps": 30800,
+      "contract": {
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          true,
+          false
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          2.121549328916244,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          2.121549328916244,
+          0.0
+        ],
+        "payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.5211111111111111,
+          0.0
+        ],
+        "minimum_cost_payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.5211111111111111,
+          0.0
+        ],
+        "total_payment": 0.5211111111111111,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 0.09626664394699354,
+        "objective_components": {
+          "label": 0.0,
+          "generator": 0.0961092961266282,
+          "noise": 0.00015734782036533183,
+          "total": 0.09626664394699354
+        },
+        "budget": 0.7853333333333333,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.09626664394699354,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 729,
+        "feasible_modes": 85,
+        "solver_failures": 0,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.2,
+      "seed": 1,
+      "method": "no_aigc_budget",
+      "acc": 68.25,
+      "ce": 1.1536352630615234,
+      "steps": 215400,
+      "contract": {
+        "active": [
+          false,
+          true,
+          false,
+          true,
+          true,
+          true
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "payment": [
+          0.0,
+          0.23486666666666667,
+          0.0,
+          0.06775555555555555,
+          0.10933333333333334,
+          0.35224444444444447
+        ],
+        "minimum_cost_payment": [
+          0.0,
+          0.23486666666666667,
+          0.0,
+          0.06775555555555555,
+          0.10933333333333334,
+          0.35224444444444447
+        ],
+        "total_payment": 0.7642,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 0.5320048301067382,
+        "objective_components": {
+          "label": 0.5318480016269349,
+          "generator": 0.0,
+          "noise": 0.00015682847980325886,
+          "total": 0.5320048301067382
+        },
+        "budget": 0.7853333333333333,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.5320048301067382,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 64,
+        "feasible_modes": 54,
+        "solver_failures": 0,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.2,
+      "seed": 1,
+      "method": "full_balance_all",
+      "acc": 80.42,
+      "ce": 0.5841047378540039,
+      "steps": 282000,
+      "contract": {
+        "status": "ok",
+        "active": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "u": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "objective_normalized": 0.07930581479009745,
+        "total_payment": null,
+        "reference_only": true,
+        "note": "All-client full AIGC reference"
+      }
+    },
+    {
+      "budget": 0.2,
+      "seed": 2,
+      "method": "continuous",
+      "acc": 75.27000000000001,
+      "ce": 0.997363833618164,
+      "steps": 99200,
+      "contract": {
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          true
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.9011821934970919
+        ],
+        "fixed_transfer": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.30369873806857617
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.811669652047255
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.811669652047255
+        ],
+        "payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.7853333333333334
+        ],
+        "minimum_cost_payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.7853333333333334
+        ],
+        "total_payment": 0.7853333333333334,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          7.821397850370381e-17
+        ],
+        "objective_normalized": 0.07832334128519906,
+        "objective_components": {
+          "label": 0.03440385163871827,
+          "generator": 0.04376214182611546,
+          "noise": 0.00015734782036533183,
+          "total": 0.07832334128519906
+        },
+        "budget": 0.7853333333333333,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.07832334128472142,
+        "normalized_absolute_gap": 4.77645700769358e-13,
+        "enumerated_modes": 64,
+        "feasible_modes": 54,
+        "solver_failures": 5,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.2,
+      "seed": 2,
+      "method": "three_state",
+      "acc": 72.81,
+      "ce": 0.9630301605224609,
+      "steps": 30800,
+      "contract": {
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          true,
+          false
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          2.121549328916244,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          2.121549328916244,
+          0.0
+        ],
+        "payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.5211111111111111,
+          0.0
+        ],
+        "minimum_cost_payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.5211111111111111,
+          0.0
+        ],
+        "total_payment": 0.5211111111111111,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 0.09626664394699354,
+        "objective_components": {
+          "label": 0.0,
+          "generator": 0.0961092961266282,
+          "noise": 0.00015734782036533183,
+          "total": 0.09626664394699354
+        },
+        "budget": 0.7853333333333333,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.09626664394699354,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 729,
+        "feasible_modes": 85,
+        "solver_failures": 0,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.2,
+      "seed": 2,
+      "method": "no_aigc_budget",
+      "acc": 68.58999999999999,
+      "ce": 1.1284902221679687,
+      "steps": 215400,
+      "contract": {
+        "active": [
+          false,
+          true,
+          false,
+          true,
+          true,
+          true
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "payment": [
+          0.0,
+          0.23486666666666667,
+          0.0,
+          0.06775555555555555,
+          0.10933333333333334,
+          0.35224444444444447
+        ],
+        "minimum_cost_payment": [
+          0.0,
+          0.23486666666666667,
+          0.0,
+          0.06775555555555555,
+          0.10933333333333334,
+          0.35224444444444447
+        ],
+        "total_payment": 0.7642,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 0.5320048301067382,
+        "objective_components": {
+          "label": 0.5318480016269349,
+          "generator": 0.0,
+          "noise": 0.00015682847980325886,
+          "total": 0.5320048301067382
+        },
+        "budget": 0.7853333333333333,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.5320048301067382,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 64,
+        "feasible_modes": 54,
+        "solver_failures": 0,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.2,
+      "seed": 2,
+      "method": "full_balance_all",
+      "acc": 80.67999999999999,
+      "ce": 0.5826241653442383,
+      "steps": 282000,
+      "contract": {
+        "status": "ok",
+        "active": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "u": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "objective_normalized": 0.07930581479009745,
+        "total_payment": null,
+        "reference_only": true,
+        "note": "All-client full AIGC reference"
+      }
+    },
+    {
+      "budget": 0.2,
+      "seed": 3,
+      "method": "continuous",
+      "acc": 74.03999999999999,
+      "ce": 1.0039585021972657,
+      "steps": 99200,
+      "contract": {
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          true
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.9011821934970919
+        ],
+        "fixed_transfer": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.30369873806857617
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.811669652047255
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.811669652047255
+        ],
+        "payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.7853333333333334
+        ],
+        "minimum_cost_payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.7853333333333334
+        ],
+        "total_payment": 0.7853333333333334,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          7.821397850370381e-17
+        ],
+        "objective_normalized": 0.07832334128519906,
+        "objective_components": {
+          "label": 0.03440385163871827,
+          "generator": 0.04376214182611546,
+          "noise": 0.00015734782036533183,
+          "total": 0.07832334128519906
+        },
+        "budget": 0.7853333333333333,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.07832334128472142,
+        "normalized_absolute_gap": 4.77645700769358e-13,
+        "enumerated_modes": 64,
+        "feasible_modes": 54,
+        "solver_failures": 5,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.2,
+      "seed": 3,
+      "method": "three_state",
+      "acc": 73.74000000000001,
+      "ce": 0.9223190521240234,
+      "steps": 30800,
+      "contract": {
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          true,
+          false
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          2.121549328916244,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          2.121549328916244,
+          0.0
+        ],
+        "payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.5211111111111111,
+          0.0
+        ],
+        "minimum_cost_payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.5211111111111111,
+          0.0
+        ],
+        "total_payment": 0.5211111111111111,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 0.09626664394699354,
+        "objective_components": {
+          "label": 0.0,
+          "generator": 0.0961092961266282,
+          "noise": 0.00015734782036533183,
+          "total": 0.09626664394699354
+        },
+        "budget": 0.7853333333333333,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.09626664394699354,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 729,
+        "feasible_modes": 85,
+        "solver_failures": 0,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.2,
+      "seed": 3,
+      "method": "no_aigc_budget",
+      "acc": 69.19999999999999,
+      "ce": 1.0674657806396484,
+      "steps": 215400,
+      "contract": {
+        "active": [
+          false,
+          true,
+          false,
+          true,
+          true,
+          true
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "payment": [
+          0.0,
+          0.23486666666666667,
+          0.0,
+          0.06775555555555555,
+          0.10933333333333334,
+          0.35224444444444447
+        ],
+        "minimum_cost_payment": [
+          0.0,
+          0.23486666666666667,
+          0.0,
+          0.06775555555555555,
+          0.10933333333333334,
+          0.35224444444444447
+        ],
+        "total_payment": 0.7642,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 0.5320048301067382,
+        "objective_components": {
+          "label": 0.5318480016269349,
+          "generator": 0.0,
+          "noise": 0.00015682847980325886,
+          "total": 0.5320048301067382
+        },
+        "budget": 0.7853333333333333,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.5320048301067382,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 64,
+        "feasible_modes": 54,
+        "solver_failures": 0,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.2,
+      "seed": 3,
+      "method": "full_balance_all",
+      "acc": 80.54,
+      "ce": 0.5885007858276368,
+      "steps": 282000,
+      "contract": {
+        "status": "ok",
+        "active": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "u": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "objective_normalized": 0.07930581479009745,
+        "total_payment": null,
+        "reference_only": true,
+        "note": "All-client full AIGC reference"
+      }
+    },
+    {
+      "budget": 0.2,
+      "seed": 4,
+      "method": "continuous",
+      "acc": 75.77000000000001,
+      "ce": 0.9377312225341797,
+      "steps": 99200,
+      "contract": {
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          true
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.9011821934970919
+        ],
+        "fixed_transfer": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.30369873806857617
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.811669652047255
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.811669652047255
+        ],
+        "payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.7853333333333334
+        ],
+        "minimum_cost_payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.7853333333333334
+        ],
+        "total_payment": 0.7853333333333334,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          7.821397850370381e-17
+        ],
+        "objective_normalized": 0.07832334128519906,
+        "objective_components": {
+          "label": 0.03440385163871827,
+          "generator": 0.04376214182611546,
+          "noise": 0.00015734782036533183,
+          "total": 0.07832334128519906
+        },
+        "budget": 0.7853333333333333,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.07832334128472142,
+        "normalized_absolute_gap": 4.77645700769358e-13,
+        "enumerated_modes": 64,
+        "feasible_modes": 54,
+        "solver_failures": 5,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.2,
+      "seed": 4,
+      "method": "three_state",
+      "acc": 74.00999999999999,
+      "ce": 0.934261376953125,
+      "steps": 30800,
+      "contract": {
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          true,
+          false
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          2.121549328916244,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          2.121549328916244,
+          0.0
+        ],
+        "payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.5211111111111111,
+          0.0
+        ],
+        "minimum_cost_payment": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.5211111111111111,
+          0.0
+        ],
+        "total_payment": 0.5211111111111111,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 0.09626664394699354,
+        "objective_components": {
+          "label": 0.0,
+          "generator": 0.0961092961266282,
+          "noise": 0.00015734782036533183,
+          "total": 0.09626664394699354
+        },
+        "budget": 0.7853333333333333,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.09626664394699354,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 729,
+        "feasible_modes": 85,
+        "solver_failures": 0,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.2,
+      "seed": 4,
+      "method": "no_aigc_budget",
+      "acc": 68.54,
+      "ce": 1.1343881469726562,
+      "steps": 215400,
+      "contract": {
+        "active": [
+          false,
+          true,
+          false,
+          true,
+          true,
+          true
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "payment": [
+          0.0,
+          0.23486666666666667,
+          0.0,
+          0.06775555555555555,
+          0.10933333333333334,
+          0.35224444444444447
+        ],
+        "minimum_cost_payment": [
+          0.0,
+          0.23486666666666667,
+          0.0,
+          0.06775555555555555,
+          0.10933333333333334,
+          0.35224444444444447
+        ],
+        "total_payment": 0.7642,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 0.5320048301067382,
+        "objective_components": {
+          "label": 0.5318480016269349,
+          "generator": 0.0,
+          "noise": 0.00015682847980325886,
+          "total": 0.5320048301067382
+        },
+        "budget": 0.7853333333333333,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.5320048301067382,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 64,
+        "feasible_modes": 54,
+        "solver_failures": 0,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.2,
+      "seed": 4,
+      "method": "full_balance_all",
+      "acc": 80.25999999999999,
+      "ce": 0.5891173233032226,
+      "steps": 282000,
+      "contract": {
+        "status": "ok",
+        "active": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "u": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "objective_normalized": 0.07930581479009745,
+        "total_payment": null,
+        "reference_only": true,
+        "note": "All-client full AIGC reference"
+      }
+    },
+    {
+      "budget": 0.3,
+      "seed": 0,
+      "method": "continuous",
+      "acc": 76.02,
+      "ce": 0.7784644729614257,
+      "steps": 282000,
+      "contract": {
+        "active": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "u": [
+          0.1580389017554197,
+          0.16279396700715446,
+          0.1702293698671839,
+          0.15918045337887632,
+          0.17439087966255062,
+          0.161249540752774
+        ],
+        "fixed_transfer": [
+          0.9199308852156712,
+          0.9400557073616196,
+          0.8942079164641545,
+          0.9136024659419945,
+          0.9094912794796102,
+          0.9777069776560033
+        ],
+        "marginal_price": [
+          1.579077369320311,
+          0.9394881555491051,
+          1.1509232492367336,
+          1.206466459289391,
+          1.029826823753828,
+          0.7360182938432721
+        ],
+        "price": [
+          1.579077369320311,
+          0.9394881555491051,
+          1.1509232492367336,
+          1.206466459289391,
+          1.029826823753828,
+          0.7360182938432721
+        ],
+        "payment": [
+          0.11086747388163655,
+          0.27765194218893025,
+          0.17915333796789432,
+          0.08232791697411335,
+          0.13429533388490217,
+          0.3937039951025234
+        ],
+        "minimum_cost_payment": [
+          0.11086747388163655,
+          0.27765194218893025,
+          0.17915333796789432,
+          0.08232791697411333,
+          0.13429533388490217,
+          0.3937039951025234
+        ],
+        "total_payment": 1.178,
+        "client_utility": [
+          0.0,
+          -6.5188595262573775e-18,
+          -1.5977342905494474e-17,
+          2.8208916684017517e-18,
+          -1.5173048003210473e-18,
+          -1.0998840727083349e-17
+        ],
+        "objective_normalized": 0.038982455577366994,
+        "objective_components": {
+          "label": 0.03669170400439028,
+          "generator": 0.0021340092705265084,
+          "noise": 0.00015674230245020838,
+          "total": 0.038982455577366994
+        },
+        "budget": 1.178,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.03898245557237834,
+        "normalized_absolute_gap": 4.988655322168967e-12,
+        "enumerated_modes": 64,
+        "feasible_modes": 63,
+        "solver_failures": 2,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.3,
+      "seed": 0,
+      "method": "three_state",
+      "acc": 71.72,
+      "ce": 0.903279623413086,
+      "steps": 282000,
+      "contract": {
+        "active": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "payment": [
+          0.0918888888888889,
+          0.23486666666666667,
+          0.1439111111111111,
+          0.06775555555555555,
+          0.10933333333333334,
+          0.35224444444444447
+        ],
+        "minimum_cost_payment": [
+          0.0918888888888889,
+          0.23486666666666667,
+          0.1439111111111111,
+          0.06775555555555555,
+          0.10933333333333334,
+          0.35224444444444447
+        ],
+        "total_payment": 1.0,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 0.052774582685416564,
+        "objective_components": {
+          "label": 0.05261784038296636,
+          "generator": 0.0,
+          "noise": 0.00015674230245020838,
+          "total": 0.052774582685416564
+        },
+        "budget": 1.178,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.052774582685416564,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 729,
+        "feasible_modes": 199,
+        "solver_failures": 0,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.3,
+      "seed": 0,
+      "method": "no_aigc_budget",
+      "acc": 71.72,
+      "ce": 0.903279623413086,
+      "steps": 282000,
+      "contract": {
+        "active": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "payment": [
+          0.0918888888888889,
+          0.23486666666666667,
+          0.1439111111111111,
+          0.06775555555555555,
+          0.10933333333333334,
+          0.35224444444444447
+        ],
+        "minimum_cost_payment": [
+          0.0918888888888889,
+          0.23486666666666667,
+          0.1439111111111111,
+          0.06775555555555555,
+          0.10933333333333334,
+          0.35224444444444447
+        ],
+        "total_payment": 1.0,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 0.052774582685416564,
+        "objective_components": {
+          "label": 0.05261784038296636,
+          "generator": 0.0,
+          "noise": 0.00015674230245020838,
+          "total": 0.052774582685416564
+        },
+        "budget": 1.178,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.052774582685416564,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 64,
+        "feasible_modes": 63,
+        "solver_failures": 0,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.3,
+      "seed": 1,
+      "method": "continuous",
+      "acc": 75.89,
+      "ce": 0.7941136596679688,
+      "steps": 282000,
+      "contract": {
+        "active": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "u": [
+          0.1580389017554197,
+          0.16279396700715446,
+          0.1702293698671839,
+          0.15918045337887632,
+          0.17439087966255062,
+          0.161249540752774
+        ],
+        "fixed_transfer": [
+          0.9199308852156712,
+          0.9400557073616196,
+          0.8942079164641545,
+          0.9136024659419945,
+          0.9094912794796102,
+          0.9777069776560033
+        ],
+        "marginal_price": [
+          1.579077369320311,
+          0.9394881555491051,
+          1.1509232492367336,
+          1.206466459289391,
+          1.029826823753828,
+          0.7360182938432721
+        ],
+        "price": [
+          1.579077369320311,
+          0.9394881555491051,
+          1.1509232492367336,
+          1.206466459289391,
+          1.029826823753828,
+          0.7360182938432721
+        ],
+        "payment": [
+          0.11086747388163655,
+          0.27765194218893025,
+          0.17915333796789432,
+          0.08232791697411335,
+          0.13429533388490217,
+          0.3937039951025234
+        ],
+        "minimum_cost_payment": [
+          0.11086747388163655,
+          0.27765194218893025,
+          0.17915333796789432,
+          0.08232791697411333,
+          0.13429533388490217,
+          0.3937039951025234
+        ],
+        "total_payment": 1.178,
+        "client_utility": [
+          0.0,
+          -6.5188595262573775e-18,
+          -1.5977342905494474e-17,
+          2.8208916684017517e-18,
+          -1.5173048003210473e-18,
+          -1.0998840727083349e-17
+        ],
+        "objective_normalized": 0.038982455577366994,
+        "objective_components": {
+          "label": 0.03669170400439028,
+          "generator": 0.0021340092705265084,
+          "noise": 0.00015674230245020838,
+          "total": 0.038982455577366994
+        },
+        "budget": 1.178,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.03898245557237834,
+        "normalized_absolute_gap": 4.988655322168967e-12,
+        "enumerated_modes": 64,
+        "feasible_modes": 63,
+        "solver_failures": 2,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.3,
+      "seed": 1,
+      "method": "three_state",
+      "acc": 71.12,
+      "ce": 0.9300049896240234,
+      "steps": 282000,
+      "contract": {
+        "active": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "payment": [
+          0.0918888888888889,
+          0.23486666666666667,
+          0.1439111111111111,
+          0.06775555555555555,
+          0.10933333333333334,
+          0.35224444444444447
+        ],
+        "minimum_cost_payment": [
+          0.0918888888888889,
+          0.23486666666666667,
+          0.1439111111111111,
+          0.06775555555555555,
+          0.10933333333333334,
+          0.35224444444444447
+        ],
+        "total_payment": 1.0,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 0.052774582685416564,
+        "objective_components": {
+          "label": 0.05261784038296636,
+          "generator": 0.0,
+          "noise": 0.00015674230245020838,
+          "total": 0.052774582685416564
+        },
+        "budget": 1.178,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.052774582685416564,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 729,
+        "feasible_modes": 199,
+        "solver_failures": 0,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.3,
+      "seed": 1,
+      "method": "no_aigc_budget",
+      "acc": 71.12,
+      "ce": 0.9300049896240234,
+      "steps": 282000,
+      "contract": {
+        "active": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "payment": [
+          0.0918888888888889,
+          0.23486666666666667,
+          0.1439111111111111,
+          0.06775555555555555,
+          0.10933333333333334,
+          0.35224444444444447
+        ],
+        "minimum_cost_payment": [
+          0.0918888888888889,
+          0.23486666666666667,
+          0.1439111111111111,
+          0.06775555555555555,
+          0.10933333333333334,
+          0.35224444444444447
+        ],
+        "total_payment": 1.0,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 0.052774582685416564,
+        "objective_components": {
+          "label": 0.05261784038296636,
+          "generator": 0.0,
+          "noise": 0.00015674230245020838,
+          "total": 0.052774582685416564
+        },
+        "budget": 1.178,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.052774582685416564,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 64,
+        "feasible_modes": 63,
+        "solver_failures": 0,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.3,
+      "seed": 2,
+      "method": "continuous",
+      "acc": 76.03,
+      "ce": 0.7953773452758789,
+      "steps": 282000,
+      "contract": {
+        "active": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "u": [
+          0.1580389017554197,
+          0.16279396700715446,
+          0.1702293698671839,
+          0.15918045337887632,
+          0.17439087966255062,
+          0.161249540752774
+        ],
+        "fixed_transfer": [
+          0.9199308852156712,
+          0.9400557073616196,
+          0.8942079164641545,
+          0.9136024659419945,
+          0.9094912794796102,
+          0.9777069776560033
+        ],
+        "marginal_price": [
+          1.579077369320311,
+          0.9394881555491051,
+          1.1509232492367336,
+          1.206466459289391,
+          1.029826823753828,
+          0.7360182938432721
+        ],
+        "price": [
+          1.579077369320311,
+          0.9394881555491051,
+          1.1509232492367336,
+          1.206466459289391,
+          1.029826823753828,
+          0.7360182938432721
+        ],
+        "payment": [
+          0.11086747388163655,
+          0.27765194218893025,
+          0.17915333796789432,
+          0.08232791697411335,
+          0.13429533388490217,
+          0.3937039951025234
+        ],
+        "minimum_cost_payment": [
+          0.11086747388163655,
+          0.27765194218893025,
+          0.17915333796789432,
+          0.08232791697411333,
+          0.13429533388490217,
+          0.3937039951025234
+        ],
+        "total_payment": 1.178,
+        "client_utility": [
+          0.0,
+          -6.5188595262573775e-18,
+          -1.5977342905494474e-17,
+          2.8208916684017517e-18,
+          -1.5173048003210473e-18,
+          -1.0998840727083349e-17
+        ],
+        "objective_normalized": 0.038982455577366994,
+        "objective_components": {
+          "label": 0.03669170400439028,
+          "generator": 0.0021340092705265084,
+          "noise": 0.00015674230245020838,
+          "total": 0.038982455577366994
+        },
+        "budget": 1.178,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.03898245557237834,
+        "normalized_absolute_gap": 4.988655322168967e-12,
+        "enumerated_modes": 64,
+        "feasible_modes": 63,
+        "solver_failures": 2,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    },
+    {
+      "budget": 0.3,
+      "seed": 2,
+      "method": "three_state",
+      "acc": 71.89999999999999,
+      "ce": 0.9272895172119141,
+      "steps": 282000,
+      "contract": {
+        "active": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fixed_transfer": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "marginal_price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "price": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "payment": [
+          0.0918888888888889,
+          0.23486666666666667,
+          0.1439111111111111,
+          0.06775555555555555,
+          0.10933333333333334,
+          0.35224444444444447
+        ],
+        "minimum_cost_payment": [
+          0.0918888888888889,
+          0.23486666666666667,
+          0.1439111111111111,
+          0.06775555555555555,
+          0.10933333333333334,
+          0.35224444444444447
+        ],
+        "total_payment": 1.0,
+        "client_utility": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "objective_normalized": 0.052774582685416564,
+        "objective_components": {
+          "label": 0.05261784038296636,
+          "generator": 0.0,
+          "noise": 0.00015674230245020838,
+          "total": 0.052774582685416564
+        },
+        "budget": 1.178,
+        "tariff": "two_part_signed_fixed_transfer",
+        "learning_profile": "generator_aware_additive_mixture_bound",
+        "status": "ok",
+        "normalized_lower_bound": 0.052774582685416564,
+        "normalized_absolute_gap": 0.0,
+        "enumerated_modes": 729,
+        "feasible_modes": 199,
+        "solver_failures": 0,
+        "converged_to_requested_gap": true,
+        "requested_normalized_gap": 1e-07,
+        "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+      }
+    }
+  ]
+}

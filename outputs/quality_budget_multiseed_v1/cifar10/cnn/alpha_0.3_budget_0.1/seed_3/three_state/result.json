@@ -1,0 +1,265 @@
+{
+  "dataset": "cifar10",
+  "model": "cnn",
+  "seed": 3,
+  "method": "three_state",
+  "alpha": 0.3,
+  "budget_fraction": 0.1,
+  "generator_gap_ratio": 0.06180083094278078,
+  "contract": {
+    "active": [
+      false,
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "u": [
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "fixed_transfer": [
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "marginal_price": [
+      0.0,
+      0.0,
+      0.0,
+      2.687064269247188,
+      0.0,
+      0.0
+    ],
+    "price": [
+      0.0,
+      0.0,
+      0.0,
+      2.687064269247188,
+      0.0,
+      0.0
+    ],
+    "payment": [
+      0.0,
+      0.0,
+      0.0,
+      0.3535555555555555,
+      0.0,
+      0.0
+    ],
+    "minimum_cost_payment": [
+      0.0,
+      0.0,
+      0.0,
+      0.35355555555555557,
+      0.0,
+      0.0
+    ],
+    "total_payment": 0.3535555555555555,
+    "client_utility": [
+      0.0,
+      0.0,
+      0.0,
+      -3.0089511129618687e-17,
+      0.0,
+      0.0
+    ],
+    "objective_normalized": 0.1007368239508465,
+    "objective_components": {
+      "label": 0.0,
+      "generator": 0.10057947613048117,
+      "noise": 0.00015734782036533183,
+      "total": 0.1007368239508465
+    },
+    "budget": 0.39266666666666666,
+    "tariff": "two_part_signed_fixed_transfer",
+    "learning_profile": "generator_aware_additive_mixture_bound",
+    "status": "ok",
+    "normalized_lower_bound": 0.1007368239508465,
+    "normalized_absolute_gap": 0.0,
+    "enumerated_modes": 729,
+    "feasible_modes": 21,
+    "solver_failures": 0,
+    "converged_to_requested_gap": true,
+    "requested_normalized_gap": 1e-07,
+    "solver": "mode enumeration + convex SLSQP + independent dual lower bounds"
+  },
+  "test": {
+    "acc": 0.703,
+    "ce": 0.9936705474853516,
+    "n": 10000
+  },
+  "validation": {
+    "acc": 0.7104,
+    "ce": 0.9719349609375,
+    "n": 5000
+  },
+  "initial_validation": {
+    "acc": 0.0988,
+    "ce": 2.302606262207031,
+    "n": 5000
+  },
+  "history": [
+    {
+      "round": 10,
+      "validation": {
+        "acc": 0.4648,
+        "ce": 1.5007428771972657,
+        "n": 5000
+      },
+      "seconds": 3.073711633682251,
+      "gradient_steps": 1920
+    },
+    {
+      "round": 20,
+      "validation": {
+        "acc": 0.578,
+        "ce": 1.1895369018554687,
+        "n": 5000
+      },
+      "seconds": 6.126133918762207,
+      "gradient_steps": 3840
+    },
+    {
+      "round": 30,
+      "validation": {
+        "acc": 0.6392,
+        "ce": 1.0477846557617188,
+        "n": 5000
+      },
+      "seconds": 9.176153898239136,
+      "gradient_steps": 5760
+    },
+    {
+      "round": 40,
+      "validation": {
+        "acc": 0.6622,
+        "ce": 0.9641916870117188,
+        "n": 5000
+      },
+      "seconds": 12.23632287979126,
+      "gradient_steps": 7680
+    },
+    {
+      "round": 50,
+      "validation": {
+        "acc": 0.6708,
+        "ce": 0.9502991455078125,
+        "n": 5000
+      },
+      "seconds": 15.30295991897583,
+      "gradient_steps": 9600
+    },
+    {
+      "round": 60,
+      "validation": {
+        "acc": 0.6952,
+        "ce": 0.9157693359375,
+        "n": 5000
+      },
+      "seconds": 18.370899438858032,
+      "gradient_steps": 11520
+    },
+    {
+      "round": 70,
+      "validation": {
+        "acc": 0.6864,
+        "ce": 0.986690234375,
+        "n": 5000
+      },
+      "seconds": 21.438183546066284,
+      "gradient_steps": 13440
+    },
+    {
+      "round": 80,
+      "validation": {
+        "acc": 0.7156,
+        "ce": 0.8789567016601563,
+        "n": 5000
+      },
+      "seconds": 24.506037950515747,
+      "gradient_steps": 15360
+    },
+    {
+      "round": 90,
+      "validation": {
+        "acc": 0.7128,
+        "ce": 0.9528841003417968,
+        "n": 5000
+      },
+      "seconds": 27.551196336746216,
+      "gradient_steps": 17280
+    },
+    {
+      "round": 100,
+      "validation": {
+        "acc": 0.7104,
+        "ce": 0.9719349609375,
+        "n": 5000
+      },
+      "seconds": 30.59700655937195,
+      "gradient_steps": 19200
+    }
+  ],
+  "seconds": 30.624772548675537,
+  "training_mode": "fixed_original_data_compute_sampling_from_augmented_mixture",
+  "local_epochs_reference": 2,
+  "fixed_steps_per_client_per_round": {
+    "3": 192
+  },
+  "gradient_steps": 19200,
+  "expected_gradient_steps": 19200,
+  "actual_real_draws": 117863,
+  "actual_synthetic_draws": 496537,
+  "augmentation": {
+    "3": {
+      "target_distribution": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "final_counts": [
+        1591,
+        1591,
+        1591,
+        1591,
+        1591,
+        1591,
+        1591,
+        1591,
+        1591,
+        1591
+      ],
+      "added_counts": [
+        1591,
+        1369,
+        880,
+        1536,
+        1380,
+        1415,
+        1573,
+        1564,
+        0,
+        1553
+      ],
+      "original_n": 3049,
+      "augmented_n": 15910,
+      "synthetic_n": 12861
+    }
+  }
+}
